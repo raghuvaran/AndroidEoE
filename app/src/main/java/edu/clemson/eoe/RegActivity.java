@@ -88,7 +88,7 @@ public class RegActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_reg, menu);
         return true;
     }
-
+//test
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
