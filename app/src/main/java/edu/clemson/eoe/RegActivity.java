@@ -12,13 +12,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
 public class RegActivity extends AppCompatActivity {
 
     Button dobButton;
-    int year_DOB, month_DOB, day_DOB;
+    int year_DOB=0, month_DOB=0, day_DOB=0;
+    EditText PatientName;
+    RadioGroup gender;
+    RadioButton radioSexButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +40,8 @@ public class RegActivity extends AppCompatActivity {
         year_DOB= calendar.get(Calendar.YEAR);
         month_DOB= calendar.get(Calendar.MONTH);
         day_DOB= calendar.get(Calendar.DAY_OF_MONTH);
+        PatientName =(EditText) findViewById(R.id.addtitle);
+        gender=(RadioGroup) findViewById(R.id.gender);
 
         //DOB button
         dobButton = (Button) findViewById(R.id.DOBbutton);
@@ -93,4 +103,44 @@ public class RegActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    //onRegister method to submit patient details
+    public void OnRegister(View view) {
+        Calendar calendar = Calendar.getInstance();
+
+        if(PatientName.length()==0)
+        {
+            PatientName.requestFocus();
+            PatientName.setError("FIELD CANNOT BE EMPTY");
+        }
+
+        else if(year_DOB==calendar.get(Calendar.YEAR)&& month_DOB==calendar.get(Calendar.MONTH)&& day_DOB==calendar.get(Calendar.DAY_OF_MONTH))
+        {
+            dobButton.requestFocus();
+            Toast.makeText(getApplicationContext(), "Please Enter valid Date of Birth",
+                    Toast.LENGTH_SHORT).show();
+        }
+        else {
+            // get selected radio button from radioGroup
+            int selectedId = gender.getCheckedRadioButtonId();
+
+            // find the radiobutton by returned id
+            radioSexButton = (RadioButton) findViewById(selectedId);
+            String genderName = radioSexButton.getText().toString();
+            String date =month_DOB+"/"+day_DOB+"/"+year_DOB;
+            DataBaseManager dbm =new DataBaseManager(getApplicationContext());
+          dbm.open();
+            dbm.insertPatient(PatientName.getText().toString(), genderName, date);
+            dbm.close();
+            Toast.makeText(getApplicationContext(), "Patient details inserted ",
+                    Toast.LENGTH_SHORT).show();
+
+        }
+
+
+
+
+    }
+
+
 }

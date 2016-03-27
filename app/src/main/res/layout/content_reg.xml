@@ -70,7 +70,8 @@
                 <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation='horizontal'>
+                    android:orientation='horizontal'
+                    android:id="@+id/gender">
 
 
                         <RadioButton
@@ -78,7 +79,7 @@
                             android:layout_height="wrap_content"
                             android:text="Male"
                             android:id="@+id/gendMRadBtn"
-                            android:checked="false" />
+                            android:checked="true" />
                         <Space
                         android:layout_width="20px"
                         android:layout_height="20px" />
@@ -102,7 +103,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Register"
-                android:id="@+id/registerBtn" />
+                android:id="@+id/registerBtn"
+
+                android:nestedScrollingEnabled="false"
+                android:onClick="OnRegister" />
 
         </LinearLayout>
     </ScrollView>
