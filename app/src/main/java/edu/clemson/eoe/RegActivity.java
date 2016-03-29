@@ -2,6 +2,7 @@ package edu.clemson.eoe;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -82,6 +83,11 @@ public class RegActivity extends AppCompatActivity {
         }
     };
 
+  /*  public void onRegister(View v){
+        Intent intent = new Intent(this, SurveySelect.class);
+        startActivity(intent);
+    }*/
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -134,6 +140,8 @@ public class RegActivity extends AppCompatActivity {
             dbm.close();
             Toast.makeText(getApplicationContext(), "Patient details inserted ",
                     Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, Surveys.class);
+            startActivity(intent);
 
         }
 

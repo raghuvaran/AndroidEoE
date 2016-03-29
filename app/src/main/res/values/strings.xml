@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">EoE</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <string name="title_activity_survey_select">SurveySelect</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_surveys">Surveys</string>
+
+    <string name="S1_f">How often do you have chest pain, ache, or hurt?</string>
+    <string name="S1_s">How bad is the chest pain, ache, or hurt?</string>
+
 </resources>
