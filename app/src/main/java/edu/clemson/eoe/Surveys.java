@@ -2,6 +2,7 @@ package edu.clemson.eoe;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.Rating;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,9 +24,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class Surveys extends AppCompatActivity {
 
@@ -93,6 +99,28 @@ public class Surveys extends AppCompatActivity {
     public static class PlaceholderFragment extends Fragment {
         private static final int CAMERA_REQUEST = 1888;
         private ImageView imageView1;
+        //Frequency question responses
+        private static final HashMap<Float,String> freqResponse = new HashMap<Float, String>();
+        static {
+            freqResponse.put(1.0f,"Never");
+            freqResponse.put(2.0f,"Almost never");
+            freqResponse.put(3.0f,"Sometimes");
+            freqResponse.put(4.0f,"Often");
+            freqResponse.put(5.0f,"Almost always");
+        }
+        //Severity questions responses
+        private static final HashMap<Float,String> severeResponse = new HashMap<Float, String>();
+        static {
+            severeResponse.put(1.0f,"Not bad at all");
+            severeResponse.put(2.0f,"A little bad");
+            severeResponse.put(3.0f,"Kind of bad");
+            severeResponse.put(4.0f,"Bad");
+            severeResponse.put(5.0f,"Very bad");
+        }
+
+
+
+
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -114,6 +142,12 @@ public class Surveys extends AppCompatActivity {
             return fragment;
         }
 
+        /**
+         * Camera functionality
+         * @param requestCode
+         * @param resultCode
+         * @param data
+         */
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
@@ -125,10 +159,9 @@ public class Surveys extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView;
             switch (getArguments().getInt(ARG_SECTION_NUMBER))  {
-                case 1:
-                    rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
-
-                   /* LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.symptoms_survey_linearLayout);
+                case 1: return onCreateSymptoms(inflater,container,savedInstanceState);
+/*
+                    LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.symptoms_survey_linearLayout);
 
 
                     for(int i=1; i<3; i++){
@@ -139,24 +172,9 @@ public class Surveys extends AppCompatActivity {
                         question.setText(R.id.s2_q+"i");
                         linearLayout.addView(question);
                     }*/
-                    return rootView;
-                case 2:
-                    rootView = inflater.inflate(R.layout.food_diary, container, false);
-                    imageView1 = (ImageView)rootView.findViewById(R.id.camera_iv);
-                    //ImageButton photoButton = (ImageButton) rootView.findViewById(R.id.camera_iv);
-                    imageView1.setOnClickListener(new View.OnClickListener() {
 
-                        @Override
-                        public void onClick(View v) {
-                           // Toast.makeText(getContext(), "Clicked on camera, that's ok!", Toast.LENGTH_SHORT).show();
-                            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                            startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                        }
-                    });
+                case 2: return onCreateFoodDiary(inflater,container,savedInstanceState);
 
-                    populateSpinner(rootView,R.id.f1_spinner,R.array.f1_a);
-                    populateSpinner(rootView,R.id.f2_spinner,R.array.f2_a);
-                    return rootView;
                 default:
                     rootView = inflater.inflate(R.layout.fragment_surveys, container, false);
                     TextView textView = (TextView) rootView.findViewById(R.id.section_label);
@@ -165,6 +183,80 @@ public class Surveys extends AppCompatActivity {
 
             }
         }
+
+//--------------onCreate-Methods-Begin-------------------//
+
+        /**
+         * OnCreate method for Symptoms layout
+         * @param inflater
+         * @param container
+         * @param savedInstanceState
+         * @return
+         */
+        public View onCreateSymptoms(LayoutInflater inflater, ViewGroup container,
+                                     Bundle savedInstanceState){
+            View rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
+            setRatingBarListener(rootView,R.id.s1_ratingBar,R.id.q1_res,freqResponse);
+            setRatingBarListener(rootView,R.id.s2_ratingBar,R.id.q2_res,severeResponse);
+            return rootView;
+        }
+
+        /**
+         * onCreate method for Food diary layout
+         * @param inflater
+         * @param container
+         * @param savedInstanceState
+         * @return
+         */
+        public View onCreateFoodDiary(LayoutInflater inflater, ViewGroup container,
+                                      Bundle savedInstanceState){
+            View rootView = inflater.inflate(R.layout.food_diary, container, false);
+            imageView1 = (ImageView)rootView.findViewById(R.id.camera_iv);
+
+            imageView1.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    //Camera to capture food item
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                }
+            });
+
+            populateSpinner(rootView, R.id.f1_spinner, R.array.f1_a);
+            populateSpinner(rootView, R.id.f2_spinner, R.array.f2_a);
+            return rootView;
+        }
+//--------------onCreate-Methods-Terminate-------------------//
+//---------------Methods-Begin-------------------//
+        /**
+         * sets the response to the textview {@q_res} from the above declared static {@hashmap}
+         * when user changes the rating in ratingbar {@q}
+         * @param v
+         * @param q
+         * @param q_res
+         * @param hashMap
+         */
+        public void setRatingBarListener(View v,int q, int q_res, final HashMap hashMap){
+            final RatingBar q1 = (RatingBar) v.findViewById(q);
+            final TextView q1_res = (TextView) v.findViewById(q_res);
+
+            q1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    //Toast.makeText(getContext(), "Changed ratings to " + rating, Toast.LENGTH_SHORT).show();
+                    q1_res.setText(hashMap.get(rating).toString());
+                    q1_res.setVisibility(View.VISIBLE);
+                }
+            });
+        }
+
+        /**
+         * Populates the spinner of {@spinId} with {@stingArrayId}
+         * @param view
+         * @param spinId
+         * @param stringArrayId
+         */
         public void populateSpinner(View view,int spinId,int stringArrayId){
             Spinner spinner = (Spinner) view.findViewById(spinId);//R.id.f1_spinner
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
@@ -175,6 +267,7 @@ public class Surveys extends AppCompatActivity {
 
         }
 
+//---------------Methods-Terminate-------------------//
     }
 
     /**
