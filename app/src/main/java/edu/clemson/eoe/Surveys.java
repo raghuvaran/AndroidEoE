@@ -1,8 +1,8 @@
 package edu.clemson.eoe;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -17,7 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Surveys extends AppCompatActivity {
 
@@ -54,14 +61,6 @@ public class Surveys extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
     }
 
@@ -92,6 +91,8 @@ public class Surveys extends AppCompatActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
+        private static final int CAMERA_REQUEST = 1888;
+        private ImageView imageView1;
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -113,13 +114,48 @@ public class Surveys extends AppCompatActivity {
             return fragment;
         }
 
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                imageView1.setImageBitmap(photo);
+            }}
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView;
             switch (getArguments().getInt(ARG_SECTION_NUMBER))  {
                 case 1:
-                    rootView = inflater.inflate(R.layout.symtoms_survey, container, false);
+                    rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
+
+                   /* LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.symptoms_survey_linearLayout);
+
+
+                    for(int i=1; i<3; i++){
+                        TextView question = new TextView(getContext());
+                        question.setTextAppearance(getContext(),android.R.style.TextAppearance_Medium);
+                        question.setId(1234+i);
+                        question.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        question.setText(R.id.s2_q+"i");
+                        linearLayout.addView(question);
+                    }*/
+                    return rootView;
+                case 2:
+                    rootView = inflater.inflate(R.layout.food_diary, container, false);
+                    imageView1 = (ImageView)rootView.findViewById(R.id.camera_iv);
+                    //ImageButton photoButton = (ImageButton) rootView.findViewById(R.id.camera_iv);
+                    imageView1.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                           // Toast.makeText(getContext(), "Clicked on camera, that's ok!", Toast.LENGTH_SHORT).show();
+                            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                        }
+                    });
+
+                    populateSpinner(rootView,R.id.f1_spinner,R.array.f1_a);
+                    populateSpinner(rootView,R.id.f2_spinner,R.array.f2_a);
                     return rootView;
                 default:
                     rootView = inflater.inflate(R.layout.fragment_surveys, container, false);
@@ -129,6 +165,16 @@ public class Surveys extends AppCompatActivity {
 
             }
         }
+        public void populateSpinner(View view,int spinId,int stringArrayId){
+            Spinner spinner = (Spinner) view.findViewById(spinId);//R.id.f1_spinner
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                    stringArrayId, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+
+
+        }
+
     }
 
     /**
@@ -167,4 +213,6 @@ public class Surveys extends AppCompatActivity {
             return null;
         }
     }
+
+
 }
