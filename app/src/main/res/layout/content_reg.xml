@@ -94,7 +94,18 @@
 
                 </RadioGroup>
 
+
+
             </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Race :"
+                android:id="@+id/race_textv" />
+            <Space
+                android:layout_width="20px"
+                android:layout_height="20px" />
             <Space
                 android:layout_width="20px"
                 android:layout_height="60px" />

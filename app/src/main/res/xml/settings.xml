@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <PreferenceCategory
+        android:title="FoodDiary"
+        android:key="Diary">
+    <CheckBoxPreference
+        android:key="Reminder 1"
+        android:title="Breakfast"
+        android:summary="Option if Selected will let you set preferred alarm for Breakfast"
+        android:defaultValue="true"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+        <edu.clemson.eoe.TimePreference
+            android:key="Reminder1_Key"
+            android:dialogTitle="Food Diary"
+            android:title="Breakfast Timer"/>
+    <CheckBoxPreference
+        android:key="Reminder 2"
+        android:title="Lunch"
+        android:summary="Option if Selected will let you set preferred alarm for Lunch "
+        android:defaultValue="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <edu.clemson.eoe.TimePreference
+        android:key="Reminder2_Key"
+        android:title="Lunch Timer"/>
+
+    <CheckBoxPreference
+        android:key="Reminder 3"
+        android:title="Dinner"
+        android:summary="Option if Selected will let you set preferred alarm for Dinner"
+        android:defaultValue="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <edu.clemson.eoe.TimePreference
+        android:key="Reminder3_Key"
+        android:title="Dinner Timer"/>
+</PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Symptoms"
+        android:key="PEESS">
+    <CheckBoxPreference
+        android:key="Reminder Symptoms"
+        android:title="Symptoms"
+        android:summary="Option if Selected will let you set preferred alarm for Symptoms"
+        android:defaultValue="true"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <edu.clemson.eoe.TimePreference
+        android:key="Symptoms_Key"
+        android:dialogTitle="Symptoms"
+        android:title="Symptoms Timer"/>
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="Quality Of Life"
+        android:key="PedsQL">
+        <CheckBoxPreference
+            android:key="Reminder QOL"
+            android:title="PedsQL"
+            android:summary="Option if Selected will let you set preferred alarm for PedsQL"
+            android:defaultValue="true"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        <edu.clemson.eoe.TimePreference
+            android:key="PedsQL_Key"
+            android:dialogTitle="PedsQL"
+            android:title="PedsQL Timer"/>
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

@@ -87,6 +87,11 @@ public class Surveys extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, Settings.class);
+            settingsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            settingsIntent.putExtra("List", "main");
+            startActivity(settingsIntent);
             return true;
         }
 
