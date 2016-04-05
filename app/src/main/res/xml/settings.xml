@@ -9,7 +9,7 @@
         android:key="Reminder 1"
         android:title="Breakfast"
         android:summary="Option if Selected will let you set preferred alarm for Breakfast"
-        android:defaultValue="true"
+        android:defaultValue="false"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -23,7 +23,7 @@
         android:key="Reminder 2"
         android:title="Lunch"
         android:summary="Option if Selected will let you set preferred alarm for Lunch "
-        android:defaultValue="true"
+        android:defaultValue="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <edu.clemson.eoe.TimePreference
@@ -34,7 +34,7 @@
         android:key="Reminder 3"
         android:title="Dinner"
         android:summary="Option if Selected will let you set preferred alarm for Dinner"
-        android:defaultValue="true"
+        android:defaultValue="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <edu.clemson.eoe.TimePreference
@@ -49,7 +49,7 @@
         android:key="Reminder Symptoms"
         android:title="Symptoms"
         android:summary="Option if Selected will let you set preferred alarm for Symptoms"
-        android:defaultValue="true"
+        android:defaultValue="false"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -69,7 +69,7 @@
             android:key="Reminder QOL"
             android:title="PedsQL"
             android:summary="Option if Selected will let you set preferred alarm for PedsQL"
-            android:defaultValue="true"
+            android:defaultValue="false"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
