@@ -122,7 +122,21 @@ public class Surveys extends AppCompatActivity {
             severeResponse.put(4.0f,"Bad");
             severeResponse.put(5.0f,"Very bad");
         }
+        private static final int[] symptoms_f = new int[12];
+        static {
+            symptoms_f[1]=R.string.S1_f;
+            symptoms_f[2]=R.string.s2_f;
+            symptoms_f[3]=R.string.s3_f;
+            symptoms_f[4]=R.string.s4_f;
+            symptoms_f[5]=R.string.s5_f;
+            symptoms_f[6]=R.string.s6_f;
+            symptoms_f[7]=R.string.s7_f;
+            symptoms_f[8]=R.string.s8_f;
+            symptoms_f[9]=R.string.s9_f;
+            symptoms_f[10]=R.string.s10_f;
+            symptoms_f[11]=R.string.s11_f;
 
+        }
 
 
 
@@ -180,6 +194,8 @@ public class Surveys extends AppCompatActivity {
 
                 case 2: return onCreateFoodDiary(inflater,container,savedInstanceState);
 
+                case 3: return onCreateQOL(inflater,container,savedInstanceState);
+
                 default:
                     rootView = inflater.inflate(R.layout.fragment_surveys, container, false);
                     TextView textView = (TextView) rootView.findViewById(R.id.section_label);
@@ -230,6 +246,21 @@ public class Surveys extends AppCompatActivity {
 
             populateSpinner(rootView, R.id.f1_spinner, R.array.f1_a);
             populateSpinner(rootView, R.id.f2_spinner, R.array.f2_a);
+            return rootView;
+        }
+
+        /**
+         * OnCreate method for Symptoms layout
+         * @param inflater
+         * @param container
+         * @param savedInstanceState
+         * @return
+         */
+        public View onCreateQOL(LayoutInflater inflater, ViewGroup container,
+                                     Bundle savedInstanceState){
+            View rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
+            setRatingBarListener(rootView, R.id.s1_ratingBar, R.id.q1_res, freqResponse);
+            setRatingBarListener(rootView, R.id.s2_ratingBar, R.id.q2_res, severeResponse);
             return rootView;
         }
 //--------------onCreate-Methods-Terminate-------------------//

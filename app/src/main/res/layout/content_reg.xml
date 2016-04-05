@@ -101,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Race :"
+                android:text=""
                 android:id="@+id/race_textv" />
             <Space
                 android:layout_width="20px"
