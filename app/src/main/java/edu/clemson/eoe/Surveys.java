@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.Spinner;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -124,7 +125,7 @@ public class Surveys extends AppCompatActivity {
         }
         private static final int[] symptoms_f = new int[12];
         static {
-            symptoms_f[1]=R.string.S1_f;
+            symptoms_f[1]=R.string.s1_f;
             symptoms_f[2]=R.string.s2_f;
             symptoms_f[3]=R.string.s3_f;
             symptoms_f[4]=R.string.s4_f;
@@ -135,9 +136,19 @@ public class Surveys extends AppCompatActivity {
             symptoms_f[9]=R.string.s9_f;
             symptoms_f[10]=R.string.s10_f;
             symptoms_f[11]=R.string.s11_f;
-
         }
-
+        private static final int[] symptoms_s = new int[12];
+        static {
+            symptoms_s[1]=R.string.s1_s;
+            symptoms_s[2]=R.string.s2_s;
+            symptoms_s[3]=R.string.s3_s;
+            symptoms_s[4]=R.string.s4_s;
+            symptoms_s[5]=R.string.s5_s;
+            symptoms_s[6]=R.string.s6_s;
+            symptoms_s[7]=R.string.s7_s;
+            symptoms_s[8]=R.string.s8_s;
+            symptoms_s[9]=R.string.s9_s;
+        }
 
 
         /**
@@ -217,8 +228,37 @@ public class Surveys extends AppCompatActivity {
         public View onCreateSymptoms(LayoutInflater inflater, ViewGroup container,
                                      Bundle savedInstanceState){
             View rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
-            setRatingBarListener(rootView,R.id.s1_ratingBar,R.id.q1_res,freqResponse);
-            setRatingBarListener(rootView,R.id.s2_ratingBar,R.id.q2_res,severeResponse);
+            setRatingBarListener(rootView,R.id.s1_f_ratingBar,R.id.s1_f_res,freqResponse,R.id.s1_s,R.id.s1_s_ratingBar);
+            setRatingBarListener(rootView,R.id.s2_f_ratingBar,R.id.s2_f_res,freqResponse,R.id.s2_s,R.id.s2_s_ratingBar);
+            setRatingBarListener(rootView,R.id.s3_f_ratingBar,R.id.s3_f_res,freqResponse,R.id.s3_s,R.id.s3_s_ratingBar);
+            setRatingBarListener(rootView,R.id.s4_f_ratingBar,R.id.s4_f_res,freqResponse,R.id.s4_s,R.id.s4_s_ratingBar);
+            setRatingBarListener(rootView,R.id.s5_f_ratingBar,R.id.s5_f_res,freqResponse,R.id.s5_s,R.id.s5_s_ratingBar);
+            setRatingBarListener(rootView,R.id.s6_f_ratingBar,R.id.s6_f_res,freqResponse,R.id.s6_s,R.id.s6_s_ratingBar);
+            setRatingBarListener(rootView,R.id.s7_f_ratingBar,R.id.s7_f_res,freqResponse,R.id.s7_s,R.id.s7_s_ratingBar);
+            setRatingBarListener(rootView,R.id.s8_f_ratingBar,R.id.s8_f_res,freqResponse,R.id.s8_s,R.id.s8_s_ratingBar);
+            setRatingBarListener(rootView,R.id.s9_f_ratingBar,R.id.s9_f_res,freqResponse,R.id.s9_s,R.id.s9_s_ratingBar);
+            setRatingBarListener(rootView,R.id.s10_f_ratingBar,R.id.s10_f_res,freqResponse,0,0);
+            setRatingBarListener(rootView,R.id.s11_f_ratingBar,R.id.s11_f_res,freqResponse,0,0);
+
+            setRatingBarListener(rootView,R.id.s1_s_ratingBar,R.id.s1_s_res,severeResponse,0,0);
+            setRatingBarListener(rootView,R.id.s2_s_ratingBar,R.id.s2_s_res,severeResponse,0,0);
+            setRatingBarListener(rootView,R.id.s3_s_ratingBar,R.id.s3_s_res,severeResponse,0,0);
+            setRatingBarListener(rootView,R.id.s4_s_ratingBar,R.id.s4_s_res,severeResponse,0,0);
+            setRatingBarListener(rootView,R.id.s5_s_ratingBar,R.id.s5_s_res,severeResponse,0,0);
+            setRatingBarListener(rootView,R.id.s6_s_ratingBar,R.id.s6_s_res,severeResponse,0,0);
+            setRatingBarListener(rootView,R.id.s7_s_ratingBar,R.id.s7_s_res,severeResponse,0,0);
+            setRatingBarListener(rootView, R.id.s8_s_ratingBar, R.id.s8_s_res, severeResponse,0,0);
+            setRatingBarListener(rootView,R.id.s9_s_ratingBar,R.id.s9_s_res,severeResponse,0,0);
+
+
+
+
+      /*      TableLayout tableLayout = (TableLayout) rootView.findViewById(R.id.symptoms_survey_tableLayout);
+            TextView textView = new TextView(getActivity());
+            textView.setText(R.string.s3_f);
+            //textView.setTextAppearance(android.R.style.TextAppearance_Medium);
+            tableLayout.addView(textView);*/
+
             return rootView;
         }
 
@@ -259,23 +299,28 @@ public class Surveys extends AppCompatActivity {
         public View onCreateQOL(LayoutInflater inflater, ViewGroup container,
                                      Bundle savedInstanceState){
             View rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
-            setRatingBarListener(rootView, R.id.s1_ratingBar, R.id.q1_res, freqResponse);
-            setRatingBarListener(rootView, R.id.s2_ratingBar, R.id.q2_res, severeResponse);
+            //setRatingBarListener(rootView, R.id.s1_f_ratingBar, R.id.s1_f_res, freqResponse);
+            //setRatingBarListener(rootView, R.id.s1_s_ratingBar, R.id.s1_s_res, severeResponse);
             return rootView;
         }
 //--------------onCreate-Methods-Terminate-------------------//
 //---------------Methods-Begin-------------------//
         /**
-         * sets the response to the textview {@q_res} from the above declared static {@hashmap}
-         * when user changes the rating in ratingbar {@q}
+         * sets the response to the textview {@q_result} from the above declared static {@hashmap}
+         * when user changes the rating in ratingbar {@question}
          * @param v
-         * @param q
-         * @param q_res
+         * @param question
+         * @param q_result
          * @param hashMap
+         * @param next_question
+         * @param next_question_r
          */
-        public void setRatingBarListener(View v,int q, int q_res, final HashMap hashMap){
-            final RatingBar q1 = (RatingBar) v.findViewById(q);
-            final TextView q1_res = (TextView) v.findViewById(q_res);
+        public void setRatingBarListener(View v,int question, int q_result, final HashMap hashMap,int next_question, int next_question_r){
+            final RatingBar q1 = (RatingBar) v.findViewById(question);
+            final TextView q1_res = (TextView) v.findViewById(q_result);
+            final int next_q = next_question;
+            final int next_q_r = next_question_r;
+            final View view = v;
 
             q1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
@@ -283,6 +328,20 @@ public class Surveys extends AppCompatActivity {
                     //Toast.makeText(getContext(), "Changed ratings to " + rating, Toast.LENGTH_SHORT).show();
                     q1_res.setText(hashMap.get(rating).toString());
                     q1_res.setVisibility(View.VISIBLE);
+
+                    //Disable severity question
+                    if(next_q != 0 ){
+
+                        final RatingBar q2 = (RatingBar) view.findViewById(next_q_r);
+                        final TextView q2_q = (TextView) view.findViewById(next_q);
+                        if(rating==1f) {
+                            q2.setVisibility(View.GONE);
+                            q2_q.setVisibility(View.GONE);
+                        }else{
+                            q2.setVisibility(View.VISIBLE);
+                            q2_q.setVisibility(View.VISIBLE);
+                        }
+                    }
                 }
             });
         }

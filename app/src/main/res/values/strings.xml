@@ -9,8 +9,8 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_surveys">Surveys</string>
 
-    <string name="S1_f">How often do you have chest pain, ache, or hurt?</string>
-    <string name="S1_s">How bad is the chest pain, ache, or hurt?</string>
+    <string name="s1_f">How often do you have chest pain, ache, or hurt?</string>
+    <string name="s1_s">How bad is the chest pain, ache, or hurt?</string>
     <string name="s2_f">How often do you have heartburn(burning in your chest, mouth, or throat)?</string>
     <string name="s2_s">How bas is your heartburn(burning in your chest, mouth, or throat)?</string>
     <string name="s3_f">How often do you have stomach aches or belly aches?</string>
