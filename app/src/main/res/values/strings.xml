@@ -12,7 +12,7 @@
     <string name="s1_f">How often do you have chest pain, ache, or hurt?</string>
     <string name="s1_s">How bad is the chest pain, ache, or hurt?</string>
     <string name="s2_f">How often do you have heartburn(burning in your chest, mouth, or throat)?</string>
-    <string name="s2_s">How bas is your heartburn(burning in your chest, mouth, or throat)?</string>
+    <string name="s2_s">How bad is your heartburn(burning in your chest, mouth, or throat)?</string>
     <string name="s3_f">How often do you have stomach aches or belly aches?</string>
     <string name="s3_s">How bad are the stomach aches or belly aches?</string>
     <string name="s4_f">How often do you have trouble swallowing?</string>
@@ -30,18 +30,31 @@
     <string name="s10_f">How often do you eat less food than other?</string>
     <string name="s11_f">How often do you need more time to eat than other?</string>
 
-    <string name="f1">Where did you eat this food?</string>
-    <string name="f2">Which meal is this?</string>
+    <string name="fd_where">Where did you eat this food?</string>
+    <string name="fd_which">Which meal is this?</string>
+    <string name="fd_who">Who did you eat with?</string>
+    <string name="fd_feelBefore">How did you feel before?</string>
+    <string name="fd_feelAfter">How did you feel after?</string>
 
-    <string-array name="f1_a">
+
+    <string-array name="fd_where_a">
         <item>Home</item>
         <item>School</item>
         <item>Restaurant</item>
     </string-array>
-    <string-array name="f2_a">
+    <string-array name="fd_which_a">
         <item>Breakfast</item>
         <item>Lunch</item>
         <item>Snack</item>
         <item>Dinner</item>
+        <item>Beverage</item>
     </string-array>
+    <string-array name="fd_who_a">
+        <item>Spouse</item>
+        <item>Friends</item>
+        <item>Co-workers</item>
+        <item>Others</item>
+    </string-array>
+
+
 </resources>

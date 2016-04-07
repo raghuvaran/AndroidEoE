@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -49,6 +51,41 @@ public class Surveys extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+
+    private static final int[] symptoms_f_response = new int[12];
+    static {
+        symptoms_f_response[1]=0;
+        symptoms_f_response[2]=0;
+        symptoms_f_response[3]=0;
+        symptoms_f_response[4]=0;
+        symptoms_f_response[5]=0;
+        symptoms_f_response[6]=0;
+        symptoms_f_response[7]=0;
+        symptoms_f_response[8]=0;
+        symptoms_f_response[9]=0;
+        symptoms_f_response[10]=0;
+        symptoms_f_response[11]=0;
+    }
+    private static final int[] symptoms_s_response = new int[10];
+    static {
+        symptoms_s_response[1]=0;
+        symptoms_s_response[2]=0;
+        symptoms_s_response[3]=0;
+        symptoms_s_response[4]=0;
+        symptoms_s_response[5]=0;
+        symptoms_s_response[6]=0;
+        symptoms_s_response[7]=0;
+        symptoms_s_response[8]=0;
+        symptoms_s_response[9]=0;
+    }
+    private static final String[] fd_response = new String[6];
+    static {
+        fd_response[1]=null;   //where
+        fd_response[2]=null;   //which
+        fd_response[3]=null;   //who
+        fd_response[4]=null;   //feel before
+        fd_response[5]=null;   //feel after
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +136,7 @@ public class Surveys extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -123,32 +161,7 @@ public class Surveys extends AppCompatActivity {
             severeResponse.put(4.0f,"Bad");
             severeResponse.put(5.0f,"Very bad");
         }
-        private static final int[] symptoms_f = new int[12];
-        static {
-            symptoms_f[1]=R.string.s1_f;
-            symptoms_f[2]=R.string.s2_f;
-            symptoms_f[3]=R.string.s3_f;
-            symptoms_f[4]=R.string.s4_f;
-            symptoms_f[5]=R.string.s5_f;
-            symptoms_f[6]=R.string.s6_f;
-            symptoms_f[7]=R.string.s7_f;
-            symptoms_f[8]=R.string.s8_f;
-            symptoms_f[9]=R.string.s9_f;
-            symptoms_f[10]=R.string.s10_f;
-            symptoms_f[11]=R.string.s11_f;
-        }
-        private static final int[] symptoms_s = new int[12];
-        static {
-            symptoms_s[1]=R.string.s1_s;
-            symptoms_s[2]=R.string.s2_s;
-            symptoms_s[3]=R.string.s3_s;
-            symptoms_s[4]=R.string.s4_s;
-            symptoms_s[5]=R.string.s5_s;
-            symptoms_s[6]=R.string.s6_s;
-            symptoms_s[7]=R.string.s7_s;
-            symptoms_s[8]=R.string.s8_s;
-            symptoms_s[9]=R.string.s9_s;
-        }
+
 
 
         /**
@@ -228,27 +241,27 @@ public class Surveys extends AppCompatActivity {
         public View onCreateSymptoms(LayoutInflater inflater, ViewGroup container,
                                      Bundle savedInstanceState){
             View rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
-            setRatingBarListener(rootView,R.id.s1_f_ratingBar,R.id.s1_f_res,freqResponse,R.id.s1_s,R.id.s1_s_ratingBar);
-            setRatingBarListener(rootView,R.id.s2_f_ratingBar,R.id.s2_f_res,freqResponse,R.id.s2_s,R.id.s2_s_ratingBar);
-            setRatingBarListener(rootView,R.id.s3_f_ratingBar,R.id.s3_f_res,freqResponse,R.id.s3_s,R.id.s3_s_ratingBar);
-            setRatingBarListener(rootView,R.id.s4_f_ratingBar,R.id.s4_f_res,freqResponse,R.id.s4_s,R.id.s4_s_ratingBar);
-            setRatingBarListener(rootView,R.id.s5_f_ratingBar,R.id.s5_f_res,freqResponse,R.id.s5_s,R.id.s5_s_ratingBar);
-            setRatingBarListener(rootView,R.id.s6_f_ratingBar,R.id.s6_f_res,freqResponse,R.id.s6_s,R.id.s6_s_ratingBar);
-            setRatingBarListener(rootView,R.id.s7_f_ratingBar,R.id.s7_f_res,freqResponse,R.id.s7_s,R.id.s7_s_ratingBar);
-            setRatingBarListener(rootView,R.id.s8_f_ratingBar,R.id.s8_f_res,freqResponse,R.id.s8_s,R.id.s8_s_ratingBar);
-            setRatingBarListener(rootView,R.id.s9_f_ratingBar,R.id.s9_f_res,freqResponse,R.id.s9_s,R.id.s9_s_ratingBar);
-            setRatingBarListener(rootView,R.id.s10_f_ratingBar,R.id.s10_f_res,freqResponse,0,0);
-            setRatingBarListener(rootView,R.id.s11_f_ratingBar,R.id.s11_f_res,freqResponse,0,0);
+            setRatingBarListener(rootView,1,R.id.s1_f_ratingBar,R.id.s1_f_res,freqResponse,R.id.s1_s,R.id.s1_s_ratingBar,R.id.s1_s_res);
+            setRatingBarListener(rootView,2,R.id.s2_f_ratingBar,R.id.s2_f_res,freqResponse,R.id.s2_s,R.id.s2_s_ratingBar,R.id.s2_s_res);
+            setRatingBarListener(rootView,3,R.id.s3_f_ratingBar,R.id.s3_f_res,freqResponse,R.id.s3_s,R.id.s3_s_ratingBar,R.id.s3_s_res);
+            setRatingBarListener(rootView,4,R.id.s4_f_ratingBar,R.id.s4_f_res,freqResponse,R.id.s4_s,R.id.s4_s_ratingBar,R.id.s4_s_res);
+            setRatingBarListener(rootView,5,R.id.s5_f_ratingBar,R.id.s5_f_res,freqResponse,R.id.s5_s,R.id.s5_s_ratingBar,R.id.s5_s_res);
+            setRatingBarListener(rootView,6,R.id.s6_f_ratingBar,R.id.s6_f_res,freqResponse,R.id.s6_s,R.id.s6_s_ratingBar,R.id.s6_s_res);
+            setRatingBarListener(rootView,7,R.id.s7_f_ratingBar,R.id.s7_f_res,freqResponse,R.id.s7_s,R.id.s7_s_ratingBar,R.id.s7_s_res);
+            setRatingBarListener(rootView,8,R.id.s8_f_ratingBar,R.id.s8_f_res,freqResponse,R.id.s8_s,R.id.s8_s_ratingBar,R.id.s8_s_res);
+            setRatingBarListener(rootView,9,R.id.s9_f_ratingBar,R.id.s9_f_res,freqResponse,R.id.s9_s,R.id.s9_s_ratingBar,R.id.s9_s_res);
+            setRatingBarListener(rootView,10,R.id.s10_f_ratingBar,R.id.s10_f_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,11,R.id.s11_f_ratingBar,R.id.s11_f_res,freqResponse,0,0,0);
 
-            setRatingBarListener(rootView,R.id.s1_s_ratingBar,R.id.s1_s_res,severeResponse,0,0);
-            setRatingBarListener(rootView,R.id.s2_s_ratingBar,R.id.s2_s_res,severeResponse,0,0);
-            setRatingBarListener(rootView,R.id.s3_s_ratingBar,R.id.s3_s_res,severeResponse,0,0);
-            setRatingBarListener(rootView,R.id.s4_s_ratingBar,R.id.s4_s_res,severeResponse,0,0);
-            setRatingBarListener(rootView,R.id.s5_s_ratingBar,R.id.s5_s_res,severeResponse,0,0);
-            setRatingBarListener(rootView,R.id.s6_s_ratingBar,R.id.s6_s_res,severeResponse,0,0);
-            setRatingBarListener(rootView,R.id.s7_s_ratingBar,R.id.s7_s_res,severeResponse,0,0);
-            setRatingBarListener(rootView, R.id.s8_s_ratingBar, R.id.s8_s_res, severeResponse,0,0);
-            setRatingBarListener(rootView,R.id.s9_s_ratingBar,R.id.s9_s_res,severeResponse,0,0);
+            setRatingBarListener(rootView,1,R.id.s1_s_ratingBar,R.id.s1_s_res,severeResponse,0,0,0);
+            setRatingBarListener(rootView,2,R.id.s2_s_ratingBar,R.id.s2_s_res,severeResponse,0,0,0);
+            setRatingBarListener(rootView,3,R.id.s3_s_ratingBar,R.id.s3_s_res,severeResponse,0,0,0);
+            setRatingBarListener(rootView,4,R.id.s4_s_ratingBar,R.id.s4_s_res,severeResponse,0,0,0);
+            setRatingBarListener(rootView,5,R.id.s5_s_ratingBar,R.id.s5_s_res,severeResponse,0,0,0);
+            setRatingBarListener(rootView,6,R.id.s6_s_ratingBar,R.id.s6_s_res,severeResponse,0,0,0);
+            setRatingBarListener(rootView,7,R.id.s7_s_ratingBar,R.id.s7_s_res,severeResponse,0,0,0);
+            setRatingBarListener(rootView,8,R.id.s8_s_ratingBar,R.id.s8_s_res,severeResponse,0,0,0);
+            setRatingBarListener(rootView,9,R.id.s9_s_ratingBar,R.id.s9_s_res,severeResponse,0,0,0);
 
 
 
@@ -284,8 +297,13 @@ public class Surveys extends AppCompatActivity {
                 }
             });
 
-            populateSpinner(rootView, R.id.f1_spinner, R.array.f1_a);
-            populateSpinner(rootView, R.id.f2_spinner, R.array.f2_a);
+            populateSpinner(rootView, 1, R.id.fd_where_spinner, R.array.fd_where_a);
+            populateSpinner(rootView, 2, R.id.fd_which_spinner, R.array.fd_which_a);
+            populateSpinner(rootView, 3, R.id.fd_who_spinner, R.array.fd_who_a);
+            setRatingBarListener(rootView, 4, R.id.fd_fB_ratingBar, R.id.fd_fB_res, freqResponse, 0, 0, 0);
+            setRatingBarListener(rootView, 5, R.id.fd_fA_ratingBar, R.id.fd_fA_res, freqResponse, 0, 0, 0);
+
+
             return rootView;
         }
 
@@ -315,11 +333,13 @@ public class Surveys extends AppCompatActivity {
          * @param next_question
          * @param next_question_r
          */
-        public void setRatingBarListener(View v,int question, int q_result, final HashMap hashMap,int next_question, int next_question_r){
+        public void setRatingBarListener( View v,int id, int question, int q_result, final HashMap hashMap,int next_question, int next_question_r, int next_question_res){
+            final int q_id = id;
             final RatingBar q1 = (RatingBar) v.findViewById(question);
             final TextView q1_res = (TextView) v.findViewById(q_result);
             final int next_q = next_question;
             final int next_q_r = next_question_r;
+            final int next_q_res = next_question_res;
             final View view = v;
 
             q1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -329,17 +349,32 @@ public class Surveys extends AppCompatActivity {
                     q1_res.setText(hashMap.get(rating).toString());
                     q1_res.setVisibility(View.VISIBLE);
 
+
+                    if(getArguments().getInt(ARG_SECTION_NUMBER)==1) {  //If called from Symptoms view (1)
+                        if (hashMap.get(4f).toString().equalsIgnoreCase("Often")) { //all frequency questions
+                            symptoms_f_response[q_id] = (int) rating;
+                        } else {
+                            symptoms_s_response[q_id] = (int) rating;
+                        }
+                    }
+
+                    if(getArguments().getInt(ARG_SECTION_NUMBER)==2) {  //If called from Food diary view (2)
+                        fd_response[q_id]= hashMap.get(rating).toString();
+                    }
                     //Disable severity question
-                    if(next_q != 0 ){
+                    if (next_q != 0) {   //non-zero mode for frequency questions
 
                         final RatingBar q2 = (RatingBar) view.findViewById(next_q_r);
                         final TextView q2_q = (TextView) view.findViewById(next_q);
-                        if(rating==1f) {
+                        final TextView q2_res = (TextView) view.findViewById(next_q_res);
+                        if (rating == 1f) {
                             q2.setVisibility(View.GONE);
                             q2_q.setVisibility(View.GONE);
-                        }else{
+                            q2_res.setVisibility(View.GONE);
+                        } else {
                             q2.setVisibility(View.VISIBLE);
                             q2_q.setVisibility(View.VISIBLE);
+                            q2_res.setVisibility(View.VISIBLE);
                         }
                     }
                 }
@@ -352,17 +387,60 @@ public class Surveys extends AppCompatActivity {
          * @param spinId
          * @param stringArrayId
          */
-        public void populateSpinner(View view,int spinId,int stringArrayId){
+        public void populateSpinner(View view,int id,int spinId,int stringArrayId){
+            final int q_id = id;
             Spinner spinner = (Spinner) view.findViewById(spinId);//R.id.f1_spinner
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                     stringArrayId, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
+            final String[] stringArray =getResources().getStringArray(stringArrayId);
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    fd_response[q_id]=stringArray[position];
+                    Log.i("selected item",String.valueOf(position)+"and id is"+ stringArray[position]);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
 
 
         }
 
+
+
 //---------------Methods-Terminate-------------------//
+    }
+
+    public void onSymptomsSubmit(View view){
+        int counter = 0;
+        for(int i:symptoms_f_response) {
+            Log.i("Symtoms response_f"+ (counter++), String.valueOf(i));
+        }
+        counter = 0;
+        for(int i:symptoms_s_response) {
+            Log.i("Symtoms response_s"+(counter++), String.valueOf(i));
+        }
+
+        /**
+         * Database query goes below this block--
+         * Eg. array structure
+         * symptoms_f_response[1] -> question_1_frequency
+         * symptoms_f_response[11] -> question_11_frequency
+         * symptoms_s_response[9] -> question_9_severity
+         */
+
+    }
+
+    public void onFoodDiarySubmit(View view){
+        int counter=0;
+        for (String i:fd_response){
+            Log.i("FoodDiary response","fd_response"+counter+" is "+i);
+        }
     }
 
     /**
