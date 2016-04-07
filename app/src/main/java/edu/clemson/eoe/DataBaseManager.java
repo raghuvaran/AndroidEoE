@@ -225,7 +225,9 @@ public class DataBaseManager {
     }
 
 //Method to insert pateint details into userinfo table
-    public boolean insertPatient(String PatientName,String genderName,String Date) {
+    public boolean insertPatient(String PatientName,String genderName,String Date,String Gradename,
+                                 String ethnicityans,String Racename, String lenDisease,String FamIncome,
+                                 String FathEducation,String MothEducation) {
 
         // mDbHelper = new DBHelper.FeedReaderDbHelper(this);
         // Gets the data repository in write mode
@@ -236,7 +238,13 @@ public class DataBaseManager {
         values.put("name", PatientName);
         values.put("birthDate", Date);
         values.put("gender", genderName);
-
+        values.put("grade",Gradename);
+        values.put("ethnicity",ethnicityans);
+        values.put("race",Racename);
+        values.put("lengthOfDia",lenDisease);
+        values.put("income",FamIncome);
+        values.put("fatherEdu",FathEducation);
+        values.put("motherEdu",MothEducation);
 
         //    values.put("UpdateStatus",0);
         // ContentValues initialValues = new ContentValues();

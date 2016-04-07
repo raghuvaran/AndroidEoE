@@ -33,6 +33,35 @@
     <string name="f1">Where did you eat this food?</string>
     <string name="f2">Which meal is this?</string>
 
+    <string name="ethnicity">Are you Hispanic,Latino or Spanish origin ?</string>
+
+    <string-array name="ethnicity_a">
+        <item>Yes</item>
+        <item>No</item>
+
+    </string-array>
+
+    <string name="Grade">Grade</string>
+
+    <string-array name="Grade_a">
+        <item>1st</item>
+        <item>2nd</item>
+        <item>3rd</item>
+        <item>4th</item>
+        <item>5th</item>
+        <item>6th</item>
+        <item>7th</item>
+        <item>8th</item>
+    </string-array>
+
+    <string name="Race">Choose Race</string>
+
+    <string-array name="Race_a">
+        <item>Asian</item>
+        <item>American</item>
+        <item>Black</item>
+    </string-array>
+
     <string-array name="f1_a">
         <item>Home</item>
         <item>School</item>
