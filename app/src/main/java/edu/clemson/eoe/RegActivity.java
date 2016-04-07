@@ -318,7 +318,7 @@ if(isOnline()) {
 
         if (sharedPref.getBoolean("my_first_time", true)) {
             sharedPref.edit().putBoolean("my_first_time", false).commit();
-           // sharedPref.edit().putString("patientName", patientName.getText().toString()).commit();
+           sharedPref.edit().putString("patientName", patientName.getText().toString()).commit();
         }
 
         Toast.makeText(getApplicationContext(), "You are now registered", Toast.LENGTH_SHORT).show();

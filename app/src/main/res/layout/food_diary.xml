@@ -36,6 +36,9 @@
                     android:id="@+id/fd_where_q"
                     android:layout_marginBottom="30dp"/>
 
+
+
+
             <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -85,27 +88,28 @@
                 android:id="@+id/fd_feelBefore"
                 android:layout_marginBottom="30dp" />
 
-            <LinearLayout
-                android:orientation="horizontal"
+            <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <RatingBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/fd_fB_ratingBar"
-                    android:layout_marginBottom="30dp"
-                    android:stepSize="1.0" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/fd_fB"
+                android:layout_marginBottom="30dp">
 
-                <TextView
+                <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Medium Text"
-                    android:id="@+id/fd_fB_res"
-                    android:visibility="invisible"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="15dp" />
-            </LinearLayout>
+                    android:text="No Symptoms"
+                    android:id="@+id/fd_fB_ns"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Symptoms"
+                    android:id="@+id/fd_fB_s"
+                    android:checked="false" />
+            </RadioGroup>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -115,27 +119,59 @@
                 android:id="@+id/fd_feelAfter"
                 android:layout_marginBottom="30dp" />
 
-            <LinearLayout
-                android:orientation="horizontal"
+            <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <RatingBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/fd_fA_ratingBar"
-                    android:layout_marginBottom="30dp"
-                    android:stepSize="1.0" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/fd_fA"
+                android:layout_marginBottom="30dp">
 
-                <TextView
+                <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Medium Text"
-                    android:id="@+id/fd_fA_res"
-                    android:visibility="invisible"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="15dp" />
-            </LinearLayout>
+                    android:text="No Symptoms"
+                    android:id="@+id/fd_fA_ns"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Symptoms"
+                    android:id="@+id/fd_fA_s"
+                    android:checked="false" />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/fd_worry"
+                android:id="@+id/fd_worry_q"
+                android:layout_marginBottom="30dp" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/fd_worry"
+                android:layout_marginBottom="30dp">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"
+                    android:id="@+id/fd_worry_n"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"
+                    android:id="@+id/fd_worry_y"
+                    android:checked="false" />
+            </RadioGroup>
 
             <Button
                 android:layout_width="match_parent"

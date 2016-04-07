@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -22,7 +24,7 @@ import java.util.Calendar;
  *
  * Preference settings for Item .Includes Sorting Items alphabetically and by category and hiding purchased items.
  */
-public class Settings extends AppCompatPreferenceActivity  {
+public class Settings extends AppCompatActivity {
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -30,6 +32,7 @@ public class Settings extends AppCompatPreferenceActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupActionBar();
         //setContentView(R.layout.pref_with_actionbar);
         //android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(com.example.santh.alarmtest.R.id.toolbar);
         //setSupportActionBar(toolbar);
@@ -42,46 +45,18 @@ public class Settings extends AppCompatPreferenceActivity  {
 
     }
 
-    /*protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        Toolbar bar;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
-            bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.pref_with_actionbar, root, false);
-            root.addView(bar, 0); // insert at top
-        } else {
-            ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
-            ListView content = (ListView) root.getChildAt(0);
-
-            root.removeAllViews();
-
-            bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.pref_with_actionbar, root, false);
-
-
-            int height;
-            TypedValue tv = new TypedValue();
-            if (getTheme().resolveAttribute(R.attr.actionBarSize, tv, true)) {
-                height = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-            }else{
-                height = bar.getHeight();
-            }
-
-            content.setPadding(0, height, 0, 0);
-
-            root.addView(content);
-            root.addView(bar);
+    /**
+     * Set up the {@link android.app.ActionBar}, if the API is available.
+     */
+    private void setupActionBar() {
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            // Show the Up button in the action bar.
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        bar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-    }*/
-
-
+    }
 
     /**
      * Fragement Activity class for setting preferences and generating toasts

@@ -35,6 +35,7 @@
     <string name="fd_who">Who did you eat with?</string>
     <string name="fd_feelBefore">How did you feel before?</string>
     <string name="fd_feelAfter">How did you feel after?</string>
+    <string name="fd_worry">Are you worried there was something in your meal that make you feel bad?</string>
 
     <string name="ethnicity">Are you Hispanic,Latino or Spanish origin ?</string>
 
@@ -75,10 +76,8 @@
         <item>Lunch</item>
         <item>Snack</item>
         <item>Dinner</item>
-        <item>Beverage</item>
     </string-array>
     <string-array name="fd_who_a">
-        <item>Spouse</item>
         <item>Friends</item>
         <item>Co-workers</item>
         <item>Others</item>
@@ -86,5 +85,6 @@
 
 
     <string name="php_syncUser">https://people.cs.clemson.edu/~rchowda/Projects/EoE/test_app.php</string>
+    <string name="title_activity_user_treatment">UserTreatment</string>
 
 </resources>

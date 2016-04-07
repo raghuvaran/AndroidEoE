@@ -26,6 +26,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -78,13 +80,14 @@ public class Surveys extends AppCompatActivity {
         symptoms_s_response[8]=0;
         symptoms_s_response[9]=0;
     }
-    private static final String[] fd_response = new String[6];
+    private static final String[] fd_response = new String[7];
     static {
         fd_response[1]=null;   //where
         fd_response[2]=null;   //which
         fd_response[3]=null;   //who
         fd_response[4]=null;   //feel before
         fd_response[5]=null;   //feel after
+        fd_response[6]=null;   //worry
     }
 
     @Override
@@ -300,8 +303,9 @@ public class Surveys extends AppCompatActivity {
             populateSpinner(rootView, 1, R.id.fd_where_spinner, R.array.fd_where_a);
             populateSpinner(rootView, 2, R.id.fd_which_spinner, R.array.fd_which_a);
             populateSpinner(rootView, 3, R.id.fd_who_spinner, R.array.fd_who_a);
-            setRatingBarListener(rootView, 4, R.id.fd_fB_ratingBar, R.id.fd_fB_res, freqResponse, 0, 0, 0);
-            setRatingBarListener(rootView, 5, R.id.fd_fA_ratingBar, R.id.fd_fA_res, freqResponse, 0, 0, 0);
+            onRadioChange(rootView, 4, R.id.fd_fA);
+            onRadioChange(rootView,5,R.id.fd_fB);
+            onRadioChange(rootView,6,R.id.fd_worry);
 
 
             return rootView;
@@ -398,8 +402,8 @@ public class Surveys extends AppCompatActivity {
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    fd_response[q_id]=stringArray[position];
-                    Log.i("selected item",String.valueOf(position)+"and id is"+ stringArray[position]);
+                    fd_response[q_id] = stringArray[position];
+                    Log.i("selected item", String.valueOf(position) + "and id is" + stringArray[position]);
                 }
 
                 @Override
@@ -409,6 +413,18 @@ public class Surveys extends AppCompatActivity {
             });
 
 
+        }
+
+        public void onRadioChange(final View view,int id, int radio){
+            final View v = view;
+            final int q_id = id;
+            final RadioGroup radioGroup = (RadioGroup) view.findViewById(radio);
+            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    fd_response[q_id] = ((RadioButton)v.findViewById(checkedId)).getText().toString();
+                }
+            });
         }
 
 
@@ -441,6 +457,7 @@ public class Surveys extends AppCompatActivity {
         for (String i:fd_response){
             Log.i("FoodDiary response","fd_response"+counter+" is "+i);
         }
+        // TODO: 07-04-2016 add database queries here!
     }
 
     /**
