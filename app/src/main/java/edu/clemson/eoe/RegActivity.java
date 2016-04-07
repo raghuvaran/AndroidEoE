@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -26,9 +27,11 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
 
@@ -46,10 +49,20 @@ public class RegActivity extends AppCompatActivity {
     Spinner grade;
     Spinner race;
     Spinner ethnicity;
+    SharedPreferences sharedPref;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPref = getSharedPreferences("myPref", 0);
+        if (!sharedPref.getBoolean("my_first_time", true)) {
+            Intent intent = new Intent(getApplicationContext(),Surveys.class);
+            startActivity(intent);
+            finish();
+        }
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reg);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -254,6 +267,7 @@ public class RegActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         }
         else {
+
             // get selected radio button from radioGroup
             String gradeName= grade.getSelectedItem().toString();
             String ethnicityans=ethnicity.getSelectedItem().toString();
@@ -272,30 +286,52 @@ if(isOnline()) {
     SyncUser syncUser = new SyncUser();
     String result = new String();
     try {
-        Log.i("Result_url",getResources().getString(R.string.php_syncUser)+"?pn="+patientName.getText().toString()+"&grade="+
+        String encodedURL =  (getResources().getString(R.string.php_syncUser)+"?pn="+patientName.getText().toString()+"&grade="+
                 grade.getSelectedItem().toString()+"&gender="+genderName+"&ethnicity="+ethnicity.getSelectedItem().toString()+"&race="+
                 race.getSelectedItem().toString()+"&date="+date+"&lenD="+lenDisease.getText().toString()+"&fInc="+famIncome.getText().toString()+"&mEdu="+
-                mothEducation.getText().toString()+"&fEdu="+fathEducation.getText().toString());
-        //if successful result contains userid of new user
-        result = syncUser.execute(getResources().getString(R.string.php_syncUser)+"?pn="+patientName.getText().toString()+"&grade="+
-                grade.getSelectedItem().toString()+"&gender="+genderName+"&ethnicity="+ethnicity.getSelectedItem().toString()+"&race="+
-                race.getSelectedItem().toString()+"&date="+date+"&lenD="+lenDisease.getText().toString()+"&fInc="+famIncome.getText().toString()+"&mEdu="+
-                mothEducation.getText().toString()+"&fEdu="+fathEducation.getText().toString()).get();
+                mothEducation.getText().toString()+"&fEdu="+fathEducation.getText().toString()) ;
+        encodedURL = encodedURL.replaceAll("\\s","+");
+
+
+        Log.i("Result_url",encodedURL);
+        //if successful result contains patientId of new user
+        result = syncUser.execute(encodedURL).get();
         Log.i("Result_of_sync",result);
-        Intent intent = new Intent(getApplicationContext(),Surveys.class);
-        startActivity(intent);
+
     } catch (InterruptedException e) {
         e.printStackTrace();
     } catch (ExecutionException e) {
         e.printStackTrace();
     }//check if php communication was successful
+
     if(result.isEmpty() || result.equalsIgnoreCase("Things didn't go expected")){
         Toast.makeText(RegActivity.this, "Unable to establish connection. Try again!", Toast.LENGTH_SHORT).show();
         //check if there is a conflict with EXT database users
+    }else if(result.equalsIgnoreCase("failed")){
+        Toast.makeText(getApplicationContext(),"Error at the server end, please contact administrator",Toast.LENGTH_SHORT);
+
+    }else { //insert into internal database
+
+        /**
+         * Changes the FIRST_RUN variable to false
+         */
+
+        if (sharedPref.getBoolean("my_first_time", true)) {
+            sharedPref.edit().putBoolean("my_first_time", false).commit();
+           // sharedPref.edit().putString("patientName", patientName.getText().toString()).commit();
+        }
+
+        Toast.makeText(getApplicationContext(), "You are now registered", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getApplicationContext(),Surveys.class);
+        startActivity(intent);
+        finish();
+        //db.close();
     }
 
 
 
+}else{//if device has not network
+    Toast.makeText(getApplicationContext(), "Network unavailable! Try agaian", Toast.LENGTH_SHORT).show();
 }
 
             //finish();
