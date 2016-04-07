@@ -26,37 +26,125 @@
                 android:maxHeight="20dp"
                 android:clickable="true"
                 android:layout_gravity="center_horizontal"
-                android:paddingBottom="30dp"/>
+                android:layout_marginBottom="30dp"/>
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/f1"
-                    android:id="@+id/f1_q"
-                    android:paddingBottom="30dp"/>
+                    android:text="@string/fd_where"
+                    android:id="@+id/fd_where_q"
+                    android:layout_marginBottom="30dp"/>
 
             <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/f1_spinner"
+                    android:id="@+id/fd_where_spinner"
                     android:spinnerMode="dialog"
-                    android:paddingBottom="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:prompt="@string/fd_where"
                      />
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/f2"
-                    android:id="@+id/f2_q"
-                    android:paddingBottom="30dp"/>
+                    android:text="@string/fd_which"
+                    android:id="@+id/fd_which_q"
+                    android:layout_marginBottom="30dp"/>
 
             <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/f2_spinner"
-                    android:paddingBottom="30dp"/>
+                    android:id="@+id/fd_which_spinner"
+                    android:spinnerMode="dialog"
+                    android:layout_marginBottom="30dp"
+                    android:prompt="@string/fd_which"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/fd_who"
+                android:id="@+id/fd_who_q"
+                android:layout_marginBottom="30dp"/>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/fd_who_spinner"
+                android:spinnerMode="dialog"
+                android:layout_marginBottom="30dp"
+                android:prompt="@string/fd_who"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/fd_feelBefore"
+                android:id="@+id/fd_feelBefore"
+                android:layout_marginBottom="30dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fd_fB_ratingBar"
+                    android:layout_marginBottom="30dp"
+                    android:stepSize="1.0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Medium Text"
+                    android:id="@+id/fd_fB_res"
+                    android:visibility="invisible"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="15dp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/fd_feelAfter"
+                android:id="@+id/fd_feelAfter"
+                android:layout_marginBottom="30dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fd_fA_ratingBar"
+                    android:layout_marginBottom="30dp"
+                    android:stepSize="1.0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Medium Text"
+                    android:id="@+id/fd_fA_res"
+                    android:visibility="invisible"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="15dp" />
+            </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:id="@+id/button3"
+                android:layout_marginBottom="100dp"
+                android:onClick="onFoodDiarySubmit"/>
+
         </LinearLayout>
     </ScrollView>
 

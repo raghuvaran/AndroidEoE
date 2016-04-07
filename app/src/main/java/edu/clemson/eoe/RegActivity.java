@@ -1,16 +1,12 @@
 package edu.clemson.eoe;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -26,33 +22,28 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Calendar;
+import java.util.concurrent.ExecutionException;
 
 public class RegActivity extends AppCompatActivity {
 
     Button dobButton;
     int year_DOB=0, month_DOB=0, day_DOB=0;
-    EditText PatientName;
+    EditText patientName;
     RadioGroup gender;
     RadioButton radioSexButton;
     EditText lenDisease;
-    EditText FathEducation;
-    EditText MothEducation;
-    EditText FamIncome;
-    Spinner Grade;
-    Spinner Race;
+    EditText fathEducation;
+    EditText mothEducation;
+    EditText famIncome;
+    Spinner grade;
+    Spinner race;
     Spinner ethnicity;
 
 
@@ -68,14 +59,14 @@ public class RegActivity extends AppCompatActivity {
         year_DOB= calendar.get(Calendar.YEAR);
         month_DOB= calendar.get(Calendar.MONTH);
         day_DOB= calendar.get(Calendar.DAY_OF_MONTH);
-        PatientName =(EditText) findViewById(R.id.addtitle);
+        patientName =(EditText) findViewById(R.id.addtitle);
         lenDisease =(EditText) findViewById(R.id.disease);
-        FathEducation =(EditText) findViewById(R.id.fatheredu);
-        MothEducation =(EditText) findViewById(R.id.motheredu);
-        FamIncome =(EditText) findViewById(R.id.familyInc);
+        fathEducation =(EditText) findViewById(R.id.fatheredu);
+        mothEducation =(EditText) findViewById(R.id.motheredu);
+        famIncome =(EditText) findViewById(R.id.familyInc);
         gender=(RadioGroup) findViewById(R.id.gender);
-        Grade =(Spinner)findViewById(R.id.grade_Spinner);
-        Race =(Spinner)findViewById(R.id.Race_spinner);
+        grade =(Spinner)findViewById(R.id.grade_Spinner);
+        race =(Spinner)findViewById(R.id.Race_spinner);
         ethnicity =(Spinner)findViewById(R.id.ethinicity_Spinner);
         //DOB button
         dobButton = (Button) findViewById(R.id.DOBbutton);
@@ -154,7 +145,7 @@ public class RegActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    class Background extends AsyncTask<String,String,String> {
+   /* class Background extends AsyncTask<String,String,String> {
         protected void OnPreExecute()
         {
             super.onPreExecute();
@@ -170,11 +161,11 @@ public class RegActivity extends AppCompatActivity {
                 String patientName = params[1];
                 String gender = params[2];
                 String date = params[3];
-                String Grade = params[4];
+                String grade = params[4];
                 String Ethnicity = params[5];
-                String Race = params[6];
+                String race = params[6];
                 String LenDisease = params[7];
-                String FamIncome = params[8];
+                String famIncome = params[8];
                 String FathEduc = params[9];
                 String MotherEduc = params[10];
 
@@ -184,11 +175,11 @@ public class RegActivity extends AppCompatActivity {
                     String data = "patientName" + "=" + URLEncoder.encode(patientName, "UTF-8") + "&" +
                             "gender"+ "=" + URLEncoder.encode(gender, "UTF-8") + "&" +
                             "date" + "=" + URLEncoder.encode(date, "UTF-8") + "&" +
-                            "Grade" + "=" + URLEncoder.encode(Grade, "UTF-8") + "&" +
+                            "grade" + "=" + URLEncoder.encode(grade, "UTF-8") + "&" +
                             "Ethnicity" + "=" + URLEncoder.encode(Ethnicity, "UTF-8") + "&" +
-                           "Race" + "=" + URLEncoder.encode(Race, "UTF-8") + "&" +
+                           "race" + "=" + URLEncoder.encode(race, "UTF-8") + "&" +
                             "LenDisease" + "=" + URLEncoder.encode(LenDisease, "UTF-8") + "&" +
-                            "FamIncome" + "=" + URLEncoder.encode(FamIncome, "UTF-8") + "&" +
+                            "famIncome" + "=" + URLEncoder.encode(famIncome, "UTF-8") + "&" +
                             "FathEduc" + "=" + URLEncoder.encode(FathEduc, "UTF-8") + "&" +
                            "MotherEduc" + "=" + URLEncoder.encode(MotherEduc, "UTF-8");
 
@@ -199,7 +190,7 @@ public class RegActivity extends AppCompatActivity {
                     jsonArray.put(jsonObject);
 
                     String url = new String("https://people.cs.clemson.edu/~sravira/Viewing/dummmy.php");
-                    /*Thread loc = staticData.SyncWithExternal(StaticData.insertPatient+"?"+data,data);*/
+                    *//*Thread loc = staticData.SyncWithExternal(StaticData.insertPatient+"?"+data,data);*//*
                     Thread loc = staticData.SyncWithExternal(url,jsonArray.toString());
                     loc.start();
 
@@ -221,7 +212,7 @@ public class RegActivity extends AppCompatActivity {
 
         }
 
-    }
+    }*/
 
 
 
@@ -229,30 +220,30 @@ public class RegActivity extends AppCompatActivity {
     public void OnRegister(View view) {
         Calendar calendar = Calendar.getInstance();
 
-        if(PatientName.length()==0)
+        if(patientName.length()==0)
         {
-            PatientName.requestFocus();
-            PatientName.setError("FIELD CANNOT BE EMPTY");
+            patientName.requestFocus();
+            patientName.setError("FIELD CANNOT BE EMPTY");
         }
-        else if(FamIncome.length()==0)
+        else if(famIncome.length()==0)
         {
-            FamIncome.requestFocus();
-            FamIncome.setError("FIELD CANNOT BE EMPTY");
+            famIncome.requestFocus();
+            famIncome.setError("FIELD CANNOT BE EMPTY");
         }
         else if(lenDisease.length()==0)
         {
             lenDisease.requestFocus();
             lenDisease.setError("FIELD CANNOT BE EMPTY");
         }
-        else if(FathEducation.length()==0)
+        else if(fathEducation.length()==0)
         {
-            FathEducation.requestFocus();
-            FathEducation.setError("FIELD CANNOT BE EMPTY");
+            fathEducation.requestFocus();
+            fathEducation.setError("FIELD CANNOT BE EMPTY");
         }
-        else if(MothEducation.length()==0)
+        else if(mothEducation.length()==0)
         {
-            MothEducation.requestFocus();
-            MothEducation.setError("FIELD CANNOT BE EMPTY");
+            mothEducation.requestFocus();
+            mothEducation.setError("FIELD CANNOT BE EMPTY");
         }
 
         else if(year_DOB>=calendar.get(Calendar.YEAR)&& month_DOB>=calendar.get(Calendar.MONTH )+1 && day_DOB >=calendar.get(Calendar.DAY_OF_MONTH))
@@ -263,27 +254,51 @@ public class RegActivity extends AppCompatActivity {
         }
         else {
             // get selected radio button from radioGroup
-            int selectedId = gender.getCheckedRadioButtonId();
-            String Gradename=Grade.getSelectedItem().toString();
+            String gradeName= grade.getSelectedItem().toString();
             String ethnicityans=ethnicity.getSelectedItem().toString();
-            String Racename =Race.getSelectedItem().toString();
+            String raceName = race.getSelectedItem().toString();
             // find the radiobutton by returned id
-            radioSexButton = (RadioButton) findViewById(selectedId);
+            radioSexButton = (RadioButton) findViewById(gender.getCheckedRadioButtonId());
             String genderName = radioSexButton.getText().toString();
-            String date =month_DOB+"/"+day_DOB+"/"+year_DOB;
+            String date =year_DOB+"-"+month_DOB+"-"+day_DOB;
 
-            String method="register";
 
 if(isOnline()) {
-    new Background().execute(method, PatientName.getText().toString(), genderName, date,
-            Gradename, ethnicityans, Racename, lenDisease.getText().toString(), FamIncome.getText().toString(),
-            FathEducation.getText().toString(), MothEducation.getText().toString());
+    /*new Background().execute(method, patientName.getText().toString(), genderName, date,
+            gradeName, ethnicityans, raceName, lenDisease.getText().toString(), famIncome.getText().toString(),
+            fathEducation.getText().toString(), mothEducation.getText().toString());*/
+    //try to add user to EXT database
+    SyncUser syncUser = new SyncUser();
+    String result = new String();
+    try {
+        Log.i("Result_url",getResources().getString(R.string.php_syncUser)+"?pn="+patientName.getText().toString()+"&grade="+
+                grade.getSelectedItem().toString()+"&gender="+genderName+"&ethnicity="+ethnicity.getSelectedItem().toString()+"&race="+
+                race.getSelectedItem().toString()+"&date="+date+"&lenD="+lenDisease.getText().toString()+"&fInc="+famIncome.getText().toString()+"&mEdu="+
+                mothEducation.getText().toString()+"&fEdu="+fathEducation.getText().toString());
+        //if successful result contains userid of new user
+        result = syncUser.execute(getResources().getString(R.string.php_syncUser)+"?pn="+patientName.getText().toString()+"&grade="+
+                grade.getSelectedItem().toString()+"&gender="+genderName+"&ethnicity="+ethnicity.getSelectedItem().toString()+"&race="+
+                race.getSelectedItem().toString()+"&date="+date+"&lenD="+lenDisease.getText().toString()+"&fInc="+famIncome.getText().toString()+"&mEdu="+
+                mothEducation.getText().toString()+"&fEdu="+fathEducation.getText().toString()).get();
+        Log.i("Result_of_sync",result);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    } catch (ExecutionException e) {
+        e.printStackTrace();
+    }//check if php communication was successful
+    if(result.isEmpty() || result.equalsIgnoreCase("Things didn't go expected")){
+        Toast.makeText(RegActivity.this, "Unable to establish connection. Try again!", Toast.LENGTH_SHORT).show();
+        //check if there is a conflict with EXT database users
+    }
+
+
+
 }
 
             //finish();
          /*   DataBaseManager dbm =new DataBaseManager(getApplicationContext());
             dbm.open();
-           boolean result= dbm.insertPatient(PatientName.getText().toString(), genderName, date, Gradename,ethnicityans,Racename,lenDisease.getText().toString(),FamIncome.getText().toString(),FathEducation.getText().toString(),MothEducation.getText().toString());
+           boolean result= dbm.insertPatient(patientName.getText().toString(), genderName, date, gradeName,ethnicityans,raceName,lenDisease.getText().toString(),famIncome.getText().toString(),fathEducation.getText().toString(),mothEducation.getText().toString());
             dbm.close();
             if(result){
 
@@ -296,6 +311,54 @@ if(isOnline()) {
         }
 
 
+    }
+
+    /**
+     * Syncs user details or more appropriately registers user on external database
+     */
+    public class SyncUser extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected String doInBackground(String... params) {
+            URL url;
+            HttpURLConnection urlConnection = null;
+
+            try {
+                url = new URL(params[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+
+                String result = new String("");
+
+                InputStream in = urlConnection.getInputStream();
+
+                InputStreamReader reader = new InputStreamReader(in);
+
+                int data = reader.read();
+
+                while (data != -1){
+
+                    char current = (char) data;
+                    result += current;
+
+                    data = reader.read();
+
+                }
+                Log.i("result",result);
+                return(result);
+
+                //returns php output
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "Things didn't go expected"; //if any error occurs in above execution
+
+
+        }
     }
     public boolean isOnline() {
         ConnectivityManager cm =

@@ -85,4 +85,6 @@
     </string-array>
 
 
+    <string name="php_syncUser">https://people.cs.clemson.edu/~rchowda/Projects/EoE/test_app.php</string>
+
 </resources>
