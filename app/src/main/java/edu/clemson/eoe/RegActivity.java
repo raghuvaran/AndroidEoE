@@ -3,6 +3,7 @@ package edu.clemson.eoe;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -281,6 +282,8 @@ if(isOnline()) {
                 race.getSelectedItem().toString()+"&date="+date+"&lenD="+lenDisease.getText().toString()+"&fInc="+famIncome.getText().toString()+"&mEdu="+
                 mothEducation.getText().toString()+"&fEdu="+fathEducation.getText().toString()).get();
         Log.i("Result_of_sync",result);
+        Intent intent = new Intent(getApplicationContext(),Surveys.class);
+        startActivity(intent);
     } catch (InterruptedException e) {
         e.printStackTrace();
     } catch (ExecutionException e) {
