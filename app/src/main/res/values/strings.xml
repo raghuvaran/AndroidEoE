@@ -36,6 +36,34 @@
     <string name="fd_feelBefore">How did you feel before?</string>
     <string name="fd_feelAfter">How did you feel after?</string>
 
+    <string name="ethnicity">Are you Hispanic,Latino or Spanish origin ?</string>
+
+    <string-array name="ethnicity_a">
+        <item>Yes</item>
+        <item>No</item>
+
+    </string-array>
+
+    <string name="Grade">Grade</string>
+
+    <string-array name="Grade_a">
+        <item>1st</item>
+        <item>2nd</item>
+        <item>3rd</item>
+        <item>4th</item>
+        <item>5th</item>
+        <item>6th</item>
+        <item>7th</item>
+        <item>8th</item>
+    </string-array>
+
+    <string name="Race">Choose Race</string>
+
+    <string-array name="Race_a">
+        <item>Asian</item>
+        <item>American</item>
+        <item>Black</item>
+    </string-array>
 
     <string-array name="fd_where_a">
         <item>Home</item>
