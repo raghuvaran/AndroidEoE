@@ -87,7 +87,7 @@ public class Settings extends AppCompatActivity {
             CheckBoxPreference QolCheck=(CheckBoxPreference)findPreference("Reminder QOL");
             //Preference Reminder1=(Preference) findPreference("Reminder1_Key");
 
-             Reminder1=(Preference) findPreference("Reminder1_Key");
+             Reminder1= findPreference("Reminder1_Key");
             /**
              * on timer change event  for Breakfast
              */
@@ -106,7 +106,7 @@ public class Settings extends AppCompatActivity {
             });
 
 
-            Reminder2=(Preference) findPreference("Reminder2_Key");
+            Reminder2= findPreference("Reminder2_Key");
             /**
              * on timer change event  for Lunch
              */
@@ -124,7 +124,7 @@ public class Settings extends AppCompatActivity {
 
             });
 
-            Reminder3=(Preference) findPreference("Reminder3_Key");
+            Reminder3= findPreference("Reminder3_Key");
             /**
              * on timer change event  for DInner
              */
@@ -142,7 +142,7 @@ public class Settings extends AppCompatActivity {
 
             });
 
-            ReminderSymptoms =(Preference) findPreference("Symptoms_Key");
+            ReminderSymptoms = findPreference("Symptoms_Key");
             /**
              * on timer change event  for Symptoms
              */
@@ -160,7 +160,7 @@ public class Settings extends AppCompatActivity {
 
             });
 
-            ReminderQol =(Preference) findPreference("PedsQL_Key");
+            ReminderQol = findPreference("PedsQL_Key");
             /**
              * on timer change event  for Qol
              */
@@ -455,7 +455,7 @@ public class Settings extends AppCompatActivity {
             super.onResume();
             // Set up a listener whenever a key changes
             getPreferenceScreen().getSharedPreferences()
-                    .registerOnSharedPreferenceChangeListener((SharedPreferences.OnSharedPreferenceChangeListener) this);
+                    .registerOnSharedPreferenceChangeListener(this);
         }
 
         @Override
@@ -463,7 +463,7 @@ public class Settings extends AppCompatActivity {
             super.onPause();
             // Unregister the listener whenever a key changes
             getPreferenceScreen().getSharedPreferences()
-                    .unregisterOnSharedPreferenceChangeListener((SharedPreferences.OnSharedPreferenceChangeListener) this);
+                    .unregisterOnSharedPreferenceChangeListener(this);
         }
 
         /**

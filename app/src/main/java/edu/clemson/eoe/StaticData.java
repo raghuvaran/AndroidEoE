@@ -148,7 +148,6 @@ public class StaticData {
                 c.setDoOutput(true);
                 c.setDoInput(true);
                 //androidid idnew=new androidid();
-                ;
                 c.setRequestProperty("Content-Length", "" +
                         Integer.toString(this.datas.getBytes().length));
                 c.setRequestProperty("Content-Language", "en-US");

@@ -15,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -50,6 +51,7 @@ public class Surveys extends AppCompatActivity {
 
      int patientID;
     public static byte[] bytedata;
+    public static String test_bytedata;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -175,6 +177,7 @@ public class Surveys extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_surveys, menu);
+        menu.add(1, 11, 2, "New Sync");
         return true;
     }
 
@@ -184,6 +187,10 @@ public class Surveys extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
+        if(id == 11){
+        onNewSync();
+        }
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
@@ -196,6 +203,10 @@ public class Surveys extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onNewSync(){
+     System.out.println("ByteData : "+test_bytedata);
     }
 
 
@@ -257,6 +268,7 @@ public class Surveys extends AppCompatActivity {
             if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                  bytedata = getBitmapAsByteArray(photo);
+                test_bytedata = Base64.encodeToString(bytedata, Base64.DEFAULT);
                 imageView1.setImageBitmap(photo);
             }}
 

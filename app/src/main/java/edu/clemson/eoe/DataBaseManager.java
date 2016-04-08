@@ -270,10 +270,7 @@ public class DataBaseManager {
                 null,
                 values);
 
-        if (newRowId == -1)
-            return false;
-        else
-            return true;
+        return newRowId != -1;
         //
         //
 
@@ -393,10 +390,7 @@ public class DataBaseManager {
                 null,
                 values);
 
-        if (newRowId == -1)
-            return false;
-        else
-            return true;
+        return newRowId != -1;
         //
         //
     }
