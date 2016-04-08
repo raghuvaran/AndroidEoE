@@ -30,12 +30,60 @@
     <string name="s10_f">How often do you eat less food than other?</string>
     <string name="s11_f">How often do you need more time to eat than other?</string>
 
+    <string name="s1_q1">I have chest pain, ache, or hurt</string>
+    <string name="s1_q2">I have burning in my chest, mouth, or throat (heartburn)</string>
+    <string name="s1_q3">I have stomach aches or belly aches</string>
+    <string name="s1_q4">I throw up (vomit)</string>
+    <string name="s1_q5">I feel like I am going to throw up, but don’t (nausea)</string>
+    <string name="s1_q6">When I am eating food comes back up my throat</string>
+
+    <string name="s2_q1">I have trouble swallowing</string>
+    <string name="s2_q2">I feel like food gets stuck in my throat or chest</string>
+    <string name="s2_q3">I need to drink to help me swallow my food</string>
+    <string name="s2_q4">I need more time to eat than other teens my age</string>
+
+    <string name="s3_q1">It is hard for me to remember to take my medicines</string>
+    <string name="s3_q2">I do not want to take my medicines</string>
+    <string name="s3_q3">I do not like going to the doctor</string>
+    <string name="s3_q4">I do not like getting an endoscopy (scope, EGD)</string>
+    <string name="s3_q5">I do not like getting allergy testing</string>
+
+    <string name="s4_q1">I worry about having EoE</string>
+    <string name="s4_q2">I worry about getting sick in front of other people</string>
+    <string name="s4_q3">I worry about what other people think about me because of EoE</string>
+    <string name="s4_q4">I worry about going to the doctor</string>
+    <string name="s4_q5">I worry about getting an endoscopy (scope, EGD)</string>
+    <string name="s4_q6">I worry about getting allergy testing</string>
+
+    <string name="s5_q1">I have trouble telling other people about EoE</string>
+    <string name="s5_q2">I have trouble talking to my parents about how I feel</string>
+    <string name="s5_q3">I have trouble talking to other adults about how I feel</string>
+    <string name="s5_q4">I have trouble talking to my friends about how I feel</string>
+    <string name="s5_q5">I have trouble talking to doctors or nurses about how I feel</string>
+
+    <string name="s6_s7">Are there foods you are allergic to and can\'t eat?</string>
+
+    <string name="s6_q1">It is hard not being allowed to eat some foods</string>
+    <string name="s6_q2">It is hard for me not to sneak foods that I am allergic to</string>
+    <string name="s6_q3">It is hard for me not to eat the same things as my family</string>
+    <string name="s6_q4">It is hard for me not to eat the same things as my friends</string>
+
+    <string name="s7_q1">I worry about eating foods I’m allergic to or not supposed to eat</string>
+    <string name="s7_q2">I feel mad (get upset) about not eating foods I am allergic to or not supposed to eat</string>
+    <string name="s7_q3">I feel sad about not eating foods I am allergic to or not supposed to eat</string>
+
+    <string name="s8">Do you have a Feeding tube in your nose or stomach?</string>
+
+    <string name="s8_q1">It is hard for me to remember to use my feeding tube</string>
+    <string name="s8_q2">It is hard for me to use my feeding tube</string>
+
     <string name="fd_where">Where did you eat this food?</string>
     <string name="fd_which">Which meal is this?</string>
     <string name="fd_who">Who did you eat with?</string>
     <string name="fd_feelBefore">How did you feel before?</string>
     <string name="fd_feelAfter">How did you feel after?</string>
     <string name="fd_worry">Are you worried there was something in your meal that make you feel bad?</string>
+    <string name="fd_whosInput">Are you a parent?</string>
 
     <string name="ethnicity">Are you Hispanic,Latino or Spanish origin ?</string>
 
@@ -48,6 +96,8 @@
     <string name="Grade">Grade</string>
 
     <string-array name="Grade_a">
+        <item>Pre-school</item>
+        <item>Kindergarten</item>
         <item>1st</item>
         <item>2nd</item>
         <item>3rd</item>
@@ -56,6 +106,10 @@
         <item>6th</item>
         <item>7th</item>
         <item>8th</item>
+        <item>9th</item>
+        <item>10th</item>
+        <item>11th</item>
+        <item>12th</item>
     </string-array>
 
     <string name="Race">Choose Race</string>
@@ -78,6 +132,7 @@
         <item>Dinner</item>
     </string-array>
     <string-array name="fd_who_a">
+        <item>Alone</item>
         <item>Friends</item>
         <item>Co-workers</item>
         <item>Others</item>

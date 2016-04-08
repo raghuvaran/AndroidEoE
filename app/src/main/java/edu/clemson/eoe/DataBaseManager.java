@@ -25,7 +25,7 @@ import java.util.Date;
  * DataBaseManager class file to edit delete update and query the database
  */
 public class DataBaseManager {
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "EoE.db";
     public static final String TABLE_NAME_USERINFO = "userInfo";
     public static final String TABLE_NAME_FOODDIARY = "foodDiary";
@@ -66,7 +66,7 @@ public class DataBaseManager {
                     "feelAfter " +TEXT_TYPE + COMMA_SEP +
                     "allergic " +TEXT_TYPE + COMMA_SEP +
                     "Image BLOB" +  COMMA_SEP +
-                     "whoIsInput " + TEXT_TYPE +
+                     "whoIsInput " + TEXT_TYPE + COMMA_SEP +
                     "FOREIGN KEY(user_patientid) REFERENCES " +
                     TABLE_NAME_USERINFO + "(patientID)" +
 
@@ -364,7 +364,7 @@ public class DataBaseManager {
     private SQLiteStatement FoodDiaryStatement = null;
     public boolean addFoodDiary(int patientID,String DateTime,String meal,
                              String where,String who ,String feelBefore,
-                             String feelAfter,String allergic,byte[] image){
+                             String feelAfter,String allergic,byte[] image, String inputPerson){
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -378,6 +378,7 @@ public class DataBaseManager {
         values.put("feelAfter", feelAfter);
         values.put("allergic", allergic);
         values.put("Image", image);
+        values.put("whoIsInput",inputPerson);
        // values.put("motherEdu", MothEducation);
 
         //    values.put("UpdateStatus",0);

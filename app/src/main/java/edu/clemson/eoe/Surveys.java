@@ -13,6 +13,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -24,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -88,7 +91,7 @@ public class Surveys extends AppCompatActivity {
         symptoms_s_response[8]=0;
         symptoms_s_response[9]=0;
     }
-    private static final String[] fd_response = new String[7];
+    private static final String[] fd_response = new String[8];
     static {
         fd_response[1]=null;   //where
         fd_response[2]=null;   //which
@@ -96,6 +99,50 @@ public class Surveys extends AppCompatActivity {
         fd_response[4]=null;   //feel before
         fd_response[5]=null;   //feel after
         fd_response[6]=null;   //worry
+        fd_response[7]=null;   //inputPerson
+    }
+
+    private static final String[] qol_response = new String[36];
+    static{
+        int counter = 1;
+         //initialize all the array elements with null
+        qol_response[0] = null;
+        qol_response[1] = null;
+        qol_response[2] = null;
+        qol_response[3] = null;
+        qol_response[4] = null;
+        qol_response[5] = null;
+        qol_response[6] = null;
+        qol_response[7] = null;
+        qol_response[8] = null;
+        qol_response[9] = null;
+        qol_response[10] = null;
+        qol_response[11] = null;
+        qol_response[12] = null;
+        qol_response[13] = null;
+        qol_response[14] = null;
+        qol_response[15] = null;
+        qol_response[16] = null;
+        qol_response[17] = null;
+        qol_response[18] = null;
+        qol_response[19] = null;
+        qol_response[20] = null;
+        qol_response[21] = null;
+        qol_response[22] = null;
+        qol_response[23] = null;
+        qol_response[24] = null;
+        qol_response[25] = null;
+        qol_response[26] = null;
+        qol_response[27] = null;
+        qol_response[28] = null;
+        qol_response[29] = null;
+        qol_response[30] = null;
+        qol_response[31] = null;
+        qol_response[32] = null;
+        qol_response[33] = null;
+        qol_response[34] = null;
+        qol_response[35] = null;
+
     }
 
     @Override
@@ -311,13 +358,14 @@ public class Surveys extends AppCompatActivity {
                 }
             });
 
-
             populateSpinner(rootView, 1, R.id.fd_where_spinner, R.array.fd_where_a);
             populateSpinner(rootView, 2, R.id.fd_which_spinner, R.array.fd_which_a);
             populateSpinner(rootView, 3, R.id.fd_who_spinner, R.array.fd_who_a);
+            onEditTextListener(rootView, 3, R.id.fd_who_others);
             onRadioChange(rootView, 4, R.id.fd_fA);
-            onRadioChange(rootView, 5, R.id.fd_fB);
-            onRadioChange(rootView, 6, R.id.fd_worry);
+            onRadioChange(rootView,5,R.id.fd_fB);
+            onRadioChange(rootView,6,R.id.fd_worry);
+            onRadioChange(rootView,7,R.id.fd_whosInput);
 
 
             return rootView;
@@ -332,8 +380,49 @@ public class Surveys extends AppCompatActivity {
          */
         public View onCreateQOL(LayoutInflater inflater, ViewGroup container,
                                      Bundle savedInstanceState){
-            View rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
-            //setRatingBarListener(rootView, R.id.s1_f_ratingBar, R.id.s1_f_res, freqResponse);
+            View rootView = inflater.inflate(R.layout.qol_survey, container, false);
+            setRatingBarListener(rootView,1,R.id.s1_q1_ratingBar,R.id.s1_q1_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,2,R.id.s1_q2_ratingBar,R.id.s1_q2_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,3,R.id.s1_q3_ratingBar,R.id.s1_q3_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,4,R.id.s1_q4_ratingBar,R.id.s1_q4_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,5,R.id.s1_q5_ratingBar,R.id.s1_q5_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,6,R.id.s1_q6_ratingBar,R.id.s1_q6_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,7,R.id.s2_q1_ratingBar,R.id.s2_q1_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,8,R.id.s2_q2_ratingBar,R.id.s2_q2_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,9,R.id.s2_q3_ratingBar,R.id.s2_q3_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,10,R.id.s2_q4_ratingBar,R.id.s2_q4_res,freqResponse,0,0,0);
+
+            setRatingBarListener(rootView,11,R.id.s3_q1_ratingBar,R.id.s3_q1_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,12,R.id.s3_q2_ratingBar,R.id.s3_q2_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,13,R.id.s3_q3_ratingBar,R.id.s3_q3_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,14,R.id.s3_q4_ratingBar,R.id.s3_q4_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,15,R.id.s3_q5_ratingBar,R.id.s3_q5_res,freqResponse,0,0,0);
+
+            setRatingBarListener(rootView,16,R.id.s4_q1_ratingBar,R.id.s4_q1_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,17,R.id.s4_q2_ratingBar,R.id.s4_q2_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,18,R.id.s4_q3_ratingBar,R.id.s4_q3_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,19,R.id.s4_q4_ratingBar,R.id.s4_q4_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,20,R.id.s4_q5_ratingBar,R.id.s4_q5_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,21,R.id.s4_q6_ratingBar,R.id.s4_q6_res,freqResponse,0,0,0);
+
+            setRatingBarListener(rootView,22,R.id.s5_q1_ratingBar,R.id.s5_q1_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,23,R.id.s5_q2_ratingBar,R.id.s5_q2_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,24,R.id.s5_q3_ratingBar,R.id.s5_q3_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,25,R.id.s5_q4_ratingBar,R.id.s5_q4_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,26,R.id.s5_q5_ratingBar,R.id.s5_q5_res,freqResponse,0,0,0);
+
+            setRatingBarListener(rootView,27,R.id.s6_q1_ratingBar,R.id.s6_q1_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,28,R.id.s6_q2_ratingBar,R.id.s6_q2_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,29,R.id.s6_q3_ratingBar,R.id.s6_q3_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,30,R.id.s6_q4_ratingBar,R.id.s6_q4_res,freqResponse,0,0,0);
+
+            setRatingBarListener(rootView,31,R.id.s7_q1_ratingBar,R.id.s7_q1_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,32,R.id.s7_q2_ratingBar,R.id.s7_q2_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,33,R.id.s7_q3_ratingBar,R.id.s7_q3_res,freqResponse,0,0,0);
+
+            setRatingBarListener(rootView,34,R.id.s8_q1_ratingBar,R.id.s8_q1_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,35,R.id.s8_q2_ratingBar,R.id.s8_q2_res,freqResponse,0,0,0);
+
             //setRatingBarListener(rootView, R.id.s1_s_ratingBar, R.id.s1_s_res, severeResponse);
             return rootView;
         }
@@ -366,7 +455,7 @@ public class Surveys extends AppCompatActivity {
                     q1_res.setVisibility(View.VISIBLE);
 
 
-                    if(getArguments().getInt(ARG_SECTION_NUMBER)==1) {  //If called from Symptoms view (1)
+                    if (getArguments().getInt(ARG_SECTION_NUMBER) == 1) {  //If called from Symptoms view (1)
                         if (hashMap.get(4f).toString().equalsIgnoreCase("Often")) { //all frequency questions
                             symptoms_f_response[q_id] = (int) rating;
                         } else {
@@ -374,10 +463,14 @@ public class Surveys extends AppCompatActivity {
                         }
                     }
 
-                    if(getArguments().getInt(ARG_SECTION_NUMBER)==2) {  //If called from Food diary view (2)
-                        fd_response[q_id]= hashMap.get(rating).toString();
+                    if (getArguments().getInt(ARG_SECTION_NUMBER) == 2) {  //If called from Food diary view (2)
+                        fd_response[q_id] = hashMap.get(rating).toString();
                     }
 
+                    if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {  //If called from QoL view (3)
+                       qol_response[q_id] = hashMap.get(rating).toString();
+
+                    }
                     //Disable severity question
                     if (next_q != 0) {   //non-zero mode for frequency questions
 
@@ -405,6 +498,7 @@ public class Surveys extends AppCompatActivity {
          * @param stringArrayId
          */
         public void populateSpinner(View view,int id,int spinId,int stringArrayId){
+            final View v = view;
             final int q_id = id;
             Spinner spinner = (Spinner) view.findViewById(spinId);//R.id.f1_spinner
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
@@ -416,6 +510,15 @@ public class Surveys extends AppCompatActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     fd_response[q_id] = stringArray[position];
+                    if (q_id == 3) {
+                        if (position == 3) {
+                            v.findViewById(R.id.fd_who_others_holder).setVisibility(View.VISIBLE);
+                        } else {
+                            v.findViewById(R.id.fd_who_others_holder).setVisibility(View.GONE);
+                        }
+
+                    }
+
                     Log.i("selected item", String.valueOf(position) + "and id is" + stringArray[position]);
                 }
 
@@ -436,6 +539,29 @@ public class Surveys extends AppCompatActivity {
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
                     fd_response[q_id] = ((RadioButton) v.findViewById(checkedId)).getText().toString();
+                }
+            });
+        }
+
+        public void onEditTextListener(View view,int id, int editTextId){
+            final View v = view;
+            final int q_id = id;
+            final EditText editText = (EditText) view.findViewById(editTextId);
+
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    fd_response[q_id]= String.valueOf(s);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
                 }
             });
         }
@@ -476,7 +602,7 @@ public class Surveys extends AppCompatActivity {
         String currentDateandTime = sdf.format(new Date());
         DataBaseManager dbm =new DataBaseManager(this);
         dbm.open();
-        boolean result=dbm.addFoodDiary(patientID, currentDateandTime, fd_response[2], fd_response[1], fd_response[3], fd_response[4], fd_response[5], fd_response[6], bytedata);
+        boolean result=dbm.addFoodDiary(patientID, currentDateandTime, fd_response[2], fd_response[1], fd_response[3], fd_response[4], fd_response[5], fd_response[6], bytedata,fd_response[7]);
         dbm.close();
         if(result) {
 
@@ -487,6 +613,13 @@ public class Surveys extends AppCompatActivity {
             Log.i("FoodDiary response","fd_response"+counter+" is "+i);
         }
         // TODO: 07-04-2016 add database queries here!
+    }
+
+    public void onQoLSubmit(View view){
+        int counter = 0;
+        for(String i : qol_response){
+            Log.i("QoL_response","qol"+counter+++i);
+        }
     }
 
     /**

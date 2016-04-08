@@ -37,8 +37,6 @@
                     android:layout_marginBottom="30dp"/>
 
 
-
-
             <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,6 +62,8 @@
                     android:layout_marginBottom="30dp"
                     android:prompt="@string/fd_which"/>
 
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,6 +79,25 @@
                 android:spinnerMode="dialog"
                 android:layout_marginBottom="30dp"
                 android:prompt="@string/fd_who"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:id="@+id/fd_who_others_holder"
+                android:visibility="gone">
+                <EditText
+                    android:id="@+id/fd_who_others"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="with others"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapWords"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -170,6 +189,37 @@
                     android:layout_height="wrap_content"
                     android:text="Yes"
                     android:id="@+id/fd_worry_y"
+                    android:checked="false" />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/fd_whosInput"
+                android:id="@+id/fd_whosInput_q"
+                android:layout_marginBottom="30dp" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/fd_whosInput"
+                android:layout_marginBottom="30dp">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"
+                    android:id="@+id/fd_whosInput_n"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"
+                    android:id="@+id/fd_whosInput_y"
                     android:checked="false" />
             </RadioGroup>
 
