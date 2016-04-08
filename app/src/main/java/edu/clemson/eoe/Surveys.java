@@ -102,7 +102,7 @@ public class Surveys extends AppCompatActivity {
         fd_response[7]=null;   //inputPerson
     }
 
-    private static final String[] qol_response = new String[36];
+    private static final String[] qol_response = new String[38];
     static{
         int counter = 1;
          //initialize all the array elements with null
@@ -142,6 +142,8 @@ public class Surveys extends AppCompatActivity {
         qol_response[33] = null;
         qol_response[34] = null;
         qol_response[35] = null;
+        qol_response[36] = null;
+        qol_response[37] = null;
 
     }
 
@@ -411,17 +413,21 @@ public class Surveys extends AppCompatActivity {
             setRatingBarListener(rootView,25,R.id.s5_q4_ratingBar,R.id.s5_q4_res,freqResponse,0,0,0);
             setRatingBarListener(rootView,26,R.id.s5_q5_ratingBar,R.id.s5_q5_res,freqResponse,0,0,0);
 
-            setRatingBarListener(rootView,27,R.id.s6_q1_ratingBar,R.id.s6_q1_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,28,R.id.s6_q2_ratingBar,R.id.s6_q2_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,29,R.id.s6_q3_ratingBar,R.id.s6_q3_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,30,R.id.s6_q4_ratingBar,R.id.s6_q4_res,freqResponse,0,0,0);
+            onRadioChange(rootView, 27, R.id.s6_s7);
 
-            setRatingBarListener(rootView,31,R.id.s7_q1_ratingBar,R.id.s7_q1_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,32,R.id.s7_q2_ratingBar,R.id.s7_q2_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,33,R.id.s7_q3_ratingBar,R.id.s7_q3_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,28, R.id.s6_q1_ratingBar, R.id.s6_q1_res, freqResponse, 0, 0, 0);
+            setRatingBarListener(rootView,29,R.id.s6_q2_ratingBar,R.id.s6_q2_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,30,R.id.s6_q3_ratingBar,R.id.s6_q3_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,31,R.id.s6_q4_ratingBar,R.id.s6_q4_res,freqResponse,0,0,0);
 
-            setRatingBarListener(rootView,34,R.id.s8_q1_ratingBar,R.id.s8_q1_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,35,R.id.s8_q2_ratingBar,R.id.s8_q2_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,32,R.id.s7_q1_ratingBar,R.id.s7_q1_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,33,R.id.s7_q2_ratingBar,R.id.s7_q2_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,34,R.id.s7_q3_ratingBar,R.id.s7_q3_res,freqResponse,0,0,0);
+
+            onRadioChange(rootView, 35, R.id.s8);
+
+            setRatingBarListener(rootView,36,R.id.s8_q1_ratingBar,R.id.s8_q1_res,freqResponse,0,0,0);
+            setRatingBarListener(rootView,37,R.id.s8_q2_ratingBar,R.id.s8_q2_res,freqResponse,0,0,0);
 
             //setRatingBarListener(rootView, R.id.s1_s_ratingBar, R.id.s1_s_res, severeResponse);
             return rootView;
@@ -468,7 +474,7 @@ public class Surveys extends AppCompatActivity {
                     }
 
                     if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {  //If called from QoL view (3)
-                       qol_response[q_id] = hashMap.get(rating).toString();
+                        qol_response[q_id] = hashMap.get(rating).toString();
 
                     }
                     //Disable severity question
@@ -538,7 +544,12 @@ public class Surveys extends AppCompatActivity {
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    fd_response[q_id] = ((RadioButton) v.findViewById(checkedId)).getText().toString();
+                    if (getArguments().getInt(ARG_SECTION_NUMBER) == 2) {  //If called from Food diary view (2)
+                        fd_response[q_id] = ((RadioButton) v.findViewById(checkedId)).getText().toString();
+                    }
+                    if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {  //If called from Food diary view (3)
+                        qol_response[q_id] = ((RadioButton) v.findViewById(checkedId)).getText().toString();
+                    }
                 }
             });
         }

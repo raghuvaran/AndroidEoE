@@ -832,6 +832,36 @@
                 android:layout_gravity="center_vertical" />
         </TableRow>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/s6_s7"
+            android:id="@+id/qol_s6_s7_q"
+            android:layout_marginBottom="30dp" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/s6_s7"
+            android:layout_marginBottom="30dp">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yes"
+                android:id="@+id/qol_s6_s7_y"
+                android:checked="false" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No"
+                android:id="@+id/qol_s6_s7_n"
+                android:checked="false" />
+        </RadioGroup>
 
         <TextView
             android:layout_width="wrap_content"
@@ -1059,6 +1089,37 @@
                 android:layout_marginBottom="15dp"
                 android:layout_gravity="center_vertical" />
         </TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/s8"
+            android:id="@+id/qol_s8_q"
+            android:layout_marginBottom="30dp" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/s8"
+            android:layout_marginBottom="30dp">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yes"
+                android:id="@+id/qol_s8_y"
+                android:checked="false" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No"
+                android:id="@+id/qol_s8_n"
+                android:checked="false" />
+        </RadioGroup>
 
 
         <TextView
