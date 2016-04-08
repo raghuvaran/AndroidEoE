@@ -318,8 +318,14 @@ if(isOnline()) {
 
         if (sharedPref.getBoolean("my_first_time", true)) {
             sharedPref.edit().putBoolean("my_first_time", false).commit();
-           sharedPref.edit().putString("patientName", patientName.getText().toString()).commit();
+           sharedPref.edit().putInt("patientID", Integer.parseInt(result.toString())).commit();
         }
+        DataBaseManager dbm =new DataBaseManager(getApplicationContext());
+        dbm.open();
+        boolean resultinternal= dbm.insertPatient(Integer.parseInt(result.toString()),patientName.getText().toString(), genderName, date, gradeName,ethnicityans,raceName,lenDisease.getText().toString(),famIncome.getText().toString(),fathEducation.getText().toString(),mothEducation.getText().toString());
+        dbm.close();
+
+
 
         Toast.makeText(getApplicationContext(), "You are now registered", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getApplicationContext(),Surveys.class);
@@ -335,16 +341,7 @@ if(isOnline()) {
 }
 
             //finish();
-         /*   DataBaseManager dbm =new DataBaseManager(getApplicationContext());
-            dbm.open();
-           boolean result= dbm.insertPatient(patientName.getText().toString(), genderName, date, gradeName,ethnicityans,raceName,lenDisease.getText().toString(),famIncome.getText().toString(),fathEducation.getText().toString(),mothEducation.getText().toString());
-            dbm.close();
-            if(result){
-
-                Toast.makeText(getApplicationContext(), "Patient details inserted ",
-                        Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, Surveys.class);
-                startActivity(intent);
+         /*
             }*/
 
         }

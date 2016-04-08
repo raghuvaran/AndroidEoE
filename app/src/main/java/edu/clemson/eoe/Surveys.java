@@ -1,6 +1,7 @@
 package edu.clemson.eoe;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.media.Rating;
 import android.support.design.widget.TabLayout;
@@ -34,11 +35,18 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 public class Surveys extends AppCompatActivity {
 
+
+
+     int patientID;
+    public static byte[] bytedata;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -92,6 +100,8 @@ public class Surveys extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPref = getSharedPreferences("myPref", 0);
+       patientID = sharedPref.getInt("patientID", 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_surveys);
 
@@ -197,6 +207,7 @@ public class Surveys extends AppCompatActivity {
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
+                 bytedata = getBitmapAsByteArray(photo);
                 imageView1.setImageBitmap(photo);
             }}
 
@@ -300,12 +311,13 @@ public class Surveys extends AppCompatActivity {
                 }
             });
 
+
             populateSpinner(rootView, 1, R.id.fd_where_spinner, R.array.fd_where_a);
             populateSpinner(rootView, 2, R.id.fd_which_spinner, R.array.fd_which_a);
             populateSpinner(rootView, 3, R.id.fd_who_spinner, R.array.fd_who_a);
             onRadioChange(rootView, 4, R.id.fd_fA);
-            onRadioChange(rootView,5,R.id.fd_fB);
-            onRadioChange(rootView,6,R.id.fd_worry);
+            onRadioChange(rootView, 5, R.id.fd_fB);
+            onRadioChange(rootView, 6, R.id.fd_worry);
 
 
             return rootView;
@@ -365,6 +377,7 @@ public class Surveys extends AppCompatActivity {
                     if(getArguments().getInt(ARG_SECTION_NUMBER)==2) {  //If called from Food diary view (2)
                         fd_response[q_id]= hashMap.get(rating).toString();
                     }
+
                     //Disable severity question
                     if (next_q != 0) {   //non-zero mode for frequency questions
 
@@ -422,7 +435,7 @@ public class Surveys extends AppCompatActivity {
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    fd_response[q_id] = ((RadioButton)v.findViewById(checkedId)).getText().toString();
+                    fd_response[q_id] = ((RadioButton) v.findViewById(checkedId)).getText().toString();
                 }
             });
         }
@@ -432,6 +445,11 @@ public class Surveys extends AppCompatActivity {
 //---------------Methods-Terminate-------------------//
     }
 
+    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
+        return outputStream.toByteArray();
+    }
     public void onSymptomsSubmit(View view){
         int counter = 0;
         for(int i:symptoms_f_response) {
@@ -454,6 +472,17 @@ public class Surveys extends AppCompatActivity {
 
     public void onFoodDiarySubmit(View view){
         int counter=0;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentDateandTime = sdf.format(new Date());
+        DataBaseManager dbm =new DataBaseManager(this);
+        dbm.open();
+        boolean result=dbm.addFoodDiary(patientID, currentDateandTime, fd_response[2], fd_response[1], fd_response[3], fd_response[4], fd_response[5], fd_response[6], bytedata);
+        dbm.close();
+        if(result) {
+
+            Toast.makeText(getApplicationContext(), "Survey details Inserted ",
+                    Toast.LENGTH_SHORT).show();
+        }
         for (String i:fd_response){
             Log.i("FoodDiary response","fd_response"+counter+" is "+i);
         }

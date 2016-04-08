@@ -5,8 +5,18 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Build;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.sql.Blob;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -15,7 +25,7 @@ import java.util.Date;
  * DataBaseManager class file to edit delete update and query the database
  */
 public class DataBaseManager {
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "EoE.db";
     public static final String TABLE_NAME_USERINFO = "userInfo";
     public static final String TABLE_NAME_FOODDIARY = "foodDiary";
@@ -48,14 +58,15 @@ public class DataBaseManager {
             "CREATE TABLE " + TABLE_NAME_FOODDIARY + " (" +
                     "foodDairyID" + " INTEGER PRIMARY KEY autoincrement not null," +
                     "user_patientid" + " INTEGER " + COMMA_SEP +
-                    "time " + " Date " +COMMA_SEP +
+                    "time "  + TEXT_TYPE +COMMA_SEP +
                     "whichMeal " +TEXT_TYPE + COMMA_SEP +
                     "wherel " +TEXT_TYPE + COMMA_SEP +
                     "who " +TEXT_TYPE + COMMA_SEP +
                     "feelBefore " +TEXT_TYPE + COMMA_SEP +
                     "feelAfter " +TEXT_TYPE + COMMA_SEP +
                     "allergic " +TEXT_TYPE + COMMA_SEP +
-                    "Image " +TEXT_TYPE + COMMA_SEP +
+                    "Image BLOB" +  COMMA_SEP +
+                     "whoIsInput " + TEXT_TYPE +
                     "FOREIGN KEY(user_patientid) REFERENCES " +
                     TABLE_NAME_USERINFO + "(patientID)" +
 
@@ -225,7 +236,7 @@ public class DataBaseManager {
     }
 
 //Method to insert pateint details into userinfo table
-    public boolean insertPatient(String PatientName,String genderName,String Date,String Gradename,
+    public boolean insertPatient(int PatientID,String PatientName,String genderName,String Date,String Gradename,
                                  String ethnicityans,String Racename, String lenDisease,String FamIncome,
                                  String FathEducation,String MothEducation) {
 
@@ -235,6 +246,7 @@ public class DataBaseManager {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         //values.put(DBHelper.COLUMN_NAME_LISTID, id);
+        values.put("patientID",PatientID);
         values.put("name", PatientName);
         values.put("birthDate", Date);
         values.put("gender", genderName);
@@ -267,6 +279,126 @@ public class DataBaseManager {
 
     }
 
+
+
+    public String uploadFile(final String source, int itemID) {
+        String ret="0";
+
+        String fileName = source;
+        HttpURLConnection conn = null;
+        DataOutputStream dos = null;
+        //Separators for the post data
+        String lineEnd = "\r\n";
+        String twoHyphens = "--";
+        String boundary = "*****";
+        int bytesRead, bytesAvailable, bufferSize;
+        byte[] buffer;
+        int maxBufferSize = 1024 * 1024;
+        File sourceFile = new File(source);
+
+        try {
+            FileInputStream fileInputStream = new FileInputStream(sourceFile);
+            //The php script
+            URL url = new URL("http://gedison.people.clemson.edu/ta/MyApp/saveImage.php");
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            conn.setUseCaches(false);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Connection", "Keep-Alive");
+            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+            conn.setRequestProperty("uploaded_file", fileName);
+
+            //Boundary
+            dos = new DataOutputStream(conn.getOutputStream());
+            dos.writeBytes(twoHyphens + boundary + lineEnd);
+
+            //$_Post['id']
+            dos.writeBytes("Content-Disposition: form-data; name=\"id\"" + lineEnd);
+            dos.writeBytes(lineEnd);
+            dos.writeBytes(itemID + "");
+            dos.writeBytes(lineEnd);
+            dos.writeBytes(twoHyphens + boundary + lineEnd);
+            dos.writeBytes(twoHyphens + boundary + lineEnd);
+
+            //$_FILE['uploaded_file']
+            dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\"" + fileName + "\"" + lineEnd);
+            dos.writeBytes(lineEnd);
+            bytesAvailable = fileInputStream.available();
+            bufferSize = Math.min(bytesAvailable, maxBufferSize);
+            buffer = new byte[bufferSize];
+            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+            while (bytesRead > 0) {
+                dos.write(buffer, 0, bufferSize);
+                bytesAvailable = fileInputStream.available();
+                bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+            }
+
+            //Boundary
+            dos.writeBytes(lineEnd);
+            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+            int serverResponseCode = conn.getResponseCode();
+            //Good return
+            if (serverResponseCode == 200 || serverResponseCode==201) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String line = br.readLine();
+                //The php script either returns a url or 0 if the upload failed
+                ret=line;
+            }
+
+            fileInputStream.close();
+            dos.flush();
+            dos.close();
+
+            //Return the result to our activity
+            return ret;
+
+        } catch (MalformedURLException ex) {
+            return ret;
+        } catch (final Exception e) {
+            return ret;
+        }
+    }
+    private SQLiteStatement FoodDiaryStatement = null;
+    public boolean addFoodDiary(int patientID,String DateTime,String meal,
+                             String where,String who ,String feelBefore,
+                             String feelAfter,String allergic,byte[] image){
+
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        //values.put(DBHelper.COLUMN_NAME_LISTID, id);
+        values.put("user_patientid", patientID);
+        values.put("time", DateTime);
+        values.put("whichMeal", meal);
+        values.put("wherel",where);
+        values.put("who",who);
+        values.put("feelBefore", feelBefore);
+        values.put("feelAfter", feelAfter);
+        values.put("allergic", allergic);
+        values.put("Image", image);
+       // values.put("motherEdu", MothEducation);
+
+        //    values.put("UpdateStatus",0);
+        // ContentValues initialValues = new ContentValues();
+        //initialValues.put("date_created", dateFormat.format(date));
+        // values.put(DBHelper.COLUMN_NAME_CONTENT, content);
+
+        // Insert the new row, returning the primary key value of the new row
+        long newRowId;
+        newRowId = db.insert(
+                TABLE_NAME_FOODDIARY,
+                null,
+                values);
+
+        if (newRowId == -1)
+            return false;
+        else
+            return true;
+        //
+        //
+    }
 
 
 }
