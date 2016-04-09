@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Rating;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -27,9 +26,9 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Base64;
+
 import android.util.Log;
-import android.util.Pair;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,16 +37,16 @@ import android.view.ViewGroup;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+
 import android.widget.EditText;
-import android.widget.ImageButton;
+
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.Spinner;
-import android.widget.TableLayout;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,17 +59,17 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.net.URLEncoder;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
+
 import java.util.concurrent.ExecutionException;
 
 public class Surveys extends AppCompatActivity {
@@ -78,8 +77,6 @@ public class Surveys extends AppCompatActivity {
 
 
      int patientID;
-    public static byte[] bytedata;
-    public static String test_bytedata;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 101;
     private static final int MY_ACTION_INTENT_IMAGE_CAPTURE = 201;
     public static String mCurrentPhotoPath;
@@ -137,8 +134,7 @@ public class Surveys extends AppCompatActivity {
 
     private static final String[] qol_response = new String[38];
     static{
-        int counter = 1;
-         //initialize all the array elements with null
+        //initialize all the array elements with null
         qol_response[0] = null;
         qol_response[1] = null;
         qol_response[2] = null;
@@ -208,6 +204,7 @@ public class Surveys extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_surveys, menu);
+        menu.add(2,11,1,"User Treatment").setIntent(new Intent(getApplicationContext(), UserTreatment.class));
         return true;
     }
 
@@ -710,7 +707,7 @@ public class Surveys extends AppCompatActivity {
         String currentDateandTime = sdf.format(new Date());
         DataBaseManager dbm =new DataBaseManager(this);
         dbm.open();
-        boolean result=dbm.addFoodDiary(patientID, currentDateandTime, fd_response[2], fd_response[1], fd_response[3], fd_response[4], fd_response[5], fd_response[6],fd_response[7],mCurrentPhotoPath );
+        boolean result=dbm.addFoodDiary(patientID, currentDateandTime, fd_response[2], fd_response[1], fd_response[3], fd_response[4], fd_response[5], fd_response[6],mCurrentPhotoPath, fd_response[7] );
         dbm.close();
         if(result) {
 

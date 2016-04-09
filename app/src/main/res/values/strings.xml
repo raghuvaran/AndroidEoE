@@ -85,6 +85,17 @@
     <string name="fd_worry">Are you worried there was something in your meal that make you feel bad?</string>
     <string name="fd_whosInput">Are you a parent?</string>
 
+    <string name="ut_1">Are you currently taking steroids for EoE?</string>
+    <string name="ut_2">Are you currently on any dietary therapies?</string>
+    <string name="ut_3">Food elimination?</string>
+    <string name="ut_4">Elemental diet?</string>
+    <string name="ut_5">Is your elimination diet based on …</string>
+    <string name="ut_6">Indicate the foods that you are eliminating from your diet</string>
+    <string name="ut_7">Exclusive elemental diet with no foods?</string>
+    <string name="ut_8">Supplemental formula with some allowable foods?</string>
+    <string name="ut_9">Are you currently participating in food trials?</string>
+    <string name="ut_10">Indicate the foods that you are currently eating …</string>
+
     <string name="ethnicity">Are you Hispanic,Latino or Spanish origin ?</string>
 
     <string-array name="ethnicity_a">

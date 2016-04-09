@@ -30,6 +30,10 @@
             android:label="@string/title_activity_surveys"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
+            android:name=".UserTreatment"
+            android:label="@string/title_activity_user_treatment"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".Settings"
             android:label="Settings"
             android:theme="@style/AppTheme.NoActionBar" />
