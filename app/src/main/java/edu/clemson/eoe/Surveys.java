@@ -1,10 +1,22 @@
 package edu.clemson.eoe;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Rating;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -39,11 +51,27 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class Surveys extends AppCompatActivity {
 
@@ -52,6 +80,9 @@ public class Surveys extends AppCompatActivity {
      int patientID;
     public static byte[] bytedata;
     public static String test_bytedata;
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 101;
+    private static final int MY_ACTION_INTENT_IMAGE_CAPTURE = 201;
+    public static String mCurrentPhotoPath;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -177,7 +208,6 @@ public class Surveys extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_surveys, menu);
-        menu.add(1, 11, 2, "New Sync");
         return true;
     }
 
@@ -188,10 +218,6 @@ public class Surveys extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if(id == 11){
-        onNewSync();
-        }
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent settingsIntent = new Intent(this, Settings.class);
@@ -201,12 +227,19 @@ public class Surveys extends AppCompatActivity {
             startActivity(settingsIntent);
             return true;
         }
+        else if(id==R.id.Sync){
+            try {
+                onSymptomsSync();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void onNewSync(){
-     System.out.println("ByteData : "+test_bytedata);
     }
 
 
@@ -265,10 +298,10 @@ public class Surveys extends AppCompatActivity {
          * @param data
          */
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
-            if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-                 bytedata = getBitmapAsByteArray(photo);
-                test_bytedata = Base64.encodeToString(bytedata, Base64.DEFAULT);
+            if (requestCode == MY_ACTION_INTENT_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+
+                Bitmap photo = BitmapFactory.decodeFile(mCurrentPhotoPath);
+                // bytedata = getBitmapAsByteArray(photo);
                 imageView1.setImageBitmap(photo);
             }}
 
@@ -366,11 +399,21 @@ public class Surveys extends AppCompatActivity {
 
                 @Override
                 public void onClick(View v) {
+                    //First Request permission to write to external storage, this is so you can get you file
+                    //from the camera after the picture has been taken.
+                    int permissionCheck = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    //If it's granted go to method takePicture
+                    if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                        takePicture();
+                        //Else ask the user for permission
+                    } else
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
                     //Camera to capture food item
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                    //Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    //startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 }
             });
+
 
             populateSpinner(rootView, 1, R.id.fd_where_spinner, R.array.fd_where_a);
             populateSpinner(rootView, 2, R.id.fd_which_spinner, R.array.fd_which_a);
@@ -384,6 +427,48 @@ public class Surveys extends AppCompatActivity {
 
             return rootView;
         }
+
+
+        public void takePicture() {
+            File photoFile = null;
+            try {
+                //First allocate space for the image
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+
+            }
+
+            //If you were able to create a file
+            if (photoFile != null) {
+                //Call the camera intent to take a picture
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                    startActivityForResult(takePictureIntent, MY_ACTION_INTENT_IMAGE_CAPTURE);
+                }
+            }
+        }
+
+
+        //This method creates a new file for you image to be stored at using a timestamp as a unique filename
+
+        private File createImageFile() throws IOException {
+            String FDtimeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String imageFileName = "JPEG_" + FDtimeStamp + "_";
+            File storageDir = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES);
+            File image = File.createTempFile(
+                    imageFileName,  /* prefix */
+                    ".jpg",         /* suffix */
+                    storageDir      /* directory */
+            );
+
+            mCurrentPhotoPath = image.getAbsolutePath();
+            return image;
+        }
+
+
+
 
         /**
          * OnCreate method for Symptoms layout
@@ -625,7 +710,7 @@ public class Surveys extends AppCompatActivity {
         String currentDateandTime = sdf.format(new Date());
         DataBaseManager dbm =new DataBaseManager(this);
         dbm.open();
-        boolean result=dbm.addFoodDiary(patientID, currentDateandTime, fd_response[2], fd_response[1], fd_response[3], fd_response[4], fd_response[5], fd_response[6], bytedata,fd_response[7]);
+        boolean result=dbm.addFoodDiary(patientID, currentDateandTime, fd_response[2], fd_response[1], fd_response[3], fd_response[4], fd_response[5], fd_response[6],fd_response[7],mCurrentPhotoPath );
         dbm.close();
         if(result) {
 
@@ -644,6 +729,189 @@ public class Surveys extends AppCompatActivity {
             Log.i("QoL_response","qol"+counter+++i);
         }
     }
+
+    public void onSymptomsSync() throws ExecutionException, InterruptedException, JSONException {
+
+        if (isOnline()) {
+            DataBaseManager dbm = new DataBaseManager(this);
+            dbm.open();
+            String status = dbm.getSyncStatus();
+            Toast.makeText(getApplicationContext(), dbm.getSyncStatus(),
+                    Toast.LENGTH_SHORT).show();
+            dbm.close();
+            SyncFoodDiary syncFoodDiary = new SyncFoodDiary();
+
+            if (status.equals("DB Sync neededn")) {
+                String url = "https://people.cs.clemson.edu/~sravira/Viewing/insertfoodDiary.php";
+                DataBaseManager dbmSync = new DataBaseManager(this);
+                dbmSync.open();
+                String Jsondata = dbmSync.composeJSONfromSQLite();
+                dbmSync.close();
+                JSONArray response = syncFoodDiary.execute(url, Jsondata).get();
+                if (response.toString().equals(null)) {
+                    Toast.makeText(Surveys.this, "Unable to establish connection. Try again!", Toast.LENGTH_SHORT).show();
+                    //check if there is a conflict with EXT database users
+                } else {
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject oneObject = response.getJSONObject(i);
+                        int id, updatestatus,ExtId;
+                        id = oneObject.getInt("foodDairyID");
+                        updatestatus = oneObject.getInt("status");
+                        ExtId=oneObject.getInt("DiaryID");
+                        DataBaseManager dbmupdate = new DataBaseManager(this);
+                        dbmupdate.open();
+                        dbmupdate.updateSyncStatus(id, updatestatus);
+                        dbmupdate.close();
+                        new ImageUploader(ExtId).execute(mCurrentPhotoPath);
+
+                    }
+                }
+            }
+        }
+        else
+        {
+            Toast.makeText(Surveys.this, "Please enable internet", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    public class SyncFoodDiary extends AsyncTask<String, Void, JSONArray> {
+
+
+        @Override
+        protected JSONArray doInBackground(String... params) {
+
+            String ret = null;
+            JSONArray  foodDiary;
+
+            try {
+
+                // Create the SSL connection
+
+                Log.d("database", "Doing: " + params[0]);
+                HttpURLConnection c = null;
+                URL u = new URL(params[0]);
+                String result = new String("");
+                c = (HttpURLConnection) u.openConnection();
+
+               // String data = "Jsondata" + "=" + URLEncoder.encode(params[1], "UTF-8");
+
+                c.setRequestMethod("POST");
+
+                c.setRequestProperty("Content-Type",
+                        "application/json; charset=UTF-8");
+                c.setDoOutput(true);
+                c.setDoInput(true);
+
+                c.setRequestProperty("Content-Length", "" +
+                        Integer.toString(params[1].getBytes().length));
+                c.setRequestProperty("Content-Language", "en-US");
+                //c.setRequestProperty("Content-length", "0");
+                c.setUseCaches(false);
+                c.setAllowUserInteraction(false);
+                c.setConnectTimeout(10000);
+                c.setReadTimeout(10000);
+                //Send request
+
+                DataOutputStream wr = new DataOutputStream(
+                        c.getOutputStream());
+                wr.writeBytes(params[1]);
+                wr.flush();
+                wr.close();
+                c.connect();
+
+                int status = c.getResponseCode();
+
+                if (status == 200 || status == 201) {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) sb.append(line + "\n");
+                    br.close();
+                    ret = sb.toString();
+
+                    Log.i("result",ret);
+
+
+                }
+                String actual = ret.toString().replace("{\"success\":true,\"results\":", "");
+                actual = actual.replace("]}", "]");
+                foodDiary=new JSONArray(actual);
+                return foodDiary;
+                //Log.i("result",result);
+               // return(result);
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (ProtocolException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+            //returns php output
+
+
+        }
+
+
+    }
+
+
+    //An async task to upload an image
+    private class ImageUploader extends AsyncTask<String, Void, String> {
+
+        private int itemID;
+
+        public ImageUploader(int itemID){
+            this.itemID = itemID;
+        }
+
+        protected String doInBackground(String... params) {
+            DataBaseManager db = new DataBaseManager(getApplicationContext());
+            db.open();
+            //All of my server code is located in DBAdapter, go to the method uploadFile to see how
+            //to finish uploading an image
+            String result=db.uploadFile(params[0], itemID);
+            db.close();
+            return result;
+
+        }
+
+        protected void onPostExecute(String url) {
+            super.onPostExecute(url);
+            //If the image loads successfully the php script will return the filename
+            if(!url.equals("0")){
+                DataBaseManager db = new DataBaseManager(getApplicationContext());
+                //Add it to your local db
+
+                //And then tell the user that the file was successfully uploaded
+                //In a real application you would want to check for Internet access before doing this
+                //and save the image for later upload if there was no access
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "File Upload Complete.", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+            }else{
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "File Upload Failed.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
+    }
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

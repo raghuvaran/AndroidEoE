@@ -663,6 +663,8 @@
                 android:onClick="onSymptomsSubmit"/>
 
 
+
+
         </TableLayout>
     </ScrollView>
 
