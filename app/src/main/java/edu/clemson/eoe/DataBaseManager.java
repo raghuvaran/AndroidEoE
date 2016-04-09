@@ -32,7 +32,7 @@ import java.util.HashMap;
  * DataBaseManager class file to edit delete update and query the database
  */
 public class DataBaseManager {
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "EoE.db";
     public static final String TABLE_NAME_USERINFO = "userInfo";
     public static final String TABLE_NAME_FOODDIARY = "foodDiary";
@@ -85,7 +85,7 @@ public class DataBaseManager {
             "CREATE TABLE " + TABLE_NAME_SYMPTOMS + " (" +
                     "peessid" + " INTEGER PRIMARY KEY autoincrement not null," +
                     "user_patientid" + " INTEGER " + COMMA_SEP +
-                    "time " + " Date " +COMMA_SEP +
+                    "time "  + TEXT_TYPE +COMMA_SEP +
                     "q1 " +TEXT_TYPE + COMMA_SEP +
                     "q2 " +TEXT_TYPE + COMMA_SEP +
                     "q3 " +TEXT_TYPE + COMMA_SEP +
@@ -106,6 +106,7 @@ public class DataBaseManager {
                     "q18 " +TEXT_TYPE + COMMA_SEP +
                     "q19 " +TEXT_TYPE + COMMA_SEP +
                     "q20 " +TEXT_TYPE + COMMA_SEP +
+                    "updateStatus INTEGER " + COMMA_SEP +
                     "FOREIGN KEY(user_patientid) REFERENCES " +
                     TABLE_NAME_USERINFO + "(patientID)" +
 
@@ -118,28 +119,45 @@ public class DataBaseManager {
             "CREATE TABLE " + TABLE_NAME_QOL + " (" +
                     "pedsQlid" + " INTEGER PRIMARY KEY autoincrement not null," +
                     "user_patientid" + " INTEGER " + COMMA_SEP +
-                    "time " + " Date " +COMMA_SEP +
-                    "s1q1 " +" INTEGER " + COMMA_SEP +
-                    "s1q2 " +" INTEGER " + COMMA_SEP +
-                    "s1q3 " +" INTEGER " + COMMA_SEP +
-                    "s1q4 " +" INTEGER " + COMMA_SEP +
-                    "s1q5 " +" INTEGER " + COMMA_SEP +
-                    "s1q6 " +" INTEGER " + COMMA_SEP +
-                    "s2q1 " +" INTEGER " + COMMA_SEP +
-                    "s2q2 " +" INTEGER " + COMMA_SEP +
-                    "s2q3 " +" INTEGER " + COMMA_SEP +
+                    "time " + " INTEGER " +COMMA_SEP +
+                    "s1q1 " +" INTEGER " +  COMMA_SEP +
+                    "s1q2 " +" INTEGER " +  COMMA_SEP +
+                    "s1q3 " +" INTEGER " +  COMMA_SEP +
+                    "s1q4 " +" INTEGER " +  COMMA_SEP +
+                    "s1q5 " +" INTEGER " +  COMMA_SEP +
+                    "s1q6 " +" INTEGER " +  COMMA_SEP +
+                    "s2q1 " +" INTEGER " +  COMMA_SEP +
+                    "s2q2 " +" INTEGER " +  COMMA_SEP +
+                    "s2q3 " +" INTEGER " +  COMMA_SEP +
                     "s2q4 " +" INTEGER " + COMMA_SEP +
-                    "t1q1 " +" INTEGER " + COMMA_SEP +
-                    "t1q2 " +" INTEGER " + COMMA_SEP +
-                    "t1q3 " +" INTEGER " + COMMA_SEP +
-                    "t1q4 " +" INTEGER " + COMMA_SEP +
-                    "t1q5 " +" INTEGER " + COMMA_SEP +
-                    "w1q1 " +" INTEGER " + COMMA_SEP +
-                    "w2q2 " +" INTEGER " + COMMA_SEP +
-                    "w3q3 " +" INTEGER " + COMMA_SEP +
-                    "w4q4 " +" INTEGER " + COMMA_SEP +
-                    "w5q5 " +" INTEGER " + COMMA_SEP +
-                    "w6q6 " +" INTEGER " + COMMA_SEP +
+                    "s3q1 " +" INTEGER " + COMMA_SEP +
+                    "s3q2 " +" INTEGER " + COMMA_SEP +
+                    "s3q3 " +" INTEGER " + COMMA_SEP +
+                    "s3q4 " +" INTEGER " + COMMA_SEP +
+                    "s3q5 " +" INTEGER " + COMMA_SEP +
+                    "s4q1 " +" INTEGER " + COMMA_SEP +
+                    "s4q2 " +" INTEGER " + COMMA_SEP +
+                    "s4q3 " +" INTEGER " + COMMA_SEP +
+                    "s4q4 " +" INTEGER " + COMMA_SEP +
+                    "s4q5 " +" INTEGER " + COMMA_SEP +
+                    "s4q6 " +" INTEGER " + COMMA_SEP +
+                    "s5q1 " +" INTEGER " + COMMA_SEP +
+                    "s5q2 " +" INTEGER " + COMMA_SEP +
+                    "s5q3 " +" INTEGER " + COMMA_SEP +
+                    "s5q4 " +" INTEGER " + COMMA_SEP +
+                    "s5q5 " +" INTEGER " + COMMA_SEP +
+                    "s67 " + " INTEGER " + COMMA_SEP +
+                    "s6q1 " +" INTEGER " + COMMA_SEP +
+                    "s6q2 " +" INTEGER " + COMMA_SEP +
+                    "s6q3 " +" INTEGER " + COMMA_SEP +
+                    "s6q4 " +" INTEGER " + COMMA_SEP +
+                    "s7q1 " +" INTEGER " + COMMA_SEP +
+                    "s7q2 " +" INTEGER " + COMMA_SEP +
+                    "s7q3 " +" INTEGER " + COMMA_SEP +
+                    "s8   " +" INTEGER " + COMMA_SEP +
+                    "s8q1 " +" INTEGER " + COMMA_SEP +
+                    "s8q2 " +" INTEGER " + COMMA_SEP +
+                    "updateStatus INTEGER " + COMMA_SEP +
                     "FOREIGN KEY(user_patientid) REFERENCES " +
                     TABLE_NAME_USERINFO + "(patientID)" +
 
@@ -195,11 +213,12 @@ public class DataBaseManager {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             // This database is only a cache for online data, so its upgrade policy is
            // to simply to discard the data and start over
-            db.execSQL(SQL_DELETE_ENTRIES_USERINFO);
+
             db.execSQL(SQL_DELETE_ENTRIES_SYMPTOMS);
 
             db.execSQL(SQL_DELETE_ENTRIES_QOL);
             db.execSQL(SQL_DELETE_ENTRIES_FOODDIARY);
+            db.execSQL(SQL_DELETE_ENTRIES_USERINFO);
 
             onCreate(db);
         }
@@ -254,17 +273,17 @@ public class DataBaseManager {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         //values.put(DBHelper.COLUMN_NAME_LISTID, id);
-        values.put("patientID",PatientID);
+        values.put("patientID", PatientID);
         values.put("name", PatientName);
         values.put("birthDate", Date);
         values.put("gender", genderName);
-        values.put("grade",Gradename);
-        values.put("ethnicity",ethnicityans);
-        values.put("race",Racename);
-        values.put("lengthOfDia",lenDisease);
-        values.put("income",FamIncome);
-        values.put("fatherEdu",FathEducation);
-        values.put("motherEdu",MothEducation);
+        values.put("grade", Gradename);
+        values.put("ethnicity", ethnicityans);
+        values.put("race", Racename);
+        values.put("lengthOfDia", lenDisease);
+        values.put("income", FamIncome);
+        values.put("fatherEdu", FathEducation);
+        values.put("motherEdu", MothEducation);
 
         //    values.put("UpdateStatus",0);
         // ContentValues initialValues = new ContentValues();
@@ -372,7 +391,7 @@ public class DataBaseManager {
     private SQLiteStatement FoodDiaryStatement = null;
     public boolean addFoodDiary(int patientID,String DateTime,String meal,
                              String where,String who ,String feelBefore,
-                             String feelAfter,String allergic,String image,String inputPerson){
+                             String feelAfter,String allergic,String inputPerson,String image){
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -405,6 +424,121 @@ public class DataBaseManager {
         return newRowId != -1;
         //
         //
+    }
+
+
+
+    public boolean addSymptoms(int patientID,String DateTime,int []frequency,int []severity)
+    {
+
+        ContentValues values = new ContentValues();
+        //values.put(DBHelper.COLUMN_NAME_LISTID, id);
+        values.put("user_patientid", patientID);
+        values.put("time", DateTime);
+        values.put("q1", frequency[1]);
+        values.put("q3", frequency[2]);
+        values.put("q5", frequency[3]);
+        values.put("q7", frequency[4]);
+        values.put("q9", frequency[5]);
+        values.put("q11", frequency[6]);
+        values.put("q13", frequency[7]);
+        values.put("q15", frequency[8]);
+        values.put("q17", frequency[9]);
+        values.put("q19", frequency[10]);
+        values.put("q20", frequency[11]);
+        values.put("q2", severity[1]);
+        values.put("q4", severity[2]);
+        values.put("q6", severity[3]);
+        values.put("q8", severity[4]);
+        values.put("q10", severity[5]);
+        values.put("q12", severity[6]);
+        values.put("q14", severity[7]);
+        values.put("q16", severity[8]);
+        values.put("q18", severity[9]);
+        values.put("updateStatus",0);
+
+
+        // values.put("motherEdu", MothEducation);
+
+        //    values.put("UpdateStatus",0);
+        // ContentValues initialValues = new ContentValues();
+        //initialValues.put("date_created", dateFormat.format(date));
+        // values.put(DBHelper.COLUMN_NAME_CONTENT, content);
+
+        // Insert the new row, returning the primary key value of the new row
+        long newRowId;
+        newRowId = db.insert(
+                TABLE_NAME_SYMPTOMS,
+                null,
+                values);
+
+        return newRowId != -1;
+    }
+
+    public boolean addQol(int patientID,String DateTime,int []qol)
+    {
+
+        ContentValues values = new ContentValues();
+        //values.put(DBHelper.COLUMN_NAME_LISTID, id);
+        values.put("user_patientid", patientID);
+        values.put("time", DateTime);
+        values.put("s1q1 ", qol[1]);
+        values.put("s1q2 ", qol[2]);
+        values.put("s1q3 ", qol[3]);
+        values.put("s1q4 ", qol[4]);
+        values.put("s1q5 ", qol[5]);
+        values.put("s1q6 ", qol[6]);
+        values.put("s2q1 ", qol[7]);
+        values.put("s2q2 ", qol[8]);
+        values.put("s2q3 ", qol[9]);
+        values.put("s2q4 ", qol[10]);
+        values.put("s3q1 ", qol[11]);
+        values.put("s3q2 ", qol[12]);
+        values.put("s3q3 ", qol[13]);
+        values.put("s3q4 ", qol[14]);
+        values.put("s3q5 ", qol[15]);
+        values.put("s4q1 ", qol[16]);
+        values.put("s4q2 ", qol[17]);
+        values.put("s4q3 ", qol[18]);
+        values.put("s4q4 ", qol[19]);
+        values.put("s4q5 ", qol[20]);
+        values.put("s4q6 ", qol[21]);
+        values.put("s5q1 ", qol[22]);
+        values.put("s5q2 ", qol[23]);
+        values.put("s5q3 ", qol[24]);
+        values.put("s5q4 ", qol[25]);
+        values.put("s5q5 ", qol[26]);
+        values.put("s67 ",  qol[27]);
+        values.put("s6q1 ", qol[28]);
+        values.put("s6q2 ", qol[29]);
+        values.put("s6q3 ", qol[30]);
+        values.put("s6q4 ", qol[31]);
+        values.put("s7q1 ", qol[32]);
+        values.put("s7q2 ", qol[33]);
+        values.put("s7q3 ", qol[34]);
+        values.put("s8   ", qol[35]);
+        values.put("s8q1 ", qol[36]);
+        values.put("s8q2 ", qol[37]);
+        values.put("updateStatus",0);
+//        values.put(,qol[18]);
+
+
+
+        // values.put("motherEdu", MothEducation);
+
+        //    values.put("UpdateStatus",0);
+        // ContentValues initialValues = new ContentValues();
+        //initialValues.put("date_created", dateFormat.format(date));
+        // values.put(DBHelper.COLUMN_NAME_CONTENT, content);
+
+        // Insert the new row, returning the primary key value of the new row
+        long newRowId;
+        newRowId = db.insert(
+                TABLE_NAME_QOL,
+                null,
+                values);
+
+        return newRowId != -1;
     }
 
     /**
@@ -488,6 +622,99 @@ public class DataBaseManager {
     }
 
 
+
+    public String composeJSONSymptomsfromSQLite(){
+        ArrayList<HashMap<String, String>> wordList;
+        wordList = new ArrayList<HashMap<String, String>>();
+        String selectQuery = "SELECT  * FROM symptoms where updateStatus = 0";
+        //  SQLiteDatabase database = this.getWritableDatabase();
+        JSONArray resultSet     = new JSONArray();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
+        while (cursor.isAfterLast() == false) {
+
+            int totalColumn = cursor.getColumnCount();
+            JSONObject rowObject = new JSONObject();
+
+            for( int i=0 ;  i< totalColumn ; i++ )
+            {
+                if( cursor.getColumnName(i) != null )
+                    try {
+                        int  Column_type = cursor.getType(i);
+                        if(Column_type==4)
+                        {
+                            byte[] byteArray = cursor.getBlob(i);
+
+                            //  Bitmap bm = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                            String img=  Base64.encodeToString(byteArray,Base64.DEFAULT);
+                            rowObject.put(cursor.getColumnName(i), img);
+                            Log.d("TAG_NAME", img);
+                        }
+                        else if (cursor.getString(i) != null) {
+                            Log.d("TAG_NAME", cursor.getString(i));
+
+                            rowObject.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        else{rowObject.put(cursor.getColumnName(i), "");}
+                    } catch (Exception e) {
+                        Log.d("TAG_NAME", e.getMessage());
+                    }
+            }
+            resultSet.put(rowObject);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        Log.d("TAG_NAME", resultSet.toString());
+        return resultSet.toString();
+    }
+
+
+    public String composeJSONQolfromSQLite(){
+        ArrayList<HashMap<String, String>> wordList;
+        wordList = new ArrayList<HashMap<String, String>>();
+        String selectQuery = "SELECT  * FROM QOL where updateStatus = 0";
+        //  SQLiteDatabase database = this.getWritableDatabase();
+        JSONArray resultSet     = new JSONArray();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
+        while (cursor.isAfterLast() == false) {
+
+            int totalColumn = cursor.getColumnCount();
+            JSONObject rowObject = new JSONObject();
+
+            for( int i=0 ;  i< totalColumn ; i++ )
+            {
+                if( cursor.getColumnName(i) != null )
+                    try {
+                        int  Column_type = cursor.getType(i);
+                        if(Column_type==4)
+                        {
+                            byte[] byteArray = cursor.getBlob(i);
+
+                            //  Bitmap bm = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                            String img=  Base64.encodeToString(byteArray,Base64.DEFAULT);
+                            rowObject.put(cursor.getColumnName(i), img);
+                            Log.d("TAG_NAME", img);
+                        }
+                        else if (cursor.getString(i) != null) {
+                            Log.d("TAG_NAME", cursor.getString(i));
+
+                            rowObject.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        else{rowObject.put(cursor.getColumnName(i), "");}
+                    } catch (Exception e) {
+                        Log.d("TAG_NAME", e.getMessage());
+                    }
+            }
+            resultSet.put(rowObject);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        Log.d("TAG_NAME", resultSet.toString());
+        return resultSet.toString();
+    }
+
+
     /**
      * Get Sync status of SQLite
      * @return
@@ -495,6 +722,33 @@ public class DataBaseManager {
     public String getSyncStatus(){
         String msg = null;
         if(this.dbSyncCount() == 0){
+            msg = "SQLite and Remote MySQL DBs are in Sync!";
+        }else{
+            msg = "DB Sync neededn";
+        }
+        return msg;
+    }
+    /**
+     * Get Sync status of SQLite
+     * @return
+     */
+    public String getSyncQolStatus(){
+        String msg = null;
+        if(this.dbSyncQolCount() == 0){
+            msg = "SQLite and Remote MySQL DBs are in Sync!";
+        }else{
+            msg = "DB Sync neededn";
+        }
+        return msg;
+    }
+
+    /**
+     * Get Sync Symptoms status of SQLite
+     * @return
+     */
+    public String getSyncSymptomsStatus(){
+        String msg = null;
+        if(this.dbSyncSymptomsCount() == 0){
             msg = "SQLite and Remote MySQL DBs are in Sync!";
         }else{
             msg = "DB Sync neededn";
@@ -516,6 +770,39 @@ public class DataBaseManager {
         return count;
     }
 
+
+    /**
+     * Get SQLite records that are yet to be Synced
+     * @return
+     */
+    public int dbSyncSymptomsCount(){
+        int count = 0;
+        String selectQuery = "SELECT  * FROM symptoms where updateStatus = 0";
+        // SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        count = cursor.getCount();
+        //database.close();
+        return count;
+    }
+
+
+    /**
+     * Get SQLite records that are yet to be Synced
+     * @return
+     */
+    public int dbSyncQolCount(){
+        int count = 0;
+        String selectQuery = "SELECT  * FROM QOL where updateStatus = 0";
+        // SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        count = cursor.getCount();
+        //database.close();
+        return count;
+    }
+
+
+
+
     /**
      * Update Sync status against each User ID
      * @param id
@@ -524,6 +811,22 @@ public class DataBaseManager {
     public void updateSyncStatus(int id, int status){
        // SQLiteDatabase database = this.getWritableDatabase();
         String updateQuery = "Update foodDiary set updateStatus = "+status+" where foodDairyID="+id +"";
+        Log.d("query", updateQuery);
+        db.execSQL(updateQuery);
+        //database.close();
+    }
+
+    public void updateSyncSymptomStatus(int id, int status){
+        // SQLiteDatabase database = this.getWritableDatabase();
+        String updateQuery = "Update symptoms set updateStatus = "+status+" where peessid="+id +"";
+        Log.d("query", updateQuery);
+        db.execSQL(updateQuery);
+        //database.close();
+    }
+
+    public void updateSyncQol(int id, int status){
+        // SQLiteDatabase database = this.getWritableDatabase();
+        String updateQuery = "Update QOL set updateStatus = "+status+" where pedsQlid="+id +"";
         Log.d("query", updateQuery);
         db.execSQL(updateQuery);
         //database.close();

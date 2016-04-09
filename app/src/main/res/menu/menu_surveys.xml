@@ -12,4 +12,14 @@
         android:orderInCategory="100"
         android:title="Sync"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/SyncSymptoms"
+        android:orderInCategory="100"
+        android:title="SyncSymptoms"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/SyncQOL"
+        android:orderInCategory="100"
+        android:title="SyncQOL"
+        app:showAsAction="never" />
 </menu>

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Rating;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -26,9 +27,9 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-
+import android.util.Base64;
 import android.util.Log;
-
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,16 +38,16 @@ import android.view.ViewGroup;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-
+import android.widget.Button;
 import android.widget.EditText;
-
+import android.widget.ImageButton;
 import android.widget.ImageView;
-
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.Spinner;
-
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,17 +60,17 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
-
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class Surveys extends AppCompatActivity {
@@ -132,47 +133,48 @@ public class Surveys extends AppCompatActivity {
         fd_response[7]=null;   //inputPerson
     }
 
-    private static final String[] qol_response = new String[38];
+    private static final int[] qol_response = new int[38];
     static{
-        //initialize all the array elements with null
-        qol_response[0] = null;
-        qol_response[1] = null;
-        qol_response[2] = null;
-        qol_response[3] = null;
-        qol_response[4] = null;
-        qol_response[5] = null;
-        qol_response[6] = null;
-        qol_response[7] = null;
-        qol_response[8] = null;
-        qol_response[9] = null;
-        qol_response[10] = null;
-        qol_response[11] = null;
-        qol_response[12] = null;
-        qol_response[13] = null;
-        qol_response[14] = null;
-        qol_response[15] = null;
-        qol_response[16] = null;
-        qol_response[17] = null;
-        qol_response[18] = null;
-        qol_response[19] = null;
-        qol_response[20] = null;
-        qol_response[21] = null;
-        qol_response[22] = null;
-        qol_response[23] = null;
-        qol_response[24] = null;
-        qol_response[25] = null;
-        qol_response[26] = null;
-        qol_response[27] = null;
-        qol_response[28] = null;
-        qol_response[29] = null;
-        qol_response[30] = null;
-        qol_response[31] = null;
-        qol_response[32] = null;
-        qol_response[33] = null;
-        qol_response[34] = null;
-        qol_response[35] = null;
-        qol_response[36] = null;
-        qol_response[37] = null;
+        int counter = 1;
+         //initialize all the array elements with null
+        qol_response[0] = -1;
+        qol_response[1] = -1;
+        qol_response[2] = -1;
+        qol_response[3] = -1;
+        qol_response[4] = -1;
+        qol_response[5] = -1;
+        qol_response[6] = -1;
+        qol_response[7] = -1;
+        qol_response[8] = -1;
+        qol_response[9] = -1;
+        qol_response[10] = -1;
+        qol_response[11] = -1;
+        qol_response[12] = -1;
+        qol_response[13] = -1;
+        qol_response[14] = -1;
+        qol_response[15] = -1;
+        qol_response[16] = -1;
+        qol_response[17] = -1;
+        qol_response[18] = -1;
+        qol_response[19] = -1;
+        qol_response[20] = -1;
+        qol_response[21] = -1;
+        qol_response[22] = -1;
+        qol_response[23] = -1;
+        qol_response[24] = -1;
+        qol_response[25] = -1;
+        qol_response[26] = -1;
+        qol_response[27] = -1;
+        qol_response[28] = -1;
+        qol_response[29] = -1;
+        qol_response[30] = -1;
+        qol_response[31] = -1;
+        qol_response[32] = -1;
+        qol_response[33] = -1;
+        qol_response[34] = -1;
+        qol_response[35] = -1;
+        qol_response[36] = -1;
+        qol_response[37] = -1;
 
     }
 
@@ -226,6 +228,17 @@ public class Surveys extends AppCompatActivity {
         }
         else if(id==R.id.Sync){
             try {
+                onFoodDiarySync();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(id==R.id.SyncSymptoms){
+            try {
                 onSymptomsSync();
             } catch (ExecutionException e) {
                 e.printStackTrace();
@@ -236,10 +249,111 @@ public class Surveys extends AppCompatActivity {
             }
         }
 
+        else if(id==R.id.SyncQOL){
+            try {
+                onQOLSync();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+
         return super.onOptionsItemSelected(item);
     }
 
+    private void onQOLSync() throws ExecutionException, InterruptedException, JSONException {
+        if (isOnline()) {
+            DataBaseManager dbm = new DataBaseManager(this);
+            dbm.open();
+            String status = dbm.getSyncQolStatus();
+            Toast.makeText(getApplicationContext(), dbm.getSyncQolStatus(),
+                    Toast.LENGTH_SHORT).show();
+            dbm.close();
+            SyncQol syncQol = new SyncQol();
 
+            if (status.equals("DB Sync neededn")) {
+                String url = "https://people.cs.clemson.edu/~sravira/Viewing/insertQol.php";
+                DataBaseManager dbmSync = new DataBaseManager(this);
+                dbmSync.open();
+                String Jsondata = dbmSync.composeJSONQolfromSQLite();
+                dbmSync.close();
+                JSONArray response = syncQol.execute(url, Jsondata).get();
+                if (response.toString().equals(null)) {
+                    Toast.makeText(Surveys.this, "Unable to establish connection. Try again!", Toast.LENGTH_SHORT).show();
+                    //check if there is a conflict with EXT database users
+                } else {
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject oneObject = response.getJSONObject(i);
+                        int id, updatestatus,ExtId;
+                        id = oneObject.getInt("QolID");
+                        updatestatus = oneObject.getInt("status");
+
+                        DataBaseManager dbmupdate = new DataBaseManager(this);
+                        dbmupdate.open();
+                        dbmupdate.updateSyncQol(id, updatestatus);
+                        dbmupdate.close();
+
+
+                    }
+                }
+            }
+        }
+        else
+        {
+            Toast.makeText(Surveys.this, "Please enable internet", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void onSymptomsSync() throws ExecutionException, InterruptedException, JSONException {
+        if (isOnline()) {
+            DataBaseManager dbm = new DataBaseManager(this);
+            dbm.open();
+            String status = dbm.getSyncSymptomsStatus();
+            Toast.makeText(getApplicationContext(), dbm.getSyncSymptomsStatus(),
+                    Toast.LENGTH_SHORT).show();
+            dbm.close();
+            SyncSymptoms syncSymptoms = new SyncSymptoms();
+
+            if (status.equals("DB Sync neededn")) {
+                String url = "https://people.cs.clemson.edu/~sravira/Viewing/insertSymptoms.php";
+                DataBaseManager dbmSync = new DataBaseManager(this);
+                dbmSync.open();
+                String Jsondata = dbmSync.composeJSONSymptomsfromSQLite();
+                dbmSync.close();
+                JSONArray response = syncSymptoms.execute(url, Jsondata).get();
+                if (response.toString().equals(null)) {
+                    Toast.makeText(Surveys.this, "Unable to establish connection. Try again!", Toast.LENGTH_SHORT).show();
+                    //check if there is a conflict with EXT database users
+                } else {
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject oneObject = response.getJSONObject(i);
+                        int id, updatestatus,ExtId;
+                        id = oneObject.getInt("symptomID");
+                        updatestatus = oneObject.getInt("status");
+
+                        DataBaseManager dbmupdate = new DataBaseManager(this);
+                        dbmupdate.open();
+                        dbmupdate.updateSyncSymptomStatus(id, updatestatus);
+                        dbmupdate.close();
+
+
+                    }
+                }
+            }
+        }
+        else
+        {
+            Toast.makeText(Surveys.this, "Please enable internet", Toast.LENGTH_SHORT).show();
+        }
+
+    }
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -568,7 +682,7 @@ public class Surveys extends AppCompatActivity {
                     }
 
                     if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {  //If called from QoL view (3)
-                        qol_response[q_id] = hashMap.get(rating).toString();
+                        qol_response[q_id] = (int) rating;
 
                     }
                     //Disable severity question
@@ -642,7 +756,12 @@ public class Surveys extends AppCompatActivity {
                         fd_response[q_id] = ((RadioButton) v.findViewById(checkedId)).getText().toString();
                     }
                     if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {  //If called from Food diary view (3)
-                        qol_response[q_id] = ((RadioButton) v.findViewById(checkedId)).getText().toString();
+                        if(((RadioButton) v.findViewById(checkedId)).getText().toString().equalsIgnoreCase("yes")){
+                            qol_response[q_id] = 1;
+                        }else{
+                            qol_response[q_id] = 0;
+                        }
+
                     }
                 }
             });
@@ -687,7 +806,8 @@ public class Surveys extends AppCompatActivity {
             Log.i("Symtoms response_f"+ (counter++), String.valueOf(i));
         }
         counter = 0;
-        for(int i:symptoms_s_response) {
+        for(int i:symptoms_s_response)
+        {
             Log.i("Symtoms response_s"+(counter++), String.valueOf(i));
         }
 
@@ -698,6 +818,19 @@ public class Surveys extends AppCompatActivity {
          * symptoms_f_response[11] -> question_11_frequency
          * symptoms_s_response[9] -> question_9_severity
          */
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentDateandTime = sdf.format(new Date());
+        DataBaseManager dbm =new DataBaseManager(getApplicationContext());
+        dbm.open();
+      boolean result=  dbm.addSymptoms(patientID,currentDateandTime,symptoms_f_response,symptoms_s_response);
+        dbm.close();
+        if(result) {
+
+            Toast.makeText(getApplicationContext(), "Symptoms details Inserted ",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+
 
     }
 
@@ -722,12 +855,24 @@ public class Surveys extends AppCompatActivity {
 
     public void onQoLSubmit(View view){
         int counter = 0;
-        for(String i : qol_response){
+        for(int i : qol_response){
             Log.i("QoL_response","qol"+counter+++i);
         }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentDateandTime = sdf.format(new Date());
+        DataBaseManager dbm =new DataBaseManager(getApplicationContext());
+        dbm.open();
+        boolean result=  dbm.addQol(patientID, currentDateandTime, qol_response);
+        dbm.close();
+        if(result) {
+
+            Toast.makeText(getApplicationContext(), "Qol details Inserted ",
+                    Toast.LENGTH_SHORT).show();
+        }
+
     }
 
-    public void onSymptomsSync() throws ExecutionException, InterruptedException, JSONException {
+    public void onFoodDiarySync() throws ExecutionException, InterruptedException, JSONException {
 
         if (isOnline()) {
             DataBaseManager dbm = new DataBaseManager(this);
@@ -862,6 +1007,175 @@ public class Surveys extends AppCompatActivity {
 
     }
 
+
+    public class SyncSymptoms extends AsyncTask<String, Void, JSONArray> {
+
+
+        @Override
+        protected JSONArray doInBackground(String... params) {
+
+            String ret = null;
+            JSONArray  foodDiary;
+
+            try {
+
+                // Create the SSL connection
+
+                Log.d("database", "Doing: " + params[0]);
+                HttpURLConnection c = null;
+                URL u = new URL(params[0]);
+                String result = new String("");
+                c = (HttpURLConnection) u.openConnection();
+
+                // String data = "Jsondata" + "=" + URLEncoder.encode(params[1], "UTF-8");
+
+                c.setRequestMethod("POST");
+
+                c.setRequestProperty("Content-Type",
+                        "application/json; charset=UTF-8");
+                c.setDoOutput(true);
+                c.setDoInput(true);
+
+                c.setRequestProperty("Content-Length", "" +
+                        Integer.toString(params[1].getBytes().length));
+                c.setRequestProperty("Content-Language", "en-US");
+                //c.setRequestProperty("Content-length", "0");
+                c.setUseCaches(false);
+                c.setAllowUserInteraction(false);
+                c.setConnectTimeout(10000);
+                c.setReadTimeout(10000);
+                //Send request
+
+                DataOutputStream wr = new DataOutputStream(
+                        c.getOutputStream());
+                wr.writeBytes(params[1]);
+                wr.flush();
+                wr.close();
+                c.connect();
+
+                int status = c.getResponseCode();
+
+                if (status == 200 || status == 201) {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) sb.append(line + "\n");
+                    br.close();
+                    ret = sb.toString();
+
+                    Log.i("result",ret);
+
+
+                }
+                String actual = ret.toString().replace("{\"success\":true,\"results\":", "");
+                actual = actual.replace("]}", "]");
+                foodDiary=new JSONArray(actual);
+                return foodDiary;
+                //Log.i("result",result);
+                // return(result);
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (ProtocolException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+            //returns php output
+
+
+        }
+
+
+    }
+
+
+    public class SyncQol extends AsyncTask<String, Void, JSONArray> {
+
+
+        @Override
+        protected JSONArray doInBackground(String... params) {
+
+            String ret = null;
+            JSONArray  foodDiary;
+
+            try {
+
+                // Create the SSL connection
+
+                Log.d("database", "Doing: " + params[0]);
+                HttpURLConnection c = null;
+                URL u = new URL(params[0]);
+                String result = new String("");
+                c = (HttpURLConnection) u.openConnection();
+
+                // String data = "Jsondata" + "=" + URLEncoder.encode(params[1], "UTF-8");
+
+                c.setRequestMethod("POST");
+
+                c.setRequestProperty("Content-Type",
+                        "application/json; charset=UTF-8");
+                c.setDoOutput(true);
+                c.setDoInput(true);
+
+                c.setRequestProperty("Content-Length", "" +
+                        Integer.toString(params[1].getBytes().length));
+                c.setRequestProperty("Content-Language", "en-US");
+                //c.setRequestProperty("Content-length", "0");
+                c.setUseCaches(false);
+                c.setAllowUserInteraction(false);
+                c.setConnectTimeout(10000);
+                c.setReadTimeout(10000);
+                //Send request
+
+                DataOutputStream wr = new DataOutputStream(
+                        c.getOutputStream());
+                wr.writeBytes(params[1]);
+                wr.flush();
+                wr.close();
+                c.connect();
+
+                int status = c.getResponseCode();
+
+                if (status == 200 || status == 201) {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) sb.append(line + "\n");
+                    br.close();
+                    ret = sb.toString();
+
+                    Log.i("result",ret);
+
+
+                }
+                String actual = ret.toString().replace("{\"success\":true,\"results\":", "");
+                actual = actual.replace("]}", "]");
+                foodDiary=new JSONArray(actual);
+                return foodDiary;
+                //Log.i("result",result);
+                // return(result);
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (ProtocolException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+            //returns php output
+
+
+        }
+
+
+    }
 
     //An async task to upload an image
     private class ImageUploader extends AsyncTask<String, Void, String> {
