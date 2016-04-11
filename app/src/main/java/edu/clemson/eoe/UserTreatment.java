@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -68,10 +69,20 @@ public class UserTreatment extends AppCompatActivity {
             e.printStackTrace();
         }
         View rootView;
+        long different = input.getTime() - currentdate.getTime();
+        long secondsInMilli = 1000;
+        long minutesInMilli = secondsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+        long daysInMilli = hoursInMilli * 24;
+        long elapsedDays = different / daysInMilli;
+        different = different % daysInMilli;
         if(input.compareTo(currentdate) >0)
         {
-            Log.i("Date","after");
+            Log.i("Date", "after");
             setContentView(R.layout.symtons_survey_na);
+            TextView diff;
+            diff=(TextView)findViewById(R.id.symtoms_survey_avail);
+            diff.setText("Survey will be avialabel in "+elapsedDays +" Days ");
             //Add a new layout xml here
         }
         else {

@@ -74,6 +74,9 @@ public class Surveys extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 101;
     private static final int MY_ACTION_INTENT_IMAGE_CAPTURE = 201;
     public static String mCurrentPhotoPath;
+   //final TextView diff=(TextView)findViewById(R.id.dateDiff);;
+
+
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -118,6 +121,7 @@ public class Surveys extends AppCompatActivity {
     }
     private static final String[] fd_response = new String[8];
     static {
+        fd_response[0]="0";
         fd_response[1]=null;   //where
         fd_response[2]=null;   //which
         fd_response[3]=null;   //who
@@ -191,7 +195,7 @@ public class Surveys extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
+       // diff=(TextView)findViewById(R.id.dateDiff);
 
     }
 
@@ -487,6 +491,7 @@ public class Surveys extends AppCompatActivity {
 
                 case 3: return onCreateQOL(inflater,container,savedInstanceState);
 
+
                 default:
                     rootView = inflater.inflate(R.layout.fragment_surveys, container, false);
                     TextView textView = (TextView) rootView.findViewById(R.id.section_label);
@@ -498,6 +503,11 @@ public class Surveys extends AppCompatActivity {
 
 //--------------onCreate-Methods-Begin-------------------//
 
+        public void setText(View v,String text){
+            TextView textView = (TextView) v.findViewById(R.id.symtoms_survey_avail);
+            textView.setText(text);
+        }
+
         /**
          * OnCreate method for Symptoms layout
          * @param inflater
@@ -505,8 +515,11 @@ public class Surveys extends AppCompatActivity {
          * @param savedInstanceState
          * @return
          */
+
+
         public View onCreateSymptoms(LayoutInflater inflater, ViewGroup container,
                                      Bundle savedInstanceState)  {
+
             DataBaseManager dbm =new DataBaseManager(getContext());
             dbm.open();
             Cursor time=dbm.getSYmptomstime();
@@ -533,11 +546,24 @@ public class Surveys extends AppCompatActivity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            long different = input.getTime() - currentdate.getTime();
+            long secondsInMilli = 1000;
+            long minutesInMilli = secondsInMilli * 60;
+            long hoursInMilli = minutesInMilli * 60;
+            long daysInMilli = hoursInMilli * 24;
+            long elapsedDays = different / daysInMilli;
+            different = different % daysInMilli;
+
+
             View rootView;
             if(input.compareTo(currentdate) >0)
             {
+
                 Log.i("Date","after");
+
                  rootView = inflater.inflate(R.layout.symtons_survey_na, container, false);
+                setText(rootView,"Survey will be available in  "+elapsedDays+" Days");
+               // diff.setText(""+different+"Days");
                 //Add a new layout xml here
             }
             else {
@@ -702,11 +728,24 @@ public class Surveys extends AppCompatActivity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            long different = input.getTime() - currentdate.getTime();
+            long secondsInMilli = 1000;
+            long minutesInMilli = secondsInMilli * 60;
+            long hoursInMilli = minutesInMilli * 60;
+            long daysInMilli = hoursInMilli * 24;
+            long elapsedDays = different / daysInMilli;
+            different = different % daysInMilli;
+
+
             View rootView;
             if(input.compareTo(currentdate) >0)
             {
+
                 Log.i("Date","after");
+
                 rootView = inflater.inflate(R.layout.symtons_survey_na, container, false);
+                setText(rootView,"Survey will be available in  "+elapsedDays+" Days");
+                // diff.setText(""+different+"Days");
                 //Add a new layout xml here
             }
             else {
@@ -922,6 +961,7 @@ public class Surveys extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
         return outputStream.toByteArray();
     }
+
     public void onSymptomsSubmit(View view){
         int counter = 0;
 
@@ -997,7 +1037,7 @@ public class Surveys extends AppCompatActivity {
             String currentDateandTime = sdf.format(new Date());
             DataBaseManager dbm = new DataBaseManager(this);
             dbm.open();
-            boolean result = dbm.addFoodDiary(patientID, currentDateandTime, fd_response[2], fd_response[1], fd_response[3], fd_response[4], fd_response[5], fd_response[6], mCurrentPhotoPath, fd_response[7]);
+            boolean result = dbm.addFoodDiary(patientID, currentDateandTime, fd_response[2], fd_response[1], fd_response[3], fd_response[4], fd_response[5], fd_response[6], fd_response[7],mCurrentPhotoPath);
             dbm.close();
             if (result) {
 
@@ -1073,7 +1113,15 @@ public class Surveys extends AppCompatActivity {
                         dbmupdate.open();
                         dbmupdate.updateSyncStatus(id, updatestatus);
                         dbmupdate.close();
-                        new ImageUploader(ExtId).execute(mCurrentPhotoPath);
+                        DataBaseManager dbmgetphoto = new DataBaseManager(this);
+                        dbmgetphoto.open();
+                        Cursor res =dbmgetphoto.getPhotoPath(id);
+                        res.moveToFirst();
+                        String internalphotopath=res.getString(res
+                                .getColumnIndex("Image"));
+                        dbmgetphoto.close();
+
+                        new ImageUploader(ExtId).execute(internalphotopath);
 
                     }
                 }

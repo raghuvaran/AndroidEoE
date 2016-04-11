@@ -1017,6 +1017,15 @@ public class DataBaseManager {
         //database.close();
     }
 
+    public Cursor getPhotoPath(int id){
+        // SQLiteDatabase database = this.getWritableDatabase();
+        String selectQuery = "Select Image from foodDiary where foodDairyID="+id+"";
+        Log.d("query", selectQuery);
+        Cursor res= db.rawQuery(selectQuery,null);
+        return res;
+        //database.close();
+    }
+
 
 
 
