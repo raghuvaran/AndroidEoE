@@ -89,20 +89,35 @@
     <string name="ut_2">Are you currently on any dietary therapies?</string>
     <string name="ut_3">Food elimination?</string>
     <string name="ut_4">Elemental diet?</string>
-    <string name="ut_5">Is your elimination diet based on …</string>
+    <string name="ut_5">Is your elimination diet based on …  </string>
     <string name="ut_6">Indicate the foods that you are eliminating from your diet</string>
     <string name="ut_7">Exclusive elemental diet with no foods?</string>
     <string name="ut_8">Supplemental formula with some allowable foods?</string>
     <string name="ut_9">Are you currently participating in food trials?</string>
     <string name="ut_10">Indicate the foods that you are currently eating …</string>
 
-    <string name="ethnicity">Are you Hispanic,Latino or Spanish origin ?</string>
+    <string name="ethnicity">Are you Hispanic or Latino origin ?</string>
 
     <string-array name="ethnicity_a">
         <item>Yes</item>
         <item>No</item>
 
     </string-array>
+
+    <string-array name="fatherEdu_a">
+        <item>B.Sc</item>
+        <item>MS</item>
+        <item>PhD</item>
+
+    </string-array>
+
+    <string-array name="motherEdu_a">
+        <item>B.Sc</item>
+        <item>MS</item>
+        <item>PhD</item>
+
+    </string-array>
+
 
     <string name="Grade">Grade</string>
 
@@ -123,12 +138,33 @@
         <item>12th</item>
     </string-array>
 
-    <string name="Race">Choose Race</string>
+    <string name="Race">What is your race? </string>
 
     <string-array name="Race_a">
+        <item>White</item>
+        <item>Black or African American</item>
+        <item>American Indian or Alaska Native</item>
         <item>Asian</item>
-        <item>American</item>
-        <item>Black</item>
+        <item>Pacific Islander</item>
+        <item>Other race</item>
+    </string-array>
+
+    <string-array name="disease_a">
+        <item>Less than 1 year</item>
+        <item>1 – 5 years</item>
+        <item>Greater than 5 years</item>
+
+    </string-array>
+
+
+    <string-array name="householdIncome_a">
+        <item>Less than $10,000</item>
+        <item>$10,000 to $14,999</item>
+        <item>$15,000 to $24,999</item>
+        <item>$25,000 to $34,999</item>
+        <item>$35,000 to $49,999</item>
+        <item>$75,000 to $99,999</item>
+        <item>$100,000 or more</item>
     </string-array>
 
     <string-array name="fd_where_a">

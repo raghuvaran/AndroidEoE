@@ -11,10 +11,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -38,18 +43,20 @@ import java.util.concurrent.ExecutionException;
 public class RegActivity extends AppCompatActivity {
 
     Button dobButton;
-    int year_DOB=0, month_DOB=0, day_DOB=0;
+    int year_DOB, month_DOB, day_DOB;
     EditText patientName;
     RadioGroup gender;
     RadioButton radioSexButton;
-    EditText lenDisease;
-    EditText fathEducation;
-    EditText mothEducation;
-    EditText famIncome;
+    Spinner lenDisease;
+    Spinner fathEducation;
+    //EditText otherrace;
+    Spinner mothEducation;
+    Spinner famIncome;
     Spinner grade;
     Spinner race;
     Spinner ethnicity;
     SharedPreferences sharedPref;
+    String raceName;
 
 
     @Override
@@ -71,39 +78,111 @@ public class RegActivity extends AppCompatActivity {
         //initializing DOB with today's values
         Calendar calendar = Calendar.getInstance();
         year_DOB= calendar.get(Calendar.YEAR);
-        month_DOB= calendar.get(Calendar.MONTH);
+        month_DOB= calendar.get(Calendar.MONTH)+1;
         day_DOB= calendar.get(Calendar.DAY_OF_MONTH);
         patientName =(EditText) findViewById(R.id.addtitle);
-        lenDisease =(EditText) findViewById(R.id.disease);
-        fathEducation =(EditText) findViewById(R.id.fatheredu);
-        mothEducation =(EditText) findViewById(R.id.motheredu);
-        famIncome =(EditText) findViewById(R.id.familyInc);
+        lenDisease =(Spinner)findViewById(R.id.disease_Spinner);
+        fathEducation =( Spinner) findViewById(R.id.fatheredu_Spinner);
+        mothEducation =( Spinner) findViewById(R.id.motheredu_Spinner);
+        famIncome =(Spinner)findViewById(R.id.familyInc_Spinner);
         gender=(RadioGroup) findViewById(R.id.gender);
         grade =(Spinner)findViewById(R.id.grade_Spinner);
         race =(Spinner)findViewById(R.id.Race_spinner);
         ethnicity =(Spinner)findViewById(R.id.ethinicity_Spinner);
+        //otherrace =(EditText) findViewById(R.id.Reg_other);
+
         //DOB button
         dobButton = (Button) findViewById(R.id.DOBbutton);
         dobButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog(1);
+                try {hideKeyboard(v);}catch (Exception e){}
+
             }
+
         });
 
         populateSpinner(R.id.Race_spinner, R.array.Race_a);
-
         populateSpinner(R.id.ethinicity_Spinner, R.array.ethnicity_a);
         populateSpinner(R.id.grade_Spinner,R.array.Grade_a);
+        populateSpinner(R.id.disease_Spinner,R.array.disease_a);
+        populateSpinner(R.id.familyInc_Spinner,R.array.householdIncome_a);
+        populateSpinner(R.id.fatheredu_Spinner,R.array.fatherEdu_a);
+        populateSpinner(R.id.motheredu_Spinner,R.array.motherEdu_a);
+        onEditTextListener(R.id.Reg_other);
 
     }
 
-    public void populateSpinner(int spinId,int stringArrayId){
+    private void hideKeyboard(View v) {
+        InputMethodManager inputManager =
+                (InputMethodManager) getApplicationContext().
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(
+                this.getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    private void onEditTextListener(int reg_other) {
+        final EditText editText = (EditText) findViewById(reg_other);
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                raceName= String.valueOf(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    public void populateSpinner(final int spinId,int stringArrayId){
+        //final View v = view;
+
         Spinner spinner = (Spinner) findViewById(spinId);//R.id.f1_spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 stringArrayId, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        final String[] stringArray =getResources().getStringArray(stringArrayId);
+        spinner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                try {hideKeyboard(v);}catch (Exception e){}
+                return false;
+            }
+        }) ;
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                raceName = stringArray[position];
+                if (spinId == R.id.Race_spinner) {
+                    if (position == 5) {
+
+                        findViewById(R.id.Reg_other_race).setVisibility(View.VISIBLE);
+                    } else {
+                        findViewById(R.id.Reg_other_race).setVisibility(View.GONE);
+                    }
+
+
+                    Log.i("selected item", String.valueOf(position) + "and id is" + stringArray[position]);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
 
     }
@@ -118,7 +197,7 @@ public class RegActivity extends AppCompatActivity {
     protected Dialog onCreateDialog(int id){
         if(id == 1){
             //Create a Datepicker Dialog on click of DOB button
-            return new DatePickerDialog(this, dpListener, year_DOB,month_DOB,day_DOB );
+            return new DatePickerDialog(this, dpListener, year_DOB,month_DOB-1,day_DOB );
         }
         return null;
     }
@@ -239,39 +318,25 @@ public class RegActivity extends AppCompatActivity {
             patientName.requestFocus();
             patientName.setError("FIELD CANNOT BE EMPTY");
         }
-        else if(famIncome.length()==0)
-        {
-            famIncome.requestFocus();
-            famIncome.setError("FIELD CANNOT BE EMPTY");
-        }
-        else if(lenDisease.length()==0)
-        {
-            lenDisease.requestFocus();
-            lenDisease.setError("FIELD CANNOT BE EMPTY");
-        }
-        else if(fathEducation.length()==0)
-        {
-            fathEducation.requestFocus();
-            fathEducation.setError("FIELD CANNOT BE EMPTY");
-        }
-        else if(mothEducation.length()==0)
-        {
-            mothEducation.requestFocus();
-            mothEducation.setError("FIELD CANNOT BE EMPTY");
-        }
+
+
 
         else if(year_DOB>=calendar.get(Calendar.YEAR)&& month_DOB>=calendar.get(Calendar.MONTH )+1 && day_DOB >=calendar.get(Calendar.DAY_OF_MONTH))
         {
             dobButton.requestFocus();
             Toast.makeText(getApplicationContext(), "Please Enter valid Date of Birth",
                     Toast.LENGTH_SHORT).show();
+            showDialog(1);
         }
         else {
 
             // get selected radio button from radioGroup
             String gradeName= grade.getSelectedItem().toString();
             String ethnicityans=ethnicity.getSelectedItem().toString();
-            String raceName = race.getSelectedItem().toString();
+            if(race.getSelectedItemPosition()!=5)
+           raceName = race.getSelectedItem().toString();
+            String lenName=lenDisease.getSelectedItem().toString();
+            String famInc=famIncome.getSelectedItem().toString();
             // find the radiobutton by returned id
             radioSexButton = (RadioButton) findViewById(gender.getCheckedRadioButtonId());
             String genderName = radioSexButton.getText().toString();
@@ -288,8 +353,8 @@ if(isOnline()) {
     try {
         String encodedURL =  (getResources().getString(R.string.php_syncUser)+"?pn="+patientName.getText().toString()+"&grade="+
                 grade.getSelectedItem().toString()+"&gender="+genderName+"&ethnicity="+ethnicity.getSelectedItem().toString()+"&race="+
-                race.getSelectedItem().toString()+"&date="+date+"&lenD="+lenDisease.getText().toString()+"&fInc="+famIncome.getText().toString()+"&mEdu="+
-                mothEducation.getText().toString()+"&fEdu="+fathEducation.getText().toString()) ;
+                raceName+"&date="+date+"&lenD="+lenDisease.getSelectedItem().toString()+"&fInc="+famIncome.getSelectedItem().toString()+"&mEdu="+
+                mothEducation.getSelectedItem().toString()+"&fEdu="+fathEducation.getSelectedItem().toString()) ;
         encodedURL = encodedURL.replaceAll("\\s","+");
 
 
@@ -322,7 +387,8 @@ if(isOnline()) {
         }
         DataBaseManager dbm =new DataBaseManager(getApplicationContext());
         dbm.open();
-        boolean resultinternal= dbm.insertPatient(Integer.parseInt(result.toString()),patientName.getText().toString(), genderName, date, gradeName,ethnicityans,raceName,lenDisease.getText().toString(),famIncome.getText().toString(),fathEducation.getText().toString(),mothEducation.getText().toString());
+        boolean resultinternal= dbm.insertPatient(Integer.parseInt(result.toString()),patientName.getText().toString(), genderName, date,
+                gradeName,ethnicityans,raceName,lenName,famInc,fathEducation.getSelectedItem().toString(),mothEducation.getSelectedItem().toString());
         dbm.close();
 
 

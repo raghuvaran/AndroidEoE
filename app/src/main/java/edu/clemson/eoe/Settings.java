@@ -154,7 +154,7 @@ public class Settings extends AppCompatActivity {
                     // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
                     //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-                    scheduleNotification(getNotification(preference.getTitle().toString()), time,SymptomsTimer_ID);
+                    scheduleNotification(getNotification(preference.getTitle().toString()), time,SymptomsTimer_ID,"week");
                     return  true;
                 }
 
@@ -172,7 +172,7 @@ public class Settings extends AppCompatActivity {
                     // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
                     //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-                    scheduleNotification(getNotification(preference.getTitle().toString()), time,QolTimer_ID);
+                    scheduleNotification(getNotification(preference.getTitle().toString()), time,QolTimer_ID,"month");
                     return  true;
                 }
 
@@ -433,7 +433,7 @@ public class Settings extends AppCompatActivity {
             // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
             //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-            scheduleNotification(getNotification(ReminderSymptoms.getTitle().toString()), time, SymptomsTimer_ID);
+            scheduleNotification(getNotification(ReminderSymptoms.getTitle().toString()), time, SymptomsTimer_ID,"week");
         }
 
         public void setQolReminder()
@@ -443,7 +443,7 @@ public class Settings extends AppCompatActivity {
             // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
             //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-            scheduleNotification(getNotification(ReminderQol.getTitle().toString()), time, QolTimer_ID);
+            scheduleNotification(getNotification(ReminderQol.getTitle().toString()), time, QolTimer_ID,"month");
         }
 
 
@@ -505,6 +505,7 @@ public class Settings extends AppCompatActivity {
             calendar.set(Calendar.AM_PM, setap);
            // calendar.add(Calendar.DAY_OF_MONTH, 1);
             if(calendar.getTimeInMillis() <= now.getTimeInMillis())
+
                 _alarm = calendar.getTimeInMillis() + (AlarmManager.INTERVAL_DAY+1);
             else
                 _alarm = calendar.getTimeInMillis();
@@ -515,6 +516,68 @@ public class Settings extends AppCompatActivity {
             AlarmManager alarmManager = (AlarmManager) this.getActivity().getSystemService(Context.ALARM_SERVICE);
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, _alarm,AlarmManager.INTERVAL_DAY, pendingIntent);
         }
+
+        private void scheduleNotification(Notification notification, String delay,int NotificationID,String duration) {
+
+            String[] time = delay.split ( ":" );
+            String [] AMPM=delay.split(" ");
+            int hour = Integer.parseInt(time[0].trim());
+            String [] minute=time[1].split(" ");
+
+            int min = Integer.parseInt(minute[0].trim());
+            String APM=AMPM[1].trim();
+            int setap;
+            if(APM.equals("PM"))
+            {
+                setap=1;
+            }
+            else
+            {
+                setap=0;
+            }
+
+            Intent notificationIntent = new Intent(this.getActivity(), NotificationPublisher.class);
+            notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, NotificationID);
+            notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getActivity(), NotificationID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            long _alarm = 0;
+            Calendar now = Calendar.getInstance();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MINUTE, min);
+            calendar.set(Calendar.HOUR, hour);
+            calendar.set(Calendar.AM_PM, setap);
+            // calendar.add(Calendar.DAY_OF_MONTH, 1);
+            if(calendar.getTimeInMillis() <= now.getTimeInMillis())
+
+                _alarm = calendar.getTimeInMillis() + (AlarmManager.INTERVAL_DAY+1);
+            else
+                _alarm = calendar.getTimeInMillis();
+           // Long intervalmilli;
+            long differenceInMilis;
+            if(duration.equals("week"))
+            {
+                Calendar today = Calendar.getInstance();
+                Calendar weekAhead = Calendar.getInstance();
+                weekAhead.add(Calendar.DAY_OF_MONTH, 7);
+                 differenceInMilis = weekAhead.getTimeInMillis() - today.getTimeInMillis();
+                //intervalmilli=604800000L;
+
+            }else
+            {
+                Calendar today = Calendar.getInstance();
+                Calendar monthAhead = Calendar.getInstance();
+                monthAhead.add(Calendar.MONTH, 1);
+                 differenceInMilis = monthAhead.getTimeInMillis() - today.getTimeInMillis();
+            }
+
+            //
+            //long futureInMillis = SystemClock.elapsedRealtime() + delay;
+            AlarmManager alarmManager = (AlarmManager) this.getActivity().getSystemService(Context.ALARM_SERVICE);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, _alarm,differenceInMilis, pendingIntent);
+        }
+
 
 
         /**

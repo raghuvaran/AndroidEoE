@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Rating;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -27,9 +27,7 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Base64;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,16 +36,12 @@ import android.view.ViewGroup;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.Spinner;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,17 +54,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class Surveys extends AppCompatActivity {
@@ -98,6 +91,7 @@ public class Surveys extends AppCompatActivity {
 
     private static final int[] symptoms_f_response = new int[12];
     static {
+        symptoms_f_response[0]=1;
         symptoms_f_response[1]=0;
         symptoms_f_response[2]=0;
         symptoms_f_response[3]=0;
@@ -137,7 +131,7 @@ public class Surveys extends AppCompatActivity {
     static{
         int counter = 1;
          //initialize all the array elements with null
-        qol_response[0] = -1;
+        qol_response[0] = 1;
         qol_response[1] = -1;
         qol_response[2] = -1;
         qol_response[3] = -1;
@@ -261,10 +255,65 @@ public class Surveys extends AppCompatActivity {
             }
         }
 
+        else if(id==R.id.SyncUT){
+            try {
+                onUTSync();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onUTSync() throws ExecutionException, InterruptedException, JSONException {
+        if (isOnline()) {
+            DataBaseManager dbm = new DataBaseManager(this);
+            dbm.open();
+            String status = dbm.getSyncUTStatus();
+            Toast.makeText(getApplicationContext(), dbm.getSyncUTStatus(),
+                    Toast.LENGTH_SHORT).show();
+            dbm.close();
+            SyncUT syncut = new SyncUT();
+
+            if (status.equals("DB Sync neededn")) {
+                String url = "https://people.cs.clemson.edu/~sravira/Viewing/insertUT.php";
+                DataBaseManager dbmSync = new DataBaseManager(this);
+                dbmSync.open();
+                String Jsondata = dbmSync.composeJSONUTfromSQLite();
+                dbmSync.close();
+                JSONArray response = syncut.execute(url, Jsondata).get();
+                if (response.toString().equals(null)) {
+                    Toast.makeText(Surveys.this, "Unable to establish connection. Try again!", Toast.LENGTH_SHORT).show();
+                    //check if there is a conflict with EXT database users
+                } else {
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject oneObject = response.getJSONObject(i);
+                        int id, updatestatus,ExtId;
+                        id = oneObject.getInt("UTID");
+                        updatestatus = oneObject.getInt("status");
+
+                        DataBaseManager dbmupdate = new DataBaseManager(this);
+                        dbmupdate.open();
+                        dbmupdate.updateSyncUT(id, updatestatus);
+                        dbmupdate.close();
+
+
+                    }
+                }
+            }
+        }
+        else
+        {
+            Toast.makeText(Surveys.this, "Please enable internet", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void onQOLSync() throws ExecutionException, InterruptedException, JSONException {
@@ -310,7 +359,6 @@ public class Surveys extends AppCompatActivity {
         }
 
     }
-
     private void onSymptomsSync() throws ExecutionException, InterruptedException, JSONException {
         if (isOnline()) {
             DataBaseManager dbm = new DataBaseManager(this);
@@ -458,32 +506,70 @@ public class Surveys extends AppCompatActivity {
          * @return
          */
         public View onCreateSymptoms(LayoutInflater inflater, ViewGroup container,
-                                     Bundle savedInstanceState){
-            View rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
-            setRatingBarListener(rootView,1,R.id.s1_f_ratingBar,R.id.s1_f_res,freqResponse,R.id.s1_s,R.id.s1_s_ratingBar,R.id.s1_s_res);
-            setRatingBarListener(rootView,2,R.id.s2_f_ratingBar,R.id.s2_f_res,freqResponse,R.id.s2_s,R.id.s2_s_ratingBar,R.id.s2_s_res);
-            setRatingBarListener(rootView,3,R.id.s3_f_ratingBar,R.id.s3_f_res,freqResponse,R.id.s3_s,R.id.s3_s_ratingBar,R.id.s3_s_res);
-            setRatingBarListener(rootView,4,R.id.s4_f_ratingBar,R.id.s4_f_res,freqResponse,R.id.s4_s,R.id.s4_s_ratingBar,R.id.s4_s_res);
-            setRatingBarListener(rootView,5,R.id.s5_f_ratingBar,R.id.s5_f_res,freqResponse,R.id.s5_s,R.id.s5_s_ratingBar,R.id.s5_s_res);
-            setRatingBarListener(rootView,6,R.id.s6_f_ratingBar,R.id.s6_f_res,freqResponse,R.id.s6_s,R.id.s6_s_ratingBar,R.id.s6_s_res);
-            setRatingBarListener(rootView,7,R.id.s7_f_ratingBar,R.id.s7_f_res,freqResponse,R.id.s7_s,R.id.s7_s_ratingBar,R.id.s7_s_res);
-            setRatingBarListener(rootView,8,R.id.s8_f_ratingBar,R.id.s8_f_res,freqResponse,R.id.s8_s,R.id.s8_s_ratingBar,R.id.s8_s_res);
-            setRatingBarListener(rootView,9,R.id.s9_f_ratingBar,R.id.s9_f_res,freqResponse,R.id.s9_s,R.id.s9_s_ratingBar,R.id.s9_s_res);
-            setRatingBarListener(rootView,10,R.id.s10_f_ratingBar,R.id.s10_f_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,11,R.id.s11_f_ratingBar,R.id.s11_f_res,freqResponse,0,0,0);
+                                     Bundle savedInstanceState)  {
+            DataBaseManager dbm =new DataBaseManager(getContext());
+            dbm.open();
+            Cursor time=dbm.getSYmptomstime();
+            time.moveToFirst();
+            String recenttime = time.getString(time
+                    .getColumnIndex("time"));
+            dbm.close();
+            Calendar symptomscalendar=Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String currentDateandTime = sdf.format(new Date());
 
-            setRatingBarListener(rootView,1,R.id.s1_s_ratingBar,R.id.s1_s_res,severeResponse,0,0,0);
-            setRatingBarListener(rootView,2,R.id.s2_s_ratingBar,R.id.s2_s_res,severeResponse,0,0,0);
-            setRatingBarListener(rootView,3,R.id.s3_s_ratingBar,R.id.s3_s_res,severeResponse,0,0,0);
-            setRatingBarListener(rootView,4,R.id.s4_s_ratingBar,R.id.s4_s_res,severeResponse,0,0,0);
-            setRatingBarListener(rootView,5,R.id.s5_s_ratingBar,R.id.s5_s_res,severeResponse,0,0,0);
-            setRatingBarListener(rootView,6,R.id.s6_s_ratingBar,R.id.s6_s_res,severeResponse,0,0,0);
-            setRatingBarListener(rootView,7,R.id.s7_s_ratingBar,R.id.s7_s_res,severeResponse,0,0,0);
-            setRatingBarListener(rootView,8,R.id.s8_s_ratingBar,R.id.s8_s_res,severeResponse,0,0,0);
-            setRatingBarListener(rootView,9,R.id.s9_s_ratingBar,R.id.s9_s_res,severeResponse,0,0,0);
+            try {
+                symptomscalendar.setTime(sdf.parse(recenttime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            symptomscalendar.add(Calendar.DATE, 7);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String output = sdf1.format(symptomscalendar.getTime());
+            Date input=new Date(),currentdate=new Date();
+            try {
+            input =sdf.parse(output);
+             currentdate=sdf.parse(currentDateandTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            View rootView;
+            if(input.compareTo(currentdate) >0)
+            {
+                Log.i("Date","after");
+                 rootView = inflater.inflate(R.layout.symtons_survey_na, container, false);
+                //Add a new layout xml here
+            }
+            else {
+                Log.i("Date", "before");
+                //continue with old one
 
 
+                 rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
+                setRatingBarListener(rootView, 1, R.id.s1_f_ratingBar, R.id.s1_f_res, freqResponse, R.id.s1_s, R.id.s1_s_ratingBar, R.id.s1_s_res);
+                setRatingBarListener(rootView, 2, R.id.s2_f_ratingBar, R.id.s2_f_res, freqResponse, R.id.s2_s, R.id.s2_s_ratingBar, R.id.s2_s_res);
+                setRatingBarListener(rootView, 3, R.id.s3_f_ratingBar, R.id.s3_f_res, freqResponse, R.id.s3_s, R.id.s3_s_ratingBar, R.id.s3_s_res);
+                setRatingBarListener(rootView, 4, R.id.s4_f_ratingBar, R.id.s4_f_res, freqResponse, R.id.s4_s, R.id.s4_s_ratingBar, R.id.s4_s_res);
+                setRatingBarListener(rootView, 5, R.id.s5_f_ratingBar, R.id.s5_f_res, freqResponse, R.id.s5_s, R.id.s5_s_ratingBar, R.id.s5_s_res);
+                setRatingBarListener(rootView, 6, R.id.s6_f_ratingBar, R.id.s6_f_res, freqResponse, R.id.s6_s, R.id.s6_s_ratingBar, R.id.s6_s_res);
+                setRatingBarListener(rootView, 7, R.id.s7_f_ratingBar, R.id.s7_f_res, freqResponse, R.id.s7_s, R.id.s7_s_ratingBar, R.id.s7_s_res);
+                setRatingBarListener(rootView, 8, R.id.s8_f_ratingBar, R.id.s8_f_res, freqResponse, R.id.s8_s, R.id.s8_s_ratingBar, R.id.s8_s_res);
+                setRatingBarListener(rootView, 9, R.id.s9_f_ratingBar, R.id.s9_f_res, freqResponse, R.id.s9_s, R.id.s9_s_ratingBar, R.id.s9_s_res);
+                setRatingBarListener(rootView, 10, R.id.s10_f_ratingBar, R.id.s10_f_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 11, R.id.s11_f_ratingBar, R.id.s11_f_res, freqResponse, 0, 0, 0);
 
+                setRatingBarListener(rootView, 1, R.id.s1_s_ratingBar, R.id.s1_s_res, severeResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 2, R.id.s2_s_ratingBar, R.id.s2_s_res, severeResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 3, R.id.s3_s_ratingBar, R.id.s3_s_res, severeResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 4, R.id.s4_s_ratingBar, R.id.s4_s_res, severeResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 5, R.id.s5_s_ratingBar, R.id.s5_s_res, severeResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 6, R.id.s6_s_ratingBar, R.id.s6_s_res, severeResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 7, R.id.s7_s_ratingBar, R.id.s7_s_res, severeResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 8, R.id.s8_s_ratingBar, R.id.s8_s_res, severeResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 9, R.id.s9_s_ratingBar, R.id.s9_s_res, severeResponse, 0, 0, 0);
+
+
+            }
 
       /*      TableLayout tableLayout = (TableLayout) rootView.findViewById(R.id.symptoms_survey_tableLayout);
             TextView textView = new TextView(getActivity());
@@ -590,53 +676,89 @@ public class Surveys extends AppCompatActivity {
          */
         public View onCreateQOL(LayoutInflater inflater, ViewGroup container,
                                      Bundle savedInstanceState){
-            View rootView = inflater.inflate(R.layout.qol_survey, container, false);
-            setRatingBarListener(rootView,1,R.id.s1_q1_ratingBar,R.id.s1_q1_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,2,R.id.s1_q2_ratingBar,R.id.s1_q2_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,3,R.id.s1_q3_ratingBar,R.id.s1_q3_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,4,R.id.s1_q4_ratingBar,R.id.s1_q4_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,5,R.id.s1_q5_ratingBar,R.id.s1_q5_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,6,R.id.s1_q6_ratingBar,R.id.s1_q6_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,7,R.id.s2_q1_ratingBar,R.id.s2_q1_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,8,R.id.s2_q2_ratingBar,R.id.s2_q2_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,9,R.id.s2_q3_ratingBar,R.id.s2_q3_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,10,R.id.s2_q4_ratingBar,R.id.s2_q4_res,freqResponse,0,0,0);
+            DataBaseManager dbm =new DataBaseManager(getContext());
+            dbm.open();
+            Cursor time=dbm.getQOLtime();
+            time.moveToFirst();
+            String recenttime = time.getString(time
+                    .getColumnIndex("time"));
+            dbm.close();
+            Calendar QOLcalendar =Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String currentDateandTime = sdf.format(new Date());
 
-            setRatingBarListener(rootView,11,R.id.s3_q1_ratingBar,R.id.s3_q1_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,12,R.id.s3_q2_ratingBar,R.id.s3_q2_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,13,R.id.s3_q3_ratingBar,R.id.s3_q3_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,14,R.id.s3_q4_ratingBar,R.id.s3_q4_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,15,R.id.s3_q5_ratingBar,R.id.s3_q5_res,freqResponse,0,0,0);
+            try {
+                QOLcalendar.setTime(sdf.parse(recenttime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            QOLcalendar.add(Calendar.DATE, 30);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String output = sdf1.format(QOLcalendar.getTime());
+            Date input=new Date(),currentdate=new Date();
+            try {
+                input =sdf.parse(output);
+                currentdate=sdf.parse(currentDateandTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            View rootView;
+            if(input.compareTo(currentdate) >0)
+            {
+                Log.i("Date","after");
+                rootView = inflater.inflate(R.layout.symtons_survey_na, container, false);
+                //Add a new layout xml here
+            }
+            else {
 
-            setRatingBarListener(rootView,16,R.id.s4_q1_ratingBar,R.id.s4_q1_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,17,R.id.s4_q2_ratingBar,R.id.s4_q2_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,18,R.id.s4_q3_ratingBar,R.id.s4_q3_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,19,R.id.s4_q4_ratingBar,R.id.s4_q4_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,20,R.id.s4_q5_ratingBar,R.id.s4_q5_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,21,R.id.s4_q6_ratingBar,R.id.s4_q6_res,freqResponse,0,0,0);
 
-            setRatingBarListener(rootView,22,R.id.s5_q1_ratingBar,R.id.s5_q1_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,23,R.id.s5_q2_ratingBar,R.id.s5_q2_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,24,R.id.s5_q3_ratingBar,R.id.s5_q3_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,25,R.id.s5_q4_ratingBar,R.id.s5_q4_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,26,R.id.s5_q5_ratingBar,R.id.s5_q5_res,freqResponse,0,0,0);
+                rootView = inflater.inflate(R.layout.qol_survey, container, false);
+                setRatingBarListener(rootView, 1, R.id.s1_q1_ratingBar, R.id.s1_q1_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 2, R.id.s1_q2_ratingBar, R.id.s1_q2_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 3, R.id.s1_q3_ratingBar, R.id.s1_q3_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 4, R.id.s1_q4_ratingBar, R.id.s1_q4_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 5, R.id.s1_q5_ratingBar, R.id.s1_q5_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 6, R.id.s1_q6_ratingBar, R.id.s1_q6_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 7, R.id.s2_q1_ratingBar, R.id.s2_q1_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 8, R.id.s2_q2_ratingBar, R.id.s2_q2_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 9, R.id.s2_q3_ratingBar, R.id.s2_q3_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 10, R.id.s2_q4_ratingBar, R.id.s2_q4_res, freqResponse, 0, 0, 0);
 
-            onRadioChange(rootView, 27, R.id.s6_s7);
+                setRatingBarListener(rootView, 11, R.id.s3_q1_ratingBar, R.id.s3_q1_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 12, R.id.s3_q2_ratingBar, R.id.s3_q2_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 13, R.id.s3_q3_ratingBar, R.id.s3_q3_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 14, R.id.s3_q4_ratingBar, R.id.s3_q4_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 15, R.id.s3_q5_ratingBar, R.id.s3_q5_res, freqResponse, 0, 0, 0);
 
-            setRatingBarListener(rootView,28, R.id.s6_q1_ratingBar, R.id.s6_q1_res, freqResponse, 0, 0, 0);
-            setRatingBarListener(rootView,29,R.id.s6_q2_ratingBar,R.id.s6_q2_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,30,R.id.s6_q3_ratingBar,R.id.s6_q3_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,31,R.id.s6_q4_ratingBar,R.id.s6_q4_res,freqResponse,0,0,0);
+                setRatingBarListener(rootView, 16, R.id.s4_q1_ratingBar, R.id.s4_q1_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 17, R.id.s4_q2_ratingBar, R.id.s4_q2_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 18, R.id.s4_q3_ratingBar, R.id.s4_q3_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 19, R.id.s4_q4_ratingBar, R.id.s4_q4_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 20, R.id.s4_q5_ratingBar, R.id.s4_q5_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 21, R.id.s4_q6_ratingBar, R.id.s4_q6_res, freqResponse, 0, 0, 0);
 
-            setRatingBarListener(rootView,32,R.id.s7_q1_ratingBar,R.id.s7_q1_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,33,R.id.s7_q2_ratingBar,R.id.s7_q2_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,34,R.id.s7_q3_ratingBar,R.id.s7_q3_res,freqResponse,0,0,0);
+                setRatingBarListener(rootView, 22, R.id.s5_q1_ratingBar, R.id.s5_q1_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 23, R.id.s5_q2_ratingBar, R.id.s5_q2_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 24, R.id.s5_q3_ratingBar, R.id.s5_q3_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 25, R.id.s5_q4_ratingBar, R.id.s5_q4_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 26, R.id.s5_q5_ratingBar, R.id.s5_q5_res, freqResponse, 0, 0, 0);
 
-            onRadioChange(rootView, 35, R.id.s8);
+                onRadioChange(rootView, 27, R.id.s6_s7);
 
-            setRatingBarListener(rootView,36,R.id.s8_q1_ratingBar,R.id.s8_q1_res,freqResponse,0,0,0);
-            setRatingBarListener(rootView,37,R.id.s8_q2_ratingBar,R.id.s8_q2_res,freqResponse,0,0,0);
+                setRatingBarListener(rootView, 28, R.id.s6_q1_ratingBar, R.id.s6_q1_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 29, R.id.s6_q2_ratingBar, R.id.s6_q2_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 30, R.id.s6_q3_ratingBar, R.id.s6_q3_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 31, R.id.s6_q4_ratingBar, R.id.s6_q4_res, freqResponse, 0, 0, 0);
 
+                setRatingBarListener(rootView, 32, R.id.s7_q1_ratingBar, R.id.s7_q1_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 33, R.id.s7_q2_ratingBar, R.id.s7_q2_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 34, R.id.s7_q3_ratingBar, R.id.s7_q3_res, freqResponse, 0, 0, 0);
+
+                onRadioChange(rootView, 35, R.id.s8);
+
+                setRatingBarListener(rootView, 36, R.id.s8_q1_ratingBar, R.id.s8_q1_res, freqResponse, 0, 0, 0);
+                setRatingBarListener(rootView, 37, R.id.s8_q2_ratingBar, R.id.s8_q2_res, freqResponse, 0, 0, 0);
+            }
             //setRatingBarListener(rootView, R.id.s1_s_ratingBar, R.id.s1_s_res, severeResponse);
             return rootView;
         }
@@ -802,14 +924,31 @@ public class Surveys extends AppCompatActivity {
     }
     public void onSymptomsSubmit(View view){
         int counter = 0;
-        for(int i:symptoms_f_response) {
-            Log.i("Symtoms response_f"+ (counter++), String.valueOf(i));
+
+//        for(int i:symptoms_f_response) {
+//           // Log.i("Symtoms response_f"+ (counter++), String.valueOf(i));
+//            if(symptoms_f_response[i]==0)
+//            {
+//                counter++;
+//
+//            }
+//
+//        }
+
+        for(int i=0;i<symptoms_f_response.length;i++)
+        {
+            if(symptoms_f_response[i]==0)
+            {
+                counter++;
+            }
         }
-        counter = 0;
-        for(int i:symptoms_s_response)
+
+
+       // counter = 0;
+      /*  for(int i:symptoms_s_response)
         {
             Log.i("Symtoms response_s"+(counter++), String.valueOf(i));
-        }
+        }*/
 
         /**
          * Database query goes below this block--
@@ -818,34 +957,53 @@ public class Surveys extends AppCompatActivity {
          * symptoms_f_response[11] -> question_11_frequency
          * symptoms_s_response[9] -> question_9_severity
          */
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentDateandTime = sdf.format(new Date());
-        DataBaseManager dbm =new DataBaseManager(getApplicationContext());
-        dbm.open();
-      boolean result=  dbm.addSymptoms(patientID,currentDateandTime,symptoms_f_response,symptoms_s_response);
-        dbm.close();
-        if(result) {
-
-            Toast.makeText(getApplicationContext(), "Symptoms details Inserted ",
+        if(counter!=0) {
+            Toast.makeText(getApplicationContext(), "Please answer all frequency questions ",
                     Toast.LENGTH_SHORT).show();
         }
+        else {
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String currentDateandTime = sdf.format(new Date());
+            DataBaseManager dbm = new DataBaseManager(getApplicationContext());
+            dbm.open();
+            boolean result = dbm.addSymptoms(patientID, currentDateandTime, symptoms_f_response, symptoms_s_response);
+            dbm.close();
+            if (result) {
+
+                Toast.makeText(getApplicationContext(), "Symptoms details Inserted ",
+                        Toast.LENGTH_SHORT).show();
+            }
 
 
-
+        }
     }
 
     public void onFoodDiarySubmit(View view){
-        int counter=0;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentDateandTime = sdf.format(new Date());
-        DataBaseManager dbm =new DataBaseManager(this);
-        dbm.open();
-        boolean result=dbm.addFoodDiary(patientID, currentDateandTime, fd_response[2], fd_response[1], fd_response[3], fd_response[4], fd_response[5], fd_response[6],mCurrentPhotoPath, fd_response[7] );
-        dbm.close();
-        if(result) {
-
-            Toast.makeText(getApplicationContext(), "Survey details Inserted ",
+        int counter = 0;
+        for(int i=0;i<fd_response.length;i++)
+        {
+            if(fd_response[i]==null || mCurrentPhotoPath ==null)
+            {
+                counter++;
+            }
+        }
+        if(counter!=0) {
+            Toast.makeText(getApplicationContext(), "Please answer all Survey questions ",
                     Toast.LENGTH_SHORT).show();
+        }
+        else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String currentDateandTime = sdf.format(new Date());
+            DataBaseManager dbm = new DataBaseManager(this);
+            dbm.open();
+            boolean result = dbm.addFoodDiary(patientID, currentDateandTime, fd_response[2], fd_response[1], fd_response[3], fd_response[4], fd_response[5], fd_response[6], mCurrentPhotoPath, fd_response[7]);
+            dbm.close();
+            if (result) {
+
+                Toast.makeText(getApplicationContext(), "Survey details Inserted ",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
         for (String i:fd_response){
             Log.i("FoodDiary response","fd_response"+counter+" is "+i);
@@ -855,19 +1013,30 @@ public class Surveys extends AppCompatActivity {
 
     public void onQoLSubmit(View view){
         int counter = 0;
-        for(int i : qol_response){
-            Log.i("QoL_response","qol"+counter+++i);
+        for(int i=0;i<qol_response.length;i++)
+        {
+            if(qol_response[i]==-1)
+            {
+                counter++;
+            }
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentDateandTime = sdf.format(new Date());
-        DataBaseManager dbm =new DataBaseManager(getApplicationContext());
-        dbm.open();
-        boolean result=  dbm.addQol(patientID, currentDateandTime, qol_response);
-        dbm.close();
-        if(result) {
-
-            Toast.makeText(getApplicationContext(), "Qol details Inserted ",
+        if(counter!=0) {
+            Toast.makeText(getApplicationContext(), "Please answer all Survey questions ",
                     Toast.LENGTH_SHORT).show();
+        }
+        else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String currentDateandTime = sdf.format(new Date());
+
+            DataBaseManager dbm = new DataBaseManager(getApplicationContext());
+            dbm.open();
+            boolean result = dbm.addQol(patientID, currentDateandTime, qol_response);
+            dbm.close();
+            if (result) {
+
+                Toast.makeText(getApplicationContext(), "Qol details Inserted ",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
 
     }
@@ -1094,6 +1263,91 @@ public class Surveys extends AppCompatActivity {
 
 
     public class SyncQol extends AsyncTask<String, Void, JSONArray> {
+
+
+        @Override
+        protected JSONArray doInBackground(String... params) {
+
+            String ret = null;
+            JSONArray  foodDiary;
+
+            try {
+
+                // Create the SSL connection
+
+                Log.d("database", "Doing: " + params[0]);
+                HttpURLConnection c = null;
+                URL u = new URL(params[0]);
+                String result = new String("");
+                c = (HttpURLConnection) u.openConnection();
+
+                // String data = "Jsondata" + "=" + URLEncoder.encode(params[1], "UTF-8");
+
+                c.setRequestMethod("POST");
+
+                c.setRequestProperty("Content-Type",
+                        "application/json; charset=UTF-8");
+                c.setDoOutput(true);
+                c.setDoInput(true);
+
+                c.setRequestProperty("Content-Length", "" +
+                        Integer.toString(params[1].getBytes().length));
+                c.setRequestProperty("Content-Language", "en-US");
+                //c.setRequestProperty("Content-length", "0");
+                c.setUseCaches(false);
+                c.setAllowUserInteraction(false);
+                c.setConnectTimeout(10000);
+                c.setReadTimeout(10000);
+                //Send request
+
+                DataOutputStream wr = new DataOutputStream(
+                        c.getOutputStream());
+                wr.writeBytes(params[1]);
+                wr.flush();
+                wr.close();
+                c.connect();
+
+                int status = c.getResponseCode();
+
+                if (status == 200 || status == 201) {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) sb.append(line + "\n");
+                    br.close();
+                    ret = sb.toString();
+
+                    Log.i("result",ret);
+
+
+                }
+                String actual = ret.toString().replace("{\"success\":true,\"results\":", "");
+                actual = actual.replace("]}", "]");
+                foodDiary=new JSONArray(actual);
+                return foodDiary;
+                //Log.i("result",result);
+                // return(result);
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (ProtocolException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+            //returns php output
+
+
+        }
+
+
+    }
+
+
+    public class SyncUT extends AsyncTask<String, Void, JSONArray> {
 
 
         @Override

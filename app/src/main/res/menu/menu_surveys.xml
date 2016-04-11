@@ -22,4 +22,10 @@
         android:orderInCategory="100"
         android:title="SyncQOL"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/SyncUT"
+        android:orderInCategory="100"
+        android:title="SyncUserSurvey"
+        app:showAsAction="never" />
+
 </menu>
