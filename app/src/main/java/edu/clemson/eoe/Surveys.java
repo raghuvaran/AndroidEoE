@@ -473,7 +473,7 @@ public class Surveys extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView;
             switch (getArguments().getInt(ARG_SECTION_NUMBER))  {
-                case 1: return onCreateSymptoms(inflater,container,savedInstanceState);
+                case 2: return onCreateSymptoms(inflater,container,savedInstanceState);
 /*
                     LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.symptoms_survey_linearLayout);
 
@@ -487,7 +487,7 @@ public class Surveys extends AppCompatActivity {
                         linearLayout.addView(question);
                     }*/
 
-                case 2: return onCreateFoodDiary(inflater,container,savedInstanceState);
+                case 1: return onCreateFoodDiary(inflater,container,savedInstanceState);
 
                 case 3: return onCreateQOL(inflater,container,savedInstanceState);
 
@@ -520,58 +520,87 @@ public class Surveys extends AppCompatActivity {
         public View onCreateSymptoms(LayoutInflater inflater, ViewGroup container,
                                      Bundle savedInstanceState)  {
 
+            View rootView;
             DataBaseManager dbm =new DataBaseManager(getContext());
             dbm.open();
             Cursor time=dbm.getSYmptomstime();
-            time.moveToFirst();
-            String recenttime = time.getString(time
-                    .getColumnIndex("time"));
-            dbm.close();
-            Calendar symptomscalendar=Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String currentDateandTime = sdf.format(new Date());
+            if(time.moveToFirst()) {
 
-            try {
-                symptomscalendar.setTime(sdf.parse(recenttime));
-            } catch (ParseException e) {
-                e.printStackTrace();
+
+                String recenttime = time.getString(time
+                        .getColumnIndex("time"));
+                dbm.close();
+                Calendar symptomscalendar = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String currentDateandTime = sdf.format(new Date());
+
+                try {
+                    symptomscalendar.setTime(sdf.parse(recenttime));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                symptomscalendar.add(Calendar.DATE, 7);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String output = sdf1.format(symptomscalendar.getTime());
+                Date input = new Date(), currentdate = new Date();
+                try {
+                    input = sdf.parse(output);
+                    currentdate = sdf.parse(currentDateandTime);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                long different = input.getTime() - currentdate.getTime();
+                long secondsInMilli = 1000;
+                long minutesInMilli = secondsInMilli * 60;
+                long hoursInMilli = minutesInMilli * 60;
+                long daysInMilli = hoursInMilli * 24;
+                long elapsedDays = different / daysInMilli;
+                different = different % daysInMilli;
+
+
+                if (input.compareTo(currentdate) > 0) {
+
+                    Log.i("Date", "after");
+
+                    rootView = inflater.inflate(R.layout.symtons_survey_na, container, false);
+                    setText(rootView, "Survey will be available in  " + elapsedDays + " Days");
+                    // diff.setText(""+different+"Days");
+                    //Add a new layout xml here
+                } else {
+                    Log.i("Date", "before");
+                    //continue with old one
+
+
+                    rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
+                    setRatingBarListener(rootView, 1, R.id.s1_f_ratingBar, R.id.s1_f_res, freqResponse, R.id.s1_s, R.id.s1_s_ratingBar, R.id.s1_s_res);
+                    setRatingBarListener(rootView, 2, R.id.s2_f_ratingBar, R.id.s2_f_res, freqResponse, R.id.s2_s, R.id.s2_s_ratingBar, R.id.s2_s_res);
+                    setRatingBarListener(rootView, 3, R.id.s3_f_ratingBar, R.id.s3_f_res, freqResponse, R.id.s3_s, R.id.s3_s_ratingBar, R.id.s3_s_res);
+                    setRatingBarListener(rootView, 4, R.id.s4_f_ratingBar, R.id.s4_f_res, freqResponse, R.id.s4_s, R.id.s4_s_ratingBar, R.id.s4_s_res);
+                    setRatingBarListener(rootView, 5, R.id.s5_f_ratingBar, R.id.s5_f_res, freqResponse, R.id.s5_s, R.id.s5_s_ratingBar, R.id.s5_s_res);
+                    setRatingBarListener(rootView, 6, R.id.s6_f_ratingBar, R.id.s6_f_res, freqResponse, R.id.s6_s, R.id.s6_s_ratingBar, R.id.s6_s_res);
+                    setRatingBarListener(rootView, 7, R.id.s7_f_ratingBar, R.id.s7_f_res, freqResponse, R.id.s7_s, R.id.s7_s_ratingBar, R.id.s7_s_res);
+                    setRatingBarListener(rootView, 8, R.id.s8_f_ratingBar, R.id.s8_f_res, freqResponse, R.id.s8_s, R.id.s8_s_ratingBar, R.id.s8_s_res);
+                    setRatingBarListener(rootView, 9, R.id.s9_f_ratingBar, R.id.s9_f_res, freqResponse, R.id.s9_s, R.id.s9_s_ratingBar, R.id.s9_s_res);
+                    setRatingBarListener(rootView, 10, R.id.s10_f_ratingBar, R.id.s10_f_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 11, R.id.s11_f_ratingBar, R.id.s11_f_res, freqResponse, 0, 0, 0);
+
+                    setRatingBarListener(rootView, 1, R.id.s1_s_ratingBar, R.id.s1_s_res, severeResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 2, R.id.s2_s_ratingBar, R.id.s2_s_res, severeResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 3, R.id.s3_s_ratingBar, R.id.s3_s_res, severeResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 4, R.id.s4_s_ratingBar, R.id.s4_s_res, severeResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 5, R.id.s5_s_ratingBar, R.id.s5_s_res, severeResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 6, R.id.s6_s_ratingBar, R.id.s6_s_res, severeResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 7, R.id.s7_s_ratingBar, R.id.s7_s_res, severeResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 8, R.id.s8_s_ratingBar, R.id.s8_s_res, severeResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 9, R.id.s9_s_ratingBar, R.id.s9_s_res, severeResponse, 0, 0, 0);
+
+
+                }
             }
-            symptomscalendar.add(Calendar.DATE, 7);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
-            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String output = sdf1.format(symptomscalendar.getTime());
-            Date input=new Date(),currentdate=new Date();
-            try {
-            input =sdf.parse(output);
-             currentdate=sdf.parse(currentDateandTime);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            long different = input.getTime() - currentdate.getTime();
-            long secondsInMilli = 1000;
-            long minutesInMilli = secondsInMilli * 60;
-            long hoursInMilli = minutesInMilli * 60;
-            long daysInMilli = hoursInMilli * 24;
-            long elapsedDays = different / daysInMilli;
-            different = different % daysInMilli;
-
-
-            View rootView;
-            if(input.compareTo(currentdate) >0)
+            else
             {
-
-                Log.i("Date","after");
-
-                 rootView = inflater.inflate(R.layout.symtons_survey_na, container, false);
-                setText(rootView,"Survey will be available in  "+elapsedDays+" Days");
-               // diff.setText(""+different+"Days");
-                //Add a new layout xml here
-            }
-            else {
-                Log.i("Date", "before");
-                //continue with old one
-
-
-                 rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
+                dbm.close();
+                rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
                 setRatingBarListener(rootView, 1, R.id.s1_f_ratingBar, R.id.s1_f_res, freqResponse, R.id.s1_s, R.id.s1_s_ratingBar, R.id.s1_s_res);
                 setRatingBarListener(rootView, 2, R.id.s2_f_ratingBar, R.id.s2_f_res, freqResponse, R.id.s2_s, R.id.s2_s_ratingBar, R.id.s2_s_res);
                 setRatingBarListener(rootView, 3, R.id.s3_f_ratingBar, R.id.s3_f_res, freqResponse, R.id.s3_s, R.id.s3_s_ratingBar, R.id.s3_s_res);
@@ -593,8 +622,6 @@ public class Surveys extends AppCompatActivity {
                 setRatingBarListener(rootView, 7, R.id.s7_s_ratingBar, R.id.s7_s_res, severeResponse, 0, 0, 0);
                 setRatingBarListener(rootView, 8, R.id.s8_s_ratingBar, R.id.s8_s_res, severeResponse, 0, 0, 0);
                 setRatingBarListener(rootView, 9, R.id.s9_s_ratingBar, R.id.s9_s_res, severeResponse, 0, 0, 0);
-
-
             }
 
       /*      TableLayout tableLayout = (TableLayout) rootView.findViewById(R.id.symptoms_survey_tableLayout);
@@ -645,7 +672,7 @@ public class Surveys extends AppCompatActivity {
             onRadioChange(rootView, 4, R.id.fd_fA);
             onRadioChange(rootView,5,R.id.fd_fB);
             onRadioChange(rootView,6,R.id.fd_worry);
-            onRadioChange(rootView,7,R.id.fd_whosInput);
+            onRadioChange(rootView, 7, R.id.fd_whosInput);
 
 
             return rootView;
@@ -702,55 +729,108 @@ public class Surveys extends AppCompatActivity {
          */
         public View onCreateQOL(LayoutInflater inflater, ViewGroup container,
                                      Bundle savedInstanceState){
+            View rootView;
             DataBaseManager dbm =new DataBaseManager(getContext());
             dbm.open();
-            Cursor time=dbm.getQOLtime();
-            time.moveToFirst();
-            String recenttime = time.getString(time
-                    .getColumnIndex("time"));
-            dbm.close();
-            Calendar QOLcalendar =Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String currentDateandTime = sdf.format(new Date());
+            Cursor time=dbm.getQOLtime();;
+            String recenttime;
+            if(time.moveToFirst()) {
+                recenttime = time.getString(time
+                        .getColumnIndex("time"));
+                dbm.close();
 
-            try {
-                QOLcalendar.setTime(sdf.parse(recenttime));
-            } catch (ParseException e) {
-                e.printStackTrace();
+
+                Calendar QOLcalendar = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String currentDateandTime = sdf.format(new Date());
+
+                try {
+                    QOLcalendar.setTime(sdf.parse(recenttime));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                QOLcalendar.add(Calendar.DATE, 30);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String output = sdf1.format(QOLcalendar.getTime());
+                Date input = new Date(), currentdate = new Date();
+                try {
+                    input = sdf.parse(output);
+                    currentdate = sdf.parse(currentDateandTime);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                long different = input.getTime() - currentdate.getTime();
+                long secondsInMilli = 1000;
+                long minutesInMilli = secondsInMilli * 60;
+                long hoursInMilli = minutesInMilli * 60;
+                long daysInMilli = hoursInMilli * 24;
+                long elapsedDays = different / daysInMilli;
+                different = different % daysInMilli;
+
+
+
+                if (input.compareTo(currentdate) > 0) {
+
+                    Log.i("Date", "after");
+
+                    rootView = inflater.inflate(R.layout.symtons_survey_na, container, false);
+                    setText(rootView, "Survey will be available in  " + elapsedDays + " Days");
+                    // diff.setText(""+different+"Days");
+                    //Add a new layout xml here
+                } else {
+
+
+                    rootView = inflater.inflate(R.layout.qol_survey, container, false);
+                    setRatingBarListener(rootView, 1, R.id.s1_q1_ratingBar, R.id.s1_q1_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 2, R.id.s1_q2_ratingBar, R.id.s1_q2_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 3, R.id.s1_q3_ratingBar, R.id.s1_q3_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 4, R.id.s1_q4_ratingBar, R.id.s1_q4_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 5, R.id.s1_q5_ratingBar, R.id.s1_q5_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 6, R.id.s1_q6_ratingBar, R.id.s1_q6_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 7, R.id.s2_q1_ratingBar, R.id.s2_q1_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 8, R.id.s2_q2_ratingBar, R.id.s2_q2_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 9, R.id.s2_q3_ratingBar, R.id.s2_q3_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 10, R.id.s2_q4_ratingBar, R.id.s2_q4_res, freqResponse, 0, 0, 0);
+
+                    setRatingBarListener(rootView, 11, R.id.s3_q1_ratingBar, R.id.s3_q1_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 12, R.id.s3_q2_ratingBar, R.id.s3_q2_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 13, R.id.s3_q3_ratingBar, R.id.s3_q3_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 14, R.id.s3_q4_ratingBar, R.id.s3_q4_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 15, R.id.s3_q5_ratingBar, R.id.s3_q5_res, freqResponse, 0, 0, 0);
+
+                    setRatingBarListener(rootView, 16, R.id.s4_q1_ratingBar, R.id.s4_q1_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 17, R.id.s4_q2_ratingBar, R.id.s4_q2_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 18, R.id.s4_q3_ratingBar, R.id.s4_q3_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 19, R.id.s4_q4_ratingBar, R.id.s4_q4_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 20, R.id.s4_q5_ratingBar, R.id.s4_q5_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 21, R.id.s4_q6_ratingBar, R.id.s4_q6_res, freqResponse, 0, 0, 0);
+
+                    setRatingBarListener(rootView, 22, R.id.s5_q1_ratingBar, R.id.s5_q1_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 23, R.id.s5_q2_ratingBar, R.id.s5_q2_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 24, R.id.s5_q3_ratingBar, R.id.s5_q3_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 25, R.id.s5_q4_ratingBar, R.id.s5_q4_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 26, R.id.s5_q5_ratingBar, R.id.s5_q5_res, freqResponse, 0, 0, 0);
+
+                    onRadioChange(rootView, 27, R.id.s6_s7);
+
+                    setRatingBarListener(rootView, 28, R.id.s6_q1_ratingBar, R.id.s6_q1_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 29, R.id.s6_q2_ratingBar, R.id.s6_q2_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 30, R.id.s6_q3_ratingBar, R.id.s6_q3_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 31, R.id.s6_q4_ratingBar, R.id.s6_q4_res, freqResponse, 0, 0, 0);
+
+                    setRatingBarListener(rootView, 32, R.id.s7_q1_ratingBar, R.id.s7_q1_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 33, R.id.s7_q2_ratingBar, R.id.s7_q2_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 34, R.id.s7_q3_ratingBar, R.id.s7_q3_res, freqResponse, 0, 0, 0);
+
+                    onRadioChange(rootView, 35, R.id.s8);
+
+                    setRatingBarListener(rootView, 36, R.id.s8_q1_ratingBar, R.id.s8_q1_res, freqResponse, 0, 0, 0);
+                    setRatingBarListener(rootView, 37, R.id.s8_q2_ratingBar, R.id.s8_q2_res, freqResponse, 0, 0, 0);
+                }
             }
-            QOLcalendar.add(Calendar.DATE, 30);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
-            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String output = sdf1.format(QOLcalendar.getTime());
-            Date input=new Date(),currentdate=new Date();
-            try {
-                input =sdf.parse(output);
-                currentdate=sdf.parse(currentDateandTime);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            long different = input.getTime() - currentdate.getTime();
-            long secondsInMilli = 1000;
-            long minutesInMilli = secondsInMilli * 60;
-            long hoursInMilli = minutesInMilli * 60;
-            long daysInMilli = hoursInMilli * 24;
-            long elapsedDays = different / daysInMilli;
-            different = different % daysInMilli;
-
-
-            View rootView;
-            if(input.compareTo(currentdate) >0)
+            else
             {
-
-                Log.i("Date","after");
-
-                rootView = inflater.inflate(R.layout.symtons_survey_na, container, false);
-                setText(rootView,"Survey will be available in  "+elapsedDays+" Days");
-                // diff.setText(""+different+"Days");
-                //Add a new layout xml here
-            }
-            else {
-
-
+                dbm.close();
                 rootView = inflater.inflate(R.layout.qol_survey, container, false);
                 setRatingBarListener(rootView, 1, R.id.s1_q1_ratingBar, R.id.s1_q1_res, freqResponse, 0, 0, 0);
                 setRatingBarListener(rootView, 2, R.id.s1_q2_ratingBar, R.id.s1_q2_res, freqResponse, 0, 0, 0);
@@ -1013,6 +1093,8 @@ public class Surveys extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "Symptoms details Inserted ",
                         Toast.LENGTH_SHORT).show();
+                Intent callactivity =new Intent(getApplicationContext(),Surveys.class);
+                startActivity(callactivity);
             }
 
 
@@ -1043,6 +1125,7 @@ public class Surveys extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "Survey details Inserted ",
                         Toast.LENGTH_SHORT).show();
+
             }
         }
         for (String i:fd_response){
@@ -1076,7 +1159,11 @@ public class Surveys extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "Qol details Inserted ",
                         Toast.LENGTH_SHORT).show();
+
+                Intent callactivity =new Intent(getApplicationContext(),Surveys.class);
+                startActivity(callactivity);
             }
+
         }
 
     }
@@ -1552,9 +1639,9 @@ public class Surveys extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
-                case 1:
-                    return "Food Diary";
                 case 0:
+                    return "Food Diary";
+                case 1:
                     return "Symptoms";
                 case 2:
                     return "QoL";

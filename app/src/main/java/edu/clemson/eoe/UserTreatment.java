@@ -42,53 +42,78 @@ public class UserTreatment extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        View rootView;
         DataBaseManager dbm =new DataBaseManager(getApplicationContext());
         dbm.open();
         Cursor time=dbm.getUTtime();
-        time.moveToFirst();
-        String recenttime = time.getString(time
-                .getColumnIndex("time"));
-        dbm.close();
-        Calendar UTcalendar =Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentDateandTime = sdf.format(new Date());
 
-        try {
-            UTcalendar.setTime(sdf.parse(recenttime));
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if(time.moveToFirst()) {
+
+            String recenttime = time.getString(time
+                    .getColumnIndex("time"));
+            dbm.close();
+            Calendar UTcalendar = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String currentDateandTime = sdf.format(new Date());
+
+            try {
+                UTcalendar.setTime(sdf.parse(recenttime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            UTcalendar.add(Calendar.DATE, 120);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String output = sdf1.format(UTcalendar.getTime());
+            Date input = new Date(), currentdate = new Date();
+            try {
+                input = sdf.parse(output);
+                currentdate = sdf.parse(currentDateandTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            long different = input.getTime() - currentdate.getTime();
+            long secondsInMilli = 1000;
+            long minutesInMilli = secondsInMilli * 60;
+            long hoursInMilli = minutesInMilli * 60;
+            long daysInMilli = hoursInMilli * 24;
+            long elapsedDays = different / daysInMilli;
+            different = different % daysInMilli;
+            if (input.compareTo(currentdate) > 0) {
+                Log.i("Date", "after");
+                setContentView(R.layout.symtons_survey_na);
+                TextView diff;
+                diff = (TextView) findViewById(R.id.symtoms_survey_avail);
+                diff.setText("Survey will be avialabel in " + elapsedDays + " Days ");
+                //Add a new layout xml here
+            } else {
+                Log.i("Date", "before");
+
+
+                setContentView(R.layout.activity_user_treatment);
+                SharedPreferences sharedPref = getSharedPreferences("myPref", 0);
+                patientID = sharedPref.getInt("patientID", 0);
+                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                setSupportActionBar(toolbar);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+                final View view = this.getWindow().getDecorView();
+
+                onRadioChange(view, 1, R.id.ut_1, 0, 0);//5
+                onRadioChange(view, 2, R.id.ut_2, R.id.ut_3_q, R.id.ut_3, R.id.ut_4_q, R.id.ut_4);//7
+                onRadioChange(view, 3, R.id.ut_3, R.id.ut_5_q, R.id.ut_5);//5
+                onRadioChange(view, 5, R.id.ut_5, R.id.ut_6_q, R.id.ut_6_holder);
+                onEditTextListener(view, 6, R.id.ut_6);
+                onRadioChange(view, 4, R.id.ut_4, R.id.ut_7_q, R.id.ut_7, R.id.ut_8_q, R.id.ut_8);
+                onRadioChange(view, 7, R.id.ut_7, 0, 0);
+                onRadioChange(view, 8, R.id.ut_8, R.id.ut_9_q, R.id.ut_9);
+                onRadioChange(view, 9, R.id.ut_9, R.id.ut_10_q, R.id.ut_10_holder);
+                onEditTextListener(view, 10, R.id.ut_10);
+            }
         }
-        UTcalendar.add(Calendar.DATE, 120);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String output = sdf1.format(UTcalendar.getTime());
-        Date input=new Date(),currentdate=new Date();
-        try {
-            input =sdf.parse(output);
-            currentdate=sdf.parse(currentDateandTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        View rootView;
-        long different = input.getTime() - currentdate.getTime();
-        long secondsInMilli = 1000;
-        long minutesInMilli = secondsInMilli * 60;
-        long hoursInMilli = minutesInMilli * 60;
-        long daysInMilli = hoursInMilli * 24;
-        long elapsedDays = different / daysInMilli;
-        different = different % daysInMilli;
-        if(input.compareTo(currentdate) >0)
+        else
         {
-            Log.i("Date", "after");
-            setContentView(R.layout.symtons_survey_na);
-            TextView diff;
-            diff=(TextView)findViewById(R.id.symtoms_survey_avail);
-            diff.setText("Survey will be avialabel in "+elapsedDays +" Days ");
-            //Add a new layout xml here
-        }
-        else {
-            Log.i("Date", "before");
-
-
+            dbm.close();
             setContentView(R.layout.activity_user_treatment);
             SharedPreferences sharedPref = getSharedPreferences("myPref", 0);
             patientID = sharedPref.getInt("patientID", 0);
