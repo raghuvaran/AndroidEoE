@@ -1,5 +1,6 @@
 package edu.clemson.eoe;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -252,6 +253,10 @@ public class UserTreatment extends AppCompatActivity {
 
             Toast.makeText(getApplicationContext(), "User Treatment details Inserted ",
                     Toast.LENGTH_SHORT).show();
+            Intent mServiceIntent = new Intent(this, SendData.class);
+            ///mServiceIntent.putExtra("KEY","https://people.cs.clemson.edu/~sravira/Viewing/insertSymptoms.php");
+            startService(mServiceIntent);
+
         }
         else
         {

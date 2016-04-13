@@ -224,7 +224,7 @@ public class Surveys extends AppCompatActivity {
             startActivity(settingsIntent);
             return true;
         }
-        else if(id==R.id.Sync){
+     /*   else if(id==R.id.Sync){
             try {
                 onFoodDiarySync();
             } catch (ExecutionException e) {
@@ -268,8 +268,8 @@ public class Surveys extends AppCompatActivity {
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
-            }
-        }
+            }*/
+
 
 
 
@@ -473,7 +473,7 @@ public class Surveys extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView;
             switch (getArguments().getInt(ARG_SECTION_NUMBER))  {
-                case 2: return onCreateSymptoms(inflater,container,savedInstanceState);
+                case 1: return onCreateSymptoms(inflater,container,savedInstanceState);
 /*
                     LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.symptoms_survey_linearLayout);
 
@@ -487,7 +487,7 @@ public class Surveys extends AppCompatActivity {
                         linearLayout.addView(question);
                     }*/
 
-                case 1: return onCreateFoodDiary(inflater,container,savedInstanceState);
+                case 2: return onCreateFoodDiary(inflater,container,savedInstanceState);
 
                 case 3: return onCreateQOL(inflater,container,savedInstanceState);
 
@@ -561,10 +561,10 @@ public class Surveys extends AppCompatActivity {
                 if (input.compareTo(currentdate) > 0) {
 
                     Log.i("Date", "after");
-
+                    //rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
                     rootView = inflater.inflate(R.layout.symtons_survey_na, container, false);
                     setText(rootView, "Survey will be available in  " + elapsedDays + " Days");
-                    // diff.setText(""+different+"Days");
+                  //   diff.setText(""+different+"Days");
                     //Add a new layout xml here
                 } else {
                     Log.i("Date", "before");
@@ -1060,6 +1060,7 @@ public class Surveys extends AppCompatActivity {
             if(symptoms_f_response[i]==0)
             {
                 counter++;
+                Log.i("Symtoms response_f"+i,String.valueOf(i));
             }
         }
 
@@ -1095,6 +1096,9 @@ public class Surveys extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
                 Intent callactivity =new Intent(getApplicationContext(),Surveys.class);
                 startActivity(callactivity);
+                Intent   mServiceIntent = new Intent(this, SendData.class);
+                ///mServiceIntent.putExtra("KEY","https://people.cs.clemson.edu/~sravira/Viewing/insertSymptoms.php");
+                startService(mServiceIntent);
             }
 
 
@@ -1126,6 +1130,10 @@ public class Surveys extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Survey details Inserted ",
                         Toast.LENGTH_SHORT).show();
 
+                Intent   mServiceIntent = new Intent(this, SendData.class);
+                ///mServiceIntent.putExtra("KEY","https://people.cs.clemson.edu/~sravira/Viewing/insertSymptoms.php");
+                startService(mServiceIntent);
+
             }
         }
         for (String i:fd_response){
@@ -1146,6 +1154,8 @@ public class Surveys extends AppCompatActivity {
         if(counter!=0) {
             Toast.makeText(getApplicationContext(), "Please answer all Survey questions ",
                     Toast.LENGTH_SHORT).show();
+
+
         }
         else {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -1162,6 +1172,9 @@ public class Surveys extends AppCompatActivity {
 
                 Intent callactivity =new Intent(getApplicationContext(),Surveys.class);
                 startActivity(callactivity);
+                Intent   mServiceIntent = new Intent(this, SendData.class);
+                ///mServiceIntent.putExtra("KEY","https://people.cs.clemson.edu/~sravira/Viewing/insertSymptoms.php");
+                startService(mServiceIntent);
             }
 
         }
@@ -1639,9 +1652,9 @@ public class Surveys extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
-                case 0:
-                    return "Food Diary";
                 case 1:
+                    return "Food Diary";
+                case 0:
                     return "Symptoms";
                 case 2:
                     return "QoL";

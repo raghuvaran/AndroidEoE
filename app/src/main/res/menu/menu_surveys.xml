@@ -7,7 +7,7 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
-    <item
+  <!--  <item
         android:id="@+id/Sync"
         android:orderInCategory="100"
         android:title="Sync"
@@ -26,6 +26,6 @@
         android:id="@+id/SyncUT"
         android:orderInCategory="100"
         android:title="SyncUserSurvey"
-        app:showAsAction="never" />
+        app:showAsAction="never" />-->
 
 </menu>

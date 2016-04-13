@@ -27,7 +27,10 @@ public class UpdateReceiver extends BroadcastReceiver {
         boolean isConnected= activeNetworkInfo != null && activeNetworkInfo.isConnected();
         if (isConnected) {
             Log.i("NET", "connecte" + isConnected);
-            Log.i("Connected", "" + isConnected);
+           // Log.i("Connected", "" + isConnected);
+            Intent mServiceIntent = new Intent(context, SendData.class);
+            ///mServiceIntent.putExtra("KEY","https://people.cs.clemson.edu/~sravira/Viewing/insertSymptoms.php");
+            context.startService(mServiceIntent);
             connection=true;
         }
         else{

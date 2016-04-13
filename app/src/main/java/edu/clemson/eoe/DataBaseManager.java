@@ -351,6 +351,7 @@ public class DataBaseManager {
 
         try {
             FileInputStream fileInputStream = new FileInputStream(sourceFile);
+            
             //The php script
             URL url = new URL("https://people.cs.clemson.edu/~sravira/Viewing/saveImage.php");
             conn = (HttpURLConnection) url.openConnection();
@@ -414,6 +415,7 @@ public class DataBaseManager {
             return ret;
         }
     }
+
     private SQLiteStatement FoodDiaryStatement = null;
 
 
@@ -871,8 +873,6 @@ public class DataBaseManager {
     }
 
 
-
-
     /**
      * Get Sync UT status of SQLite
      * @return
@@ -918,7 +918,6 @@ public class DataBaseManager {
         return count;
     }
 
-
     /**
      * Get SQLite records that are yet to be Synced
      * @return
@@ -947,8 +946,6 @@ public class DataBaseManager {
         //database.close();
         return count;
     }
-
-
 
 
     /**
