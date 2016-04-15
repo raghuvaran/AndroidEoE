@@ -8,7 +8,7 @@
     <CheckBoxPreference
         android:key="Reminder 1"
         android:title="Breakfast"
-        android:summary="Option if Selected will let you set preferred alarm for Breakfast"
+        android:summary="Enable Breakfast Timer"
         android:defaultValue="false"
 
         android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
     <CheckBoxPreference
         android:key="Reminder 2"
         android:title="Lunch"
-        android:summary="Option if Selected will let you set preferred alarm for Lunch "
+        android:summary="Enable Lunch Timer "
         android:defaultValue="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -33,7 +33,7 @@
     <CheckBoxPreference
         android:key="Reminder 3"
         android:title="Dinner"
-        android:summary="Option if Selected will let you set preferred alarm for Dinner"
+        android:summary="Enable Dinner Reminder"
         android:defaultValue="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -48,7 +48,7 @@
     <CheckBoxPreference
         android:key="Reminder Symptoms"
         android:title="Symptoms"
-        android:summary="Option if Selected will let you set preferred alarm for Symptoms"
+        android:summary="Enable Symptoms Reminder"
         android:defaultValue="false"
 
         android:layout_width="wrap_content"
@@ -68,7 +68,7 @@
         <CheckBoxPreference
             android:key="Reminder QOL"
             android:title="PedsQL"
-            android:summary="Option if Selected will let you set preferred alarm for PedsQL"
+            android:summary="Enable Quality of Life Reminder"
             android:defaultValue="false"
 
             android:layout_width="wrap_content"

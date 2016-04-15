@@ -266,7 +266,7 @@ public class Settings extends AppCompatActivity {
                     } else {
                         Reminder1.setEnabled(false);
                         cancelBreakfastReminder();
-                        Toast.makeText(getActivity(), "Reminder 1 is disabled",
+                        Toast.makeText(getActivity(), "BreakFast Reminder is disabled",
                                 Toast.LENGTH_SHORT).show();
                     }
                     return true;
@@ -278,12 +278,12 @@ public class Settings extends AppCompatActivity {
                     if (newValue.toString().equals("true")) {
                         Reminder2.setEnabled(true);
                         setLunchReminder();
-                        Toast.makeText(getActivity(), "Reminder 2 is enabled",
+                        Toast.makeText(getActivity(), "Lunch Reminder is enabled",
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         Reminder2.setEnabled(false);
                         cancelLunchReminder();
-                        Toast.makeText(getActivity(), "Reminder 2 is disabled",
+                        Toast.makeText(getActivity(), "Lunch Reminder is disabled",
                                 Toast.LENGTH_SHORT).show();
                     }
                     return true;
@@ -296,12 +296,12 @@ public class Settings extends AppCompatActivity {
                     if (newValue.toString().equals("true")) {
                         Reminder3.setEnabled(true);
                         setDinnerReminder();
-                        Toast.makeText(getActivity(), "Reminder 3  is enabled",
+                        Toast.makeText(getActivity(), "Dinner Reminder  is enabled",
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         Reminder3.setEnabled(false);
                         cancelDinnerReminder();
-                        Toast.makeText(getActivity(), "Reminder 3 is disabled",
+                        Toast.makeText(getActivity(), "Dinner Reminder is disabled",
                                 Toast.LENGTH_SHORT).show();
                     }
                     return true;

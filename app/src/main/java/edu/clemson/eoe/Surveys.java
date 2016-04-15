@@ -1092,7 +1092,7 @@ public class Surveys extends AppCompatActivity {
             dbm.close();
             if (result) {
 
-                Toast.makeText(getApplicationContext(), "Symptoms details Inserted ",
+                Toast.makeText(getApplicationContext(), "Peess responses saved ",
                         Toast.LENGTH_SHORT).show();
                 Intent callactivity =new Intent(getApplicationContext(),Surveys.class);
                 startActivity(callactivity);
@@ -1127,8 +1127,11 @@ public class Surveys extends AppCompatActivity {
             dbm.close();
             if (result) {
 
-                Toast.makeText(getApplicationContext(), "Survey details Inserted ",
+                Toast.makeText(getApplicationContext(), "Food Dairy details saved ",
                         Toast.LENGTH_SHORT).show();
+
+                Intent callactivity =new Intent(getApplicationContext(),Surveys.class);
+                startActivity(callactivity);
 
                 Intent   mServiceIntent = new Intent(this, SendData.class);
                 ///mServiceIntent.putExtra("KEY","https://people.cs.clemson.edu/~sravira/Viewing/insertSymptoms.php");
@@ -1167,7 +1170,7 @@ public class Surveys extends AppCompatActivity {
             dbm.close();
             if (result) {
 
-                Toast.makeText(getApplicationContext(), "Qol details Inserted ",
+                Toast.makeText(getApplicationContext(), "PedsQl response saved ",
                         Toast.LENGTH_SHORT).show();
 
                 Intent callactivity =new Intent(getApplicationContext(),Surveys.class);
