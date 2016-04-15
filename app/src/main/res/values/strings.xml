@@ -105,17 +105,24 @@
     </string-array>
 
     <string-array name="fatherEdu_a">
-        <item>B.Sc</item>
-        <item>MS</item>
-        <item>PhD</item>
+        <item>Less than 9th grade</item>
+        <item>9&#8211;12th grade, no diploma</item>
+        <item>High school graduate(or GED/equivalent)</item>
+        <item>Associate\'s Degree or Vocational Training</item>
+        <item>Some college (no degree)</item>
+        <item>Bachelor\'s degree</item>
+        <item>Graduate or professional degree</item>
 
     </string-array>
 
     <string-array name="motherEdu_a">
-        <item>B.Sc</item>
-        <item>MS</item>
-        <item>PhD</item>
-
+        <item>Less than 9th grade</item>
+        <item>9&#8211;12th grade, no diploma</item>
+        <item>High school graduate(or GED/equivalent)</item>
+        <item>Associate\'s Degree or Vocational Training</item>
+        <item>Some college (no degree)</item>
+        <item>Bachelor\'s degree</item>
+        <item>Graduate or professional degree</item>
     </string-array>
 
 
