@@ -212,15 +212,11 @@ public class RegActivity extends AppCompatActivity {
         }
     };
 
-  /*  public void onRegister(View v){
-        Intent intent = new Intent(this, SurveySelect.class);
-        startActivity(intent);
-    }*/
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_reg, menu);
+
         return true;
     }
 //test
@@ -232,7 +228,9 @@ public class RegActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_about) {
+            Intent intent = new Intent(this,About.class);
+            startActivity(intent);
             return true;
         }
 
@@ -307,28 +305,38 @@ public class RegActivity extends AppCompatActivity {
 
     }*/
 
-
+        public void print(String a){
+            System.out.println(a);
+        }
 
     //onRegister method to submit patient details
-    public void OnRegister(View view) {
+    public int OnRegister(View view) {
         Calendar calendar = Calendar.getInstance();
 
         if(patientName.length()==0)
         {
             patientName.requestFocus();
-            patientName.setError("FIELD CANNOT BE EMPTY");
+            patientName.setError("We need your name");
+            return 0;
         }
 
 
+        Log.i("Entered","Year: "+year_DOB+"month:"+month_DOB+"day:"+day_DOB);
+        Log.i("ValidateWith","day_of_Y"+calendar.get(Calendar.DAY_OF_YEAR)+"Year: "+calendar.get(Calendar.YEAR)+"month:"+calendar.get(Calendar.MONTH)+"day:"+calendar.get(Calendar.DAY_OF_MONTH));
 
-        else if(year_DOB>=calendar.get(Calendar.YEAR)&& month_DOB>=calendar.get(Calendar.MONTH )+1 && day_DOB >=calendar.get(Calendar.DAY_OF_MONTH))
-        {
-            dobButton.requestFocus();
-            Toast.makeText(getApplicationContext(), "Please Enter valid Date of Birth",
-                    Toast.LENGTH_SHORT).show();
-            showDialog(1);
+        if(year_DOB >=calendar.get(Calendar.YEAR) ) {
+            Calendar calendar1 = Calendar.getInstance();
+            calendar1.set(year_DOB, month_DOB-1, day_DOB);
+            Log.i("ValidateWith","day_of_Y"+calendar1.get(Calendar.DAY_OF_YEAR)+ "Year: " + calendar1.get(Calendar.YEAR) + "month:" + calendar1.get(Calendar.MONTH) + "day:" + calendar1.get(Calendar.DAY_OF_MONTH));
+            if (calendar.get(Calendar.DAY_OF_YEAR) < calendar1.get(Calendar.DAY_OF_YEAR)) {
+                dobButton.requestFocus();
+                Toast.makeText(getApplicationContext(), "You might've forgot to enter valid Date of Birth",
+                        Toast.LENGTH_SHORT).show();
+                showDialog(1);
+                return 0;
+            }
         }
-        else {
+         {
 
             // get selected radio button from radioGroup
             String gradeName= grade.getSelectedItem().toString();
@@ -343,10 +351,8 @@ public class RegActivity extends AppCompatActivity {
             String date =year_DOB+"-"+month_DOB+"-"+day_DOB;
 
 
-if(isOnline()) {
-    /*new Background().execute(method, patientName.getText().toString(), genderName, date,
-            gradeName, ethnicityans, raceName, lenDisease.getText().toString(), famIncome.getText().toString(),
-            fathEducation.getText().toString(), mothEducation.getText().toString());*/
+        if(isOnline()) {
+
     //try to add user to EXT database
     SyncUser syncUser = new SyncUser();
     String result = new String();
@@ -405,7 +411,7 @@ if(isOnline()) {
 }else{//if device has not network
     Toast.makeText(getApplicationContext(), "Network unavailable! Try agaian", Toast.LENGTH_SHORT).show();
 }
-
+    return 1;
             //finish();
          /*
             }*/

@@ -45,7 +45,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="DOB"
+                android:text="How old are you?"
 
                 android:id="@+id/DOBbutton"
                 android:layout_marginBottom="30dp"/>

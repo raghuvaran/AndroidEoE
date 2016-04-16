@@ -196,4 +196,6 @@
     <string name="php_syncUser">https://people.cs.clemson.edu/~rchowda/Projects/EoE/test_app.php</string>
     <string name="title_activity_user_treatment">UserTreatment</string>
 
+    <string name="about_app"></string>
+
 </resources>

@@ -16,6 +16,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -36,13 +37,25 @@ public class Settings extends AppCompatActivity {
         //setContentView(R.layout.pref_with_actionbar);
         //android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(com.example.santh.alarmtest.R.id.toolbar);
         //setSupportActionBar(toolbar);
-
+//        getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_notification_clear_all);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsItemFragment())
                 .commit();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**

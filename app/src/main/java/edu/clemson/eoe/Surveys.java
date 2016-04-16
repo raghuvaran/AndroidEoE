@@ -737,7 +737,7 @@ public class Surveys extends AppCompatActivity {
             if(time.moveToFirst()) {
                 recenttime = time.getString(time
                         .getColumnIndex("time"));
-                dbm.close();
+
 
 
                 Calendar QOLcalendar = Calendar.getInstance();
@@ -775,61 +775,12 @@ public class Surveys extends AppCompatActivity {
 
                     rootView = inflater.inflate(R.layout.symtons_survey_na, container, false);
                     setText(rootView, "Survey will be available in  " + elapsedDays + " Days");
+                    dbm.close();
+                    return rootView;
                     // diff.setText(""+different+"Days");
                     //Add a new layout xml here
-                } else {
+                } }
 
-
-                    rootView = inflater.inflate(R.layout.qol_survey, container, false);
-                    setRatingBarListener(rootView, 1, R.id.s1_q1_ratingBar, R.id.s1_q1_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 2, R.id.s1_q2_ratingBar, R.id.s1_q2_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 3, R.id.s1_q3_ratingBar, R.id.s1_q3_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 4, R.id.s1_q4_ratingBar, R.id.s1_q4_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 5, R.id.s1_q5_ratingBar, R.id.s1_q5_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 6, R.id.s1_q6_ratingBar, R.id.s1_q6_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 7, R.id.s2_q1_ratingBar, R.id.s2_q1_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 8, R.id.s2_q2_ratingBar, R.id.s2_q2_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 9, R.id.s2_q3_ratingBar, R.id.s2_q3_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 10, R.id.s2_q4_ratingBar, R.id.s2_q4_res, freqResponse, 0, 0, 0);
-
-                    setRatingBarListener(rootView, 11, R.id.s3_q1_ratingBar, R.id.s3_q1_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 12, R.id.s3_q2_ratingBar, R.id.s3_q2_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 13, R.id.s3_q3_ratingBar, R.id.s3_q3_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 14, R.id.s3_q4_ratingBar, R.id.s3_q4_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 15, R.id.s3_q5_ratingBar, R.id.s3_q5_res, freqResponse, 0, 0, 0);
-
-                    setRatingBarListener(rootView, 16, R.id.s4_q1_ratingBar, R.id.s4_q1_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 17, R.id.s4_q2_ratingBar, R.id.s4_q2_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 18, R.id.s4_q3_ratingBar, R.id.s4_q3_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 19, R.id.s4_q4_ratingBar, R.id.s4_q4_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 20, R.id.s4_q5_ratingBar, R.id.s4_q5_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 21, R.id.s4_q6_ratingBar, R.id.s4_q6_res, freqResponse, 0, 0, 0);
-
-                    setRatingBarListener(rootView, 22, R.id.s5_q1_ratingBar, R.id.s5_q1_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 23, R.id.s5_q2_ratingBar, R.id.s5_q2_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 24, R.id.s5_q3_ratingBar, R.id.s5_q3_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 25, R.id.s5_q4_ratingBar, R.id.s5_q4_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 26, R.id.s5_q5_ratingBar, R.id.s5_q5_res, freqResponse, 0, 0, 0);
-
-                    onRadioChange(rootView, 27, R.id.s6_s7);
-
-                    setRatingBarListener(rootView, 28, R.id.s6_q1_ratingBar, R.id.s6_q1_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 29, R.id.s6_q2_ratingBar, R.id.s6_q2_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 30, R.id.s6_q3_ratingBar, R.id.s6_q3_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 31, R.id.s6_q4_ratingBar, R.id.s6_q4_res, freqResponse, 0, 0, 0);
-
-                    setRatingBarListener(rootView, 32, R.id.s7_q1_ratingBar, R.id.s7_q1_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 33, R.id.s7_q2_ratingBar, R.id.s7_q2_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 34, R.id.s7_q3_ratingBar, R.id.s7_q3_res, freqResponse, 0, 0, 0);
-
-                    onRadioChange(rootView, 35, R.id.s8);
-
-                    setRatingBarListener(rootView, 36, R.id.s8_q1_ratingBar, R.id.s8_q1_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 37, R.id.s8_q2_ratingBar, R.id.s8_q2_res, freqResponse, 0, 0, 0);
-                }
-            }
-            else
-            {
                 dbm.close();
                 rootView = inflater.inflate(R.layout.qol_survey, container, false);
                 setRatingBarListener(rootView, 1, R.id.s1_q1_ratingBar, R.id.s1_q1_res, freqResponse, 0, 0, 0);
@@ -862,7 +813,11 @@ public class Surveys extends AppCompatActivity {
                 setRatingBarListener(rootView, 25, R.id.s5_q4_ratingBar, R.id.s5_q4_res, freqResponse, 0, 0, 0);
                 setRatingBarListener(rootView, 26, R.id.s5_q5_ratingBar, R.id.s5_q5_res, freqResponse, 0, 0, 0);
 
-                onRadioChange(rootView, 27, R.id.s6_s7);
+                onRadioChange(rootView, 27, R.id.s6_s7
+                ,R.id.s6_q1_ratingBar,R.id.s6_q2_ratingBar,R.id.s6_q3_ratingBar,R.id.s6_q4_ratingBar,R.id.s7_q1_ratingBar,R.id.s7_q2_ratingBar,R.id.s7_q3_ratingBar
+                ,R.id.s6_title,R.id.s7_title
+                ,R.id.s6_q1,R.id.s6_q2,R.id.s6_q3,R.id.s6_q4,R.id.s7_q1,R.id.s7_q2,R.id.s7_q3
+                ,R.id.s6_q1_res,R.id.s6_q2_res,R.id.s6_q3_res,R.id.s6_q4_res,R.id.s7_q1_res,R.id.s7_q2_res,R.id.s7_q3_res);
 
                 setRatingBarListener(rootView, 28, R.id.s6_q1_ratingBar, R.id.s6_q1_res, freqResponse, 0, 0, 0);
                 setRatingBarListener(rootView, 29, R.id.s6_q2_ratingBar, R.id.s6_q2_res, freqResponse, 0, 0, 0);
@@ -873,11 +828,15 @@ public class Surveys extends AppCompatActivity {
                 setRatingBarListener(rootView, 33, R.id.s7_q2_ratingBar, R.id.s7_q2_res, freqResponse, 0, 0, 0);
                 setRatingBarListener(rootView, 34, R.id.s7_q3_ratingBar, R.id.s7_q3_res, freqResponse, 0, 0, 0);
 
-                onRadioChange(rootView, 35, R.id.s8);
+                onRadioChange(rootView, 35, R.id.s8
+                ,R.id.s8_title
+                ,R.id.s8_q1,R.id.s8_q2
+                ,R.id.s8_q1_res,R.id.s8_q2_res
+                ,R.id.s8_q1_ratingBar,R.id.s8_q2_ratingBar);
 
                 setRatingBarListener(rootView, 36, R.id.s8_q1_ratingBar, R.id.s8_q1_res, freqResponse, 0, 0, 0);
                 setRatingBarListener(rootView, 37, R.id.s8_q2_ratingBar, R.id.s8_q2_res, freqResponse, 0, 0, 0);
-            }
+
             //setRatingBarListener(rootView, R.id.s1_s_ratingBar, R.id.s1_s_res, severeResponse);
             return rootView;
         }
@@ -902,6 +861,7 @@ public class Surveys extends AppCompatActivity {
             final int next_q_res = next_question_res;
             final View view = v;
 
+
             q1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -923,7 +883,7 @@ public class Surveys extends AppCompatActivity {
                     }
 
                     if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {  //If called from QoL view (3)
-                        qol_response[q_id] = (int) rating;
+                        qol_response[q_id] = (int) rating - 1;
 
                     }
                     //Disable severity question
@@ -986,7 +946,7 @@ public class Surveys extends AppCompatActivity {
 
         }
 
-        public void onRadioChange(final View view,int id, int radio){
+        public void onRadioChange(final View view,int id, int radio, final Integer... params){
             final View v = view;
             final int q_id = id;
             final RadioGroup radioGroup = (RadioGroup) view.findViewById(radio);
@@ -999,11 +959,25 @@ public class Surveys extends AppCompatActivity {
                     if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {  //If called from Food diary view (3)
                         if(((RadioButton) v.findViewById(checkedId)).getText().toString().equalsIgnoreCase("yes")){
                             qol_response[q_id] = 1;
+                            if(params.length>0){ //set all the views in params to visible
+                                for(int viewId: params){
+                                    View view1 = v.findViewById(viewId);
+                                    view1.setVisibility(View.VISIBLE);
+                                }
+                            }
                         }else{
                             qol_response[q_id] = 0;
+                            if(params.length>0){ //set all the views in params to visible
+                                for(int viewId: params){
+                                    View view1 = v.findViewById(viewId);
+                                    view1.setVisibility(View.GONE);
+                                }
+                            }
                         }
 
                     }
+
+
                 }
             });
         }
