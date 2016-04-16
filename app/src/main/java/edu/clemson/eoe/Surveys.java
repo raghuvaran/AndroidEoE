@@ -95,30 +95,33 @@ public class Surveys extends AppCompatActivity {
 
     private static final int[] symptoms_f_response = new int[12];
     static {
-        symptoms_f_response[0]=1;
-        symptoms_f_response[1]=0;
-        symptoms_f_response[2]=0;
-        symptoms_f_response[3]=0;
-        symptoms_f_response[4]=0;
-        symptoms_f_response[5]=0;
-        symptoms_f_response[6]=0;
-        symptoms_f_response[7]=0;
-        symptoms_f_response[8]=0;
-        symptoms_f_response[9]=0;
-        symptoms_f_response[10]=0;
-        symptoms_f_response[11]=0;
+        symptoms_f_response[0]=99;
+        symptoms_f_response[1]=-1;
+        symptoms_f_response[2]=-1;
+        symptoms_f_response[3]=-1;
+        symptoms_f_response[4]=-1;
+        symptoms_f_response[5]=-1;
+        symptoms_f_response[6]=-1;
+        symptoms_f_response[7]=-1;
+        symptoms_f_response[8]=-1;
+        symptoms_f_response[9]=-1;
+        symptoms_f_response[10]=-1;
+        symptoms_f_response[11]=-1;
     }
-    private static final int[] symptoms_s_response = new int[10];
+    private static final int[] symptoms_s_response = new int[12];
     static {
-        symptoms_s_response[1]=0;
-        symptoms_s_response[2]=0;
-        symptoms_s_response[3]=0;
-        symptoms_s_response[4]=0;
-        symptoms_s_response[5]=0;
-        symptoms_s_response[6]=0;
-        symptoms_s_response[7]=0;
-        symptoms_s_response[8]=0;
-        symptoms_s_response[9]=0;
+        symptoms_s_response[0]=99;
+        symptoms_s_response[1]=-1;
+        symptoms_s_response[2]=-1;
+        symptoms_s_response[3]=-1;
+        symptoms_s_response[4]=-1;
+        symptoms_s_response[5]=-1;
+        symptoms_s_response[6]=-1;
+        symptoms_s_response[7]=-1;
+        symptoms_s_response[8]=-1;
+        symptoms_s_response[9]=-1;
+        symptoms_s_response[10]=-1;
+        symptoms_s_response[11]=-1;
     }
     private static final String[] fd_response = new String[8];
     static {
@@ -193,6 +196,7 @@ public class Surveys extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setCurrentItem(1, true);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -744,9 +748,9 @@ public class Surveys extends AppCompatActivity {
 
                     if (getArguments().getInt(ARG_SECTION_NUMBER) == 1) {  //If called from Symptoms view (1)
                         if (hashMap.get(4f).toString().equalsIgnoreCase("Often")) { //all frequency questions
-                            symptoms_f_response[q_id] = (int) rating;
+                            symptoms_f_response[q_id] = (int) rating -1;
                         } else {
-                            symptoms_s_response[q_id] = (int) rating;
+                            symptoms_s_response[q_id] = (int) rating -1;
                         }
                     }
 
@@ -890,33 +894,23 @@ public class Surveys extends AppCompatActivity {
 
     public void onSymptomsSubmit(View view){
         int counter = 0;
-
-//        for(int i:symptoms_f_response) {
-//           // Log.i("Symtoms response_f"+ (counter++), String.valueOf(i));
-//            if(symptoms_f_response[i]==0)
-//            {
-//                counter++;
-//
-//            }
-//
-//        }
-
-        for(int i=0;i<symptoms_f_response.length;i++)
+/*
+       for(int i:symptoms_f_response) {
+           Log.i("Symtoms response_f"+ (counter++), String.valueOf(i));
+         }
+        counter = 0;*/
+        for(int i=1;i<symptoms_f_response.length;i++)
         {
-            if(symptoms_f_response[i]==0)
-            {
-                counter++;
-                Log.i("Symtoms response_f"+i,String.valueOf(i));
-            }
+            if(symptoms_f_response[i]==-1 ){counter++;}
+            if(symptoms_f_response[i] >0  && i <10 && symptoms_s_response[i]==-1){counter++;}
         }
-
-
-       // counter = 0;
-      /*  for(int i:symptoms_s_response)
+/*        Log.i("Counter",String.valueOf(counter));
+        //counter = 2;
+       counter = 0;
+        for(int i:symptoms_s_response)
         {
             Log.i("Symtoms response_s"+(counter++), String.valueOf(i));
         }*/
-
         /**
          * Database query goes below this block--
          * Eg. array structure
