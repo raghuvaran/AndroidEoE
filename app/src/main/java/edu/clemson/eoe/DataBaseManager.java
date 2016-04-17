@@ -17,9 +17,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -27,12 +30,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 /**
  *
  * DataBaseManager class file to edit delete update and query the database
  */
 public class DataBaseManager {
-    public static final int DATABASE_VERSION = 7;
+    public static final int DATABASE_VERSION = 9;
     public static final String DATABASE_NAME = "EoE.db";
     public static final String TABLE_NAME_USERINFO = "userInfo";
     public static final String TABLE_NAME_FOODDIARY = "foodDiary";
@@ -129,6 +133,13 @@ public class DataBaseManager {
                     "q18 " +TEXT_TYPE + COMMA_SEP +
                     "q19 " +TEXT_TYPE + COMMA_SEP +
                     "q20 " +TEXT_TYPE + COMMA_SEP +
+                    "frequency" +TEXT_TYPE + COMMA_SEP +
+                    "severity" +TEXT_TYPE + COMMA_SEP +
+                    "total" +TEXT_TYPE + COMMA_SEP +
+                    "Dysphagia " +TEXT_TYPE + COMMA_SEP +
+                    "Gerd " +TEXT_TYPE + COMMA_SEP +
+                    "Nausea " +TEXT_TYPE + COMMA_SEP +
+                    "Pain " +TEXT_TYPE + COMMA_SEP +
                     "updateStatus INTEGER " + COMMA_SEP +
                     "FOREIGN KEY(user_patientid) REFERENCES " +
                     TABLE_NAME_USERINFO + "(patientID)" +
@@ -180,6 +191,15 @@ public class DataBaseManager {
                     "s8   " +" INTEGER " + COMMA_SEP +
                     "s8q1 " +" INTEGER " + COMMA_SEP +
                     "s8q2 " +" INTEGER " + COMMA_SEP +
+                    "symptoms1 " +" DOUBLE " + COMMA_SEP +
+                    "symptoms2 " +" DOUBLE " + COMMA_SEP +
+                    "Treatment " +" DOUBLE " + COMMA_SEP +
+                    "Worry " +" DOUBLE " + COMMA_SEP +
+                    "Communication " +" DOUBLE " + COMMA_SEP +
+                    "FE" +" DOUBLE " + COMMA_SEP +
+                    "FF" +" DOUBLE " + COMMA_SEP +
+                    "Total" +" DOUBLE " + COMMA_SEP +
+                    "symptoms " +" DOUBLE " + COMMA_SEP +
                     "updateStatus INTEGER " + COMMA_SEP +
                     "FOREIGN KEY(user_patientid) REFERENCES " +
                     TABLE_NAME_USERINFO + "(patientID)" +
@@ -346,12 +366,14 @@ public class DataBaseManager {
         String boundary = "*****";
         int bytesRead, bytesAvailable, bufferSize;
         byte[] buffer;
-        int maxBufferSize = 1024 * 1024;
+        int maxBufferSize = 10;
         File sourceFile = new File(source);
 
         try {
             FileInputStream fileInputStream = new FileInputStream(sourceFile);
-            
+
+
+
             //The php script
             URL url = new URL("https://people.cs.clemson.edu/~sravira/Viewing/saveImage.php");
             conn = (HttpURLConnection) url.openConnection();
@@ -458,7 +480,7 @@ public class DataBaseManager {
 
 
 
-    public boolean addSymptoms(int patientID,String DateTime,int []frequency,int []severity)
+    public boolean addSymptoms(int patientID,String DateTime,int []frequency,int []severity,double []score)
     {
 
         ContentValues values = new ContentValues();
@@ -485,6 +507,13 @@ public class DataBaseManager {
         values.put("q14", severity[7]);
         values.put("q16", severity[8]);
         values.put("q18", severity[9]);
+        values.put("frequency",score[1]);
+        values.put("severity",score[2]);
+        values.put("total",score[3]);
+        values.put("Dysphagia",score[4]);
+        values.put("Gerd",score[5]);
+        values.put("Nausea",score[6]);
+        values.put("Pain",score[7]);
         values.put("updateStatus",0);
 
 
@@ -505,7 +534,7 @@ public class DataBaseManager {
         return newRowId != -1;
     }
 
-    public boolean addQol(int patientID,String DateTime,int []qol)
+    public boolean addQol(int patientID,String DateTime,int []qol,double []score)
     {
 
         ContentValues values = new ContentValues();
@@ -549,6 +578,15 @@ public class DataBaseManager {
         values.put("s8   ", qol[35]);
         values.put("s8q1 ", qol[36]);
         values.put("s8q2 ", qol[37]);
+        values.put("symptoms1",score[1]);
+        values.put("symptoms2",score[2]);
+        values.put("Treatment",score[3]);
+        values.put("Worry",score[4]);
+        values.put("Communication",score[5]);
+        values.put("FE",score[6]);
+        values.put("FF",score[7]);
+        values.put("Total",score[8]);
+        values.put("symptoms",score[9]);
         values.put("updateStatus",0);
 //        values.put(,qol[18]);
 

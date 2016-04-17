@@ -1050,12 +1050,12 @@ public class Surveys extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         }
         else {
-
+            double [] score = computesymptomsscore();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String currentDateandTime = sdf.format(new Date());
             DataBaseManager dbm = new DataBaseManager(getApplicationContext());
             dbm.open();
-            boolean result = dbm.addSymptoms(patientID, currentDateandTime, symptoms_f_response, symptoms_s_response);
+            boolean result = dbm.addSymptoms(patientID, currentDateandTime, symptoms_f_response, symptoms_s_response,score);
             dbm.close();
             if (result) {
 
@@ -1086,6 +1086,8 @@ public class Surveys extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         }
         else {
+
+
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String currentDateandTime = sdf.format(new Date());
             DataBaseManager dbm = new DataBaseManager(this);
@@ -1112,6 +1114,416 @@ public class Surveys extends AppCompatActivity {
         // TODO: 07-04-2016 add database queries here!
     }
 
+    private double[]  computesymptomsscore() {
+
+        double frequencyitems=11,severityitems=9,totalitems=20,frequencydomain,severitydomain,Dysphagiaitems=8,Dysphagiadomain,
+        gerddomain,gerditems=4,nauseaitems=4,nauseadomain,painitems=4,paindomain;
+        double frequencyscore,severityscore,totalscore,Dysphagiascore,nauseascore,gerdscore,painscore;
+        int score100=0,score75=0,score50=0,score25=0,score0=0;
+        for(int i=1;i<=11;i++)
+        {
+            if(symptoms_f_response[i]==0)
+            {
+                score100=score100+100;
+            }
+            else if(symptoms_f_response[i]==1)
+            {
+                score75=score75+75;
+            }
+            else if(symptoms_f_response[i]==2)
+            {
+                score50=score50+50;
+            }
+            else if(symptoms_f_response[i]==3)
+            {
+                score25=score25+25;
+            }else if(symptoms_f_response[i]==4)
+            {
+                score0=score0+0;
+            }
+        }
+
+        frequencydomain=score100+score75+score50+score25+score0;
+        frequencyscore=(frequencydomain)/frequencyitems;
+        score100=0;score75=0;score50=0;score25=0;score0=0;
+int count=0;
+        for(int i=1;i<=9;i++)
+        {
+            if(symptoms_s_response[i]== -1)
+            {
+                count++;
+            }
+            else if(symptoms_s_response[i]==0)
+            {
+                score100=score100+100;
+            }
+            else if(symptoms_s_response[i]==1)
+            {
+                score75=score75+75;
+            }
+            else if(symptoms_s_response[i]==2)
+            {
+                score50=score50+50;
+            }
+            else if(symptoms_s_response[i]==3)
+            {
+                score25=score25+25;
+            }else if(symptoms_s_response[i]==4)
+            {
+                score0=score0+0;
+            }
+        }
+        Log.i("count",""+count);
+        severitydomain=score100+score75+score50+score25+score0;
+        severityscore=(severitydomain)/(severityitems-count);
+        score100=0;score75=0;score50=0;score25=0;score0=0;
+        totalscore=(severitydomain+frequencydomain)/(frequencyitems+severityitems-count);
+        for(int i=4;i<=6;i++)
+        {
+            if(symptoms_f_response[i]==0)
+            {
+                score100=score100+100;
+            }
+            else if(symptoms_f_response[i]==1)
+            {
+                score75=score75+75;
+            }
+            else if(symptoms_f_response[i]==2)
+            {
+                score50=score50+50;
+            }
+            else if(symptoms_f_response[i]==3)
+            {
+                score25=score25+25;
+            }else if(symptoms_f_response[i]==4)
+            {
+                score0=score0+0;
+            }
+        }
+    int countsDys=0;
+        for(int i=4;i<=6;i++)
+        {
+            if(symptoms_s_response[i]==-1)
+            {
+                countsDys++;
+            }
+            else if(symptoms_s_response[i]==0)
+            {
+                score100=score100+100;
+            }
+            else if(symptoms_s_response[i]==1)
+            {
+                score75=score75+75;
+            }
+            else if(symptoms_s_response[i]==2)
+            {
+                score50=score50+50;
+            }
+            else if(symptoms_s_response[i]==3)
+            {
+                score25=score25+25;
+            }else if(symptoms_s_response[i]==4)
+            {
+                score0=score0+0;
+            }
+        }
+        for(int i=10;i<=11;i++)
+        {
+            if(symptoms_f_response[i]==0)
+            {
+                score100=score100+100;
+            }
+            else if(symptoms_f_response[i]==1)
+            {
+                score75=score75+75;
+            }
+            else if(symptoms_f_response[i]==2)
+            {
+                score50=score50+50;
+            }
+            else if(symptoms_f_response[i]==3)
+            {
+                score25=score25+25;
+            }else if(symptoms_f_response[i]==4)
+            {
+                score0=score0+0;
+            }
+        }
+
+        Dysphagiadomain=score100+score75+score50+score25+score0;
+        Dysphagiascore=(Dysphagiadomain)/(Dysphagiaitems-countsDys);
+        score100=0;score75=0;score50=0;score25=0;score0=0;
+
+        for(int i=2;i<=2;i++)
+        {
+            if(symptoms_f_response[i]==0)
+            {
+                score100=score100+100;
+            }
+            else if(symptoms_f_response[i]==1)
+            {
+                score75=score75+75;
+            }
+            else if(symptoms_f_response[i]==2)
+            {
+                score50=score50+50;
+            }
+            else if(symptoms_f_response[i]==3)
+            {
+                score25=score25+25;
+            }else if(symptoms_f_response[i]==4)
+            {
+                score0=score0+0;
+            }
+        }
+        int countsevgerd=0;
+        for(int i=2;i<=2;i++)
+        {
+            if(symptoms_s_response[i]==-1)
+            {
+                countsevgerd++;
+            }
+            else if(symptoms_s_response[i]==0)
+            {
+                score100=score100+100;
+            }
+            else if(symptoms_s_response[i]==1)
+            {
+                score75=score75+75;
+            }
+            else if(symptoms_s_response[i]==2)
+            {
+                score50=score50+50;
+            }
+            else if(symptoms_s_response[i]==3)
+            {
+                score25=score25+25;
+            }else if(symptoms_s_response[i]==4)
+            {
+                score0=score0+0;
+            }
+        }
+
+        for(int i=9;i<=9;i++)
+        {
+            if(symptoms_f_response[i]==0)
+            {
+                score100=score100+100;
+            }
+            else if(symptoms_f_response[i]==1)
+            {
+                score75=score75+75;
+            }
+            else if(symptoms_f_response[i]==2)
+            {
+                score50=score50+50;
+            }
+            else if(symptoms_f_response[i]==3)
+            {
+                score25=score25+25;
+            }else if(symptoms_f_response[i]==4)
+            {
+                score0=score0+0;
+            }
+        }
+        int countsevgerd1=0;
+        for(int i=9;i<=9;i++)
+        {
+            if(symptoms_s_response[i]==-1)
+            {
+                countsevgerd1++;
+            }
+            else if(symptoms_s_response[i]==0)
+            {
+                score100=score100+100;
+            }
+            else if(symptoms_s_response[i]==1)
+            {
+                score75=score75+75;
+            }
+            else if(symptoms_s_response[i]==2)
+            {
+                score50=score50+50;
+            }
+            else if(symptoms_s_response[i]==3)
+            {
+                score25=score25+25;
+            }else if(symptoms_s_response[i]==4)
+            {
+                score0=score0+0;
+            }
+        }
+
+        gerddomain=score100+score75+score50+score25+score0;
+        gerdscore=(gerddomain)/(gerditems-countsevgerd-countsevgerd1);
+        score100=0;score75=0;score50=0;score25=0;score0=0;
+
+        for(int i=7;i<=8;i++)
+        {
+            if(symptoms_f_response[i]==0)
+            {
+                score100=score100+100;
+            }
+            else if(symptoms_f_response[i]==1)
+            {
+                score75=score75+75;
+            }
+            else if(symptoms_f_response[i]==2)
+            {
+                score50=score50+50;
+            }
+            else if(symptoms_f_response[i]==3)
+            {
+                score25=score25+25;
+            }else if(symptoms_f_response[i]==4)
+            {
+                score0=score0+0;
+            }
+        }
+        int countnausea=0;
+        for(int i=7;i<=8;i++)
+        {
+            if(symptoms_s_response[i]==-1)
+            {
+                countnausea++;
+            }
+            else if(symptoms_s_response[i]==0)
+            {
+                score100=score100+100;
+            }
+            else if(symptoms_s_response[i]==1)
+            {
+                score75=score75+75;
+            }
+            else if(symptoms_s_response[i]==2)
+            {
+                score50=score50+50;
+            }
+            else if(symptoms_s_response[i]==3)
+            {
+                score25=score25+25;
+            }else if(symptoms_s_response[i]==4)
+            {
+                score0=score0+0;
+            }
+        }
+
+        nauseadomain=score100+score75+score50+score25+score0;
+        nauseascore=(nauseadomain)/(nauseaitems-countnausea);
+        score100=0;score75=0;score50=0;score25=0;score0=0;
+
+        for(int i=1;i<=1;i++)
+        {
+            if(symptoms_f_response[i]==0)
+            {
+                score100=score100+100;
+            }
+            else if(symptoms_f_response[i]==1)
+            {
+                score75=score75+75;
+            }
+            else if(symptoms_f_response[i]==2)
+            {
+                score50=score50+50;
+            }
+            else if(symptoms_f_response[i]==3)
+            {
+                score25=score25+25;
+            }else if(symptoms_f_response[i]==4)
+            {
+                score0=score0+0;
+            }
+        }
+        int countpain=0;
+        for(int i=1;i<=1;i++)
+        {
+            if(symptoms_s_response[i]==-1)
+            {
+                countpain++;
+            }
+            else if(symptoms_s_response[i]==0)
+            {
+                score100=score100+100;
+            }
+            else if(symptoms_s_response[i]==1)
+            {
+                score75=score75+75;
+            }
+            else if(symptoms_s_response[i]==2)
+            {
+                score50=score50+50;
+            }
+            else if(symptoms_s_response[i]==3)
+            {
+                score25=score25+25;
+            }else if(symptoms_s_response[i]==4)
+            {
+                score0=score0+0;
+            }
+        }
+
+        for(int i=3;i<=3;i++)
+        {
+            if(symptoms_f_response[i]==0)
+            {
+                score100=score100+100;
+            }
+            else if(symptoms_f_response[i]==1)
+            {
+                score75=score75+75;
+            }
+            else if(symptoms_f_response[i]==2)
+            {
+                score50=score50+50;
+            }
+            else if(symptoms_f_response[i]==3)
+            {
+                score25=score25+25;
+            }else if(symptoms_f_response[i]==4)
+            {
+                score0=score0+0;
+            }
+        }
+        for(int i=3;i<=3;i++)
+        {
+            if(symptoms_s_response[i]==-1)
+            {
+                countpain++;
+            }
+            else if(symptoms_s_response[i]==0)
+            {
+                score100=score100+100;
+            }
+            else if(symptoms_s_response[i]==1)
+            {
+                score75=score75+75;
+            }
+            else if(symptoms_s_response[i]==2)
+            {
+                score50=score50+50;
+            }
+            else if(symptoms_s_response[i]==3)
+            {
+                score25=score25+25;
+            }else if(symptoms_s_response[i]==4)
+            {
+                score0=score0+0;
+            }
+        }
+        paindomain=score100+score75+score50+score25+score0;
+        painscore=(paindomain)/(painitems-countpain);
+        double []freqsevscore=new double[8];
+        freqsevscore[1]=frequencyscore;
+        freqsevscore[2]=severityscore;
+        freqsevscore[3]=totalscore;
+        freqsevscore[4]=Dysphagiascore;
+        freqsevscore[5]=gerdscore;
+        freqsevscore[6]=nauseascore;
+        freqsevscore[7]=painscore;
+        return  freqsevscore;
+
+    }
+
     public void onQoLSubmit(View view){
         int counter = 0;
         for(int i=0;i<qol_response.length;i++)
@@ -1127,17 +1539,17 @@ public class Surveys extends AppCompatActivity {
 
         }
         else {
+            double []qol=computeqolscore();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String currentDateandTime = sdf.format(new Date());
 
             DataBaseManager dbm = new DataBaseManager(getApplicationContext());
             dbm.open();
-            boolean result = dbm.addQol(patientID, currentDateandTime, qol_response);
+            boolean result = dbm.addQol(patientID, currentDateandTime, qol_response,qol);
             dbm.close();
             if (result) {
 
                 Toast.makeText(getApplicationContext(), "PedsQl response saved ",
-                Toast.makeText(getApplicationContext(), "Thank you for giving QoL survey",
                         Toast.LENGTH_SHORT).show();
 
                 Intent callActivity =new Intent(getApplicationContext(),Surveys.class);
@@ -1148,6 +1560,215 @@ public class Surveys extends AppCompatActivity {
             }
 
         }
+
+    }
+
+    private double[] computeqolscore() {
+        double symptoms1scale,symptoms1items=6,symptoms2scale,symptoms2items=4,treatmentscale,Treatmentitems=5,
+                worryscale,worryitems=6,communicationscale,communicationitems=5,fescale,fescaleitems=4,ffscale,ffscaleitems=3;
+        double symtoms1scalescore,symptoms2scalescore,TreatmentScore,worryscore,communicationscore,fescalescore=0,ffscore=0,totalscore,symptomscore;
+        int score100s1=0,score75s1=0,score50s1=0,score25s1=0,score0s1=0,score100s2=0,score75s2=0,score50s2=0,score25s2=0,score0s2=0;
+        for (int i=1;i<=6;i++)
+        {
+            if(qol_response[i]==0)
+            {
+                score100s1=score100s1+100;
+            }
+           else if(qol_response[i]==1)
+            {
+                score75s1=score75s1+75;
+            }
+            else if(qol_response[i]==2)
+            {
+                score50s1=score50s1+50;
+            }
+            else if(qol_response[i]==3)
+            {
+                score25s1=score25s1+25;
+            }else if(qol_response[i]==4)
+            {
+                score0s1=score0s1+0;
+            }
+
+
+        }
+
+        symptoms1scale=score100s1+score75s1+score50s1+score25s1+score0s1;
+        symtoms1scalescore=(symptoms1scale)/symptoms1items;
+        score100s1=0;score75s1=0;score50s1=0;score25s1=0;score0s1=0;
+        for (int i=7;i<=10;i++)
+        {
+            if(qol_response[i]==0)
+            {
+                score100s1=score100s1+100;
+            }
+            else if(qol_response[i]==1)
+            {
+                score75s1=score75s1+75;
+            }
+            else if(qol_response[i]==2)
+            {
+                score50s1=score50s1+50;
+            }
+            else if(qol_response[i]==3)
+            {
+                score25s1=score25s1+25;
+            }else if(qol_response[i]==4)
+            {
+                score0s1=score0s1+0;
+            }
+
+
+        }
+        symptoms2scale=score100s1+score75s1+score50s1+score25s1+score0s1;
+        symptoms2scalescore=(symptoms2scale)/symptoms2items;
+        score100s1=0;score75s1=0;score50s1=0;score25s1=0;score0s1=0;
+        for (int i=11;i<=15;i++)
+        {
+            if(qol_response[i]==0)
+            {
+                score100s1=score100s1+100;
+            }
+            else if(qol_response[i]==1)
+            {
+                score75s1=score75s1+75;
+            }
+            else if(qol_response[i]==2)
+            {
+                score50s1=score50s1+50;
+            }
+            else if(qol_response[i]==3)
+            {
+                score25s1=score25s1+25;
+            }else if(qol_response[i]==4)
+            {
+                score0s1=score0s1+0;
+            }
+
+
+        }
+
+        treatmentscale=score100s1+score75s1+score50s1+score25s1+score0s1;
+        TreatmentScore=(treatmentscale)/Treatmentitems;
+
+        score100s1=0;score75s1=0;score50s1=0;score25s1=0;score0s1=0;
+        for (int i=16;i<=21;i++)
+        {
+            if(qol_response[i]==0)
+            {
+                score100s1=score100s1+100;
+            }
+            else if(qol_response[i]==1)
+            {
+                score75s1=score75s1+75;
+            }
+            else if(qol_response[i]==2)
+            {
+                score50s1=score50s1+50;
+            }
+            else if(qol_response[i]==3)
+            {
+                score25s1=score25s1+25;
+            }else if(qol_response[i]==4)
+            {
+                score0s1=score0s1+0;
+            }
+
+
+        }
+        worryscale=score100s1+score75s1+score50s1+score25s1+score0s1;
+        worryscore=(worryscale)/worryitems;
+
+        score100s1=0;score75s1=0;score50s1=0;score25s1=0;score0s1=0;
+        for (int i=22;i<=26;i++)
+        {
+            if(qol_response[i]==0)
+            {
+                score100s1=score100s1+100;
+            }
+            else if(qol_response[i]==1)
+            {
+                score75s1=score75s1+75;
+            }
+            else if(qol_response[i]==2)
+            {
+                score50s1=score50s1+50;
+            }
+            else if(qol_response[i]==3)
+            {
+                score25s1=score25s1+25;
+            }else if(qol_response[i]==4)
+            {
+                score0s1=score0s1+0;
+            }
+
+
+        }
+
+        communicationscale=score100s1+score75s1+score50s1+score25s1+score0s1;
+        communicationscore=(communicationscale)/communicationitems;
+
+        score100s1=0;score75s1=0;score50s1=0;score25s1=0;score0s1=0;
+        if(qol_response[27]==1) {
+            for (int i = 28; i <= 31; i++) {
+                if (qol_response[i] == 0) {
+                    score100s1 = score100s1 + 100;
+                } else if (qol_response[i] == 1) {
+                    score75s1 = score75s1 + 75;
+                } else if (qol_response[i] == 2) {
+                    score50s1 = score50s1 + 50;
+                } else if (qol_response[i] == 3) {
+                    score25s1 = score25s1 + 25;
+                } else if (qol_response[i] == 4) {
+                    score0s1 = score0s1 + 0;
+                }
+
+
+            }
+
+            fescale = score100s1 + score75s1 + score50s1 + score25s1 + score0s1;
+            fescalescore = (fescale) / fescaleitems;
+
+            score100s1 = 0;
+            score75s1 = 0;
+            score50s1 = 0;
+            score25s1 = 0;
+            score0s1 = 0;
+            for (int i = 32; i <= 34; i++) {
+                if (qol_response[i] == 0) {
+                    score100s1 = score100s1 + 100;
+                } else if (qol_response[i] == 1) {
+                    score75s1 = score75s1 + 75;
+                } else if (qol_response[i] == 2) {
+                    score50s1 = score50s1 + 50;
+                } else if (qol_response[i] == 3) {
+                    score25s1 = score25s1 + 25;
+                } else if (qol_response[i] == 4) {
+                    score0s1 = score0s1 + 0;
+                }
+
+
+            }
+
+            ffscale = score100s1 + score75s1 + score50s1 + score25s1 + score0s1;
+            ffscore = (ffscale) / ffscaleitems;
+        }
+
+        totalscore=(symtoms1scalescore+symptoms2scalescore+TreatmentScore+worryscore+communicationscore+fescalescore+ffscore)/33;
+        symptomscore=(symtoms1scalescore+symptoms2scalescore)/10;
+        double storeqolscore[] =new double[10];
+        storeqolscore[1]=symtoms1scalescore;
+        storeqolscore[2]=symptoms2scalescore;
+        storeqolscore[3]=TreatmentScore;
+        storeqolscore[4]=worryscore;
+        storeqolscore[5]=communicationscore;
+        storeqolscore[6]=fescalescore;
+        storeqolscore[7]=ffscore;
+        storeqolscore[8]=totalscore;
+        storeqolscore[9]=symptomscore;
+
+        return storeqolscore;
+
 
     }
 
@@ -1604,7 +2225,6 @@ public class Surveys extends AppCompatActivity {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
-
         }
 
         @Override
