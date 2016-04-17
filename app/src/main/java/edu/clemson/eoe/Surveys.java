@@ -1565,7 +1565,7 @@ int count=0;
 
     private double[] computeqolscore() {
         double symptoms1scale,symptoms1items=6,symptoms2scale,symptoms2items=4,treatmentscale,Treatmentitems=5,
-                worryscale,worryitems=6,communicationscale,communicationitems=5,fescale,fescaleitems=4,ffscale,ffscaleitems=3;
+                worryscale,worryitems=6,communicationscale,communicationitems=5,fescale=0,fescaleitems=4,ffscale=0,ffscaleitems=3;
         double symtoms1scalescore,symptoms2scalescore,TreatmentScore,worryscore,communicationscore,fescalescore=0,ffscore=0,totalscore,symptomscore;
         int score100s1=0,score75s1=0,score50s1=0,score25s1=0,score0s1=0,score100s2=0,score75s2=0,score50s2=0,score25s2=0,score0s2=0;
         for (int i=1;i<=6;i++)
@@ -1754,8 +1754,15 @@ int count=0;
             ffscore = (ffscale) / ffscaleitems;
         }
 
-        totalscore=(symtoms1scalescore+symptoms2scalescore+TreatmentScore+worryscore+communicationscore+fescalescore+ffscore)/33;
-        symptomscore=(symtoms1scalescore+symptoms2scalescore)/10;
+        if(qol_response[27]==1) {
+
+            totalscore = (symptoms1scale + symptoms2scale + treatmentscale + worryscale + communicationscale + fescale + ffscale) / 33;
+        }
+        else
+        {
+            totalscore = (symptoms1scale + symptoms2scale + treatmentscale + worryscale + communicationscale + fescale + ffscale) / 26;
+        }
+        symptomscore=(symptoms1scale+symptoms2scale)/10;
         double storeqolscore[] =new double[10];
         storeqolscore[1]=symtoms1scalescore;
         storeqolscore[2]=symptoms2scalescore;
