@@ -253,9 +253,11 @@ public class UserTreatment extends AppCompatActivity {
 
             Toast.makeText(getApplicationContext(), "User Treatment details Inserted ",
                     Toast.LENGTH_SHORT).show();
+
             Intent mServiceIntent = new Intent(this, SendData.class);
             ///mServiceIntent.putExtra("KEY","https://people.cs.clemson.edu/~sravira/Viewing/insertSymptoms.php");
             startService(mServiceIntent);
+            finish();
 
         }
         else

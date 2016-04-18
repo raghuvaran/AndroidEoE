@@ -1,6 +1,7 @@
 package edu.clemson.eoe;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -1088,31 +1089,53 @@ public class Surveys extends AppCompatActivity {
         else {
 
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String currentDateandTime = sdf.format(new Date());
-            DataBaseManager dbm = new DataBaseManager(this);
-            dbm.open();
-            boolean result = dbm.addFoodDiary(patientID, currentDateandTime, fd_response[2], fd_response[1], fd_response[3], fd_response[4], fd_response[5], fd_response[6], fd_response[7], mCurrentPhotoPath);
-            dbm.close();
-            if (result) {
+            if (!isMyServiceRunning()) {
 
-                Toast.makeText(getApplicationContext(), "Thank you for submitting your Food diary",
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String currentDateandTime = sdf.format(new Date());
+                DataBaseManager dbm = new DataBaseManager(this);
+                dbm.open();
+                boolean result = dbm.addFoodDiary(patientID, currentDateandTime, fd_response[2], fd_response[1], fd_response[3], fd_response[4], fd_response[5], fd_response[6], fd_response[7], mCurrentPhotoPath);
+                dbm.close();
+                if (result) {
+
+                    Toast.makeText(getApplicationContext(), "Thank you for submitting your Food diary",
+                            Toast.LENGTH_SHORT).show();
+
+                for(int i=1;i<fd_response.length;i++)
+                {
+                    fd_response[i]=null;
+                }
+                    Intent callactivity = new Intent(getApplicationContext(), Surveys.class);
+                    startActivity(callactivity);
+                    Intent mServiceIntent = new Intent(this, SendData.class);
+                    ///mServiceIntent.putExtra("KEY","https://people.cs.clemson.edu/~sravira/Viewing/insertSymptoms.php");
+                    startService(mServiceIntent);
+
+
+                }
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Please wait till background service finishes its job",
                         Toast.LENGTH_SHORT).show();
-
-
-                Intent callactivity =new Intent(getApplicationContext(),Surveys.class);
-                startActivity(callactivity);
-                Intent   mServiceIntent = new Intent(this, SendData.class);
-                ///mServiceIntent.putExtra("KEY","https://people.cs.clemson.edu/~sravira/Viewing/insertSymptoms.php");
-                startService(mServiceIntent);
-
-
             }
         }
         for (String i:fd_response){
             Log.i("FoodDiary response","fd_response"+counter+" is "+i);
         }
         // TODO: 07-04-2016 add database queries here!
+    }
+
+
+    private boolean isMyServiceRunning() {
+        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (SendData.class.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private double[]  computesymptomsscore() {
