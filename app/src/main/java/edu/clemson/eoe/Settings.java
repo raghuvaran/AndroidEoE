@@ -33,8 +33,9 @@ public class Settings extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.pref_test);
+
         setupActionBar();
-        //setContentView(R.layout.pref_with_actionbar);
         //android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(com.example.santh.alarmtest.R.id.toolbar);
         //setSupportActionBar(toolbar);
 //        getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_notification_clear_all);
@@ -42,7 +43,7 @@ public class Settings extends AppCompatActivity {
 
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new SettingsItemFragment())
+                .replace(R.id.content2, new SettingsItemFragment())
                 .commit();
 
     }
@@ -61,7 +62,7 @@ public class Settings extends AppCompatActivity {
     /**
      * Set up the {@link android.app.ActionBar}, if the API is available.
      */
-    private void setupActionBar() {
+    private  void setupActionBar() {
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -89,6 +90,7 @@ public class Settings extends AppCompatActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+
             addPreferencesFromResource(R.xml.settings);
 
             onSharedPreferenceChanged(null, "");
@@ -603,7 +605,7 @@ public class Settings extends AppCompatActivity {
             builder.setContentTitle("Food Diary -EoE");
             builder.setContentText(content);
             builder.setSmallIcon(R.mipmap.ic_launcher);
-            Intent resultIntent = new Intent(this.getActivity(), Settings.class);
+            Intent resultIntent = new Intent(this.getActivity(), Surveys.class);
             // The stack builder object will contain an artificial back stack for the
             // started Activity.
             // This ensures that navigating backward from the Activity leads out of

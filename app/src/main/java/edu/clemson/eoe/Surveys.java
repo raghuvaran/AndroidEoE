@@ -1099,12 +1099,13 @@ public class Surveys extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Thank you for submitting your Food diary",
                         Toast.LENGTH_SHORT).show();
 
+
                 Intent callactivity =new Intent(getApplicationContext(),Surveys.class);
                 startActivity(callactivity);
-
                 Intent   mServiceIntent = new Intent(this, SendData.class);
                 ///mServiceIntent.putExtra("KEY","https://people.cs.clemson.edu/~sravira/Viewing/insertSymptoms.php");
                 startService(mServiceIntent);
+
 
             }
         }

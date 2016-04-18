@@ -15,12 +15,12 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label= "@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".RegActivity"
-            android:label="@string/app_name"
+            android:label="Registration"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,6 +44,7 @@
         <activity
             android:name=".Settings"
             android:label="Settings"
+
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver android:name=".NotificationPublisher" />

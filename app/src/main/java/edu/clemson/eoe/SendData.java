@@ -96,6 +96,10 @@ public class SendData extends IntentService {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            catch (NullPointerException e)
+            {
+                e.printStackTrace();
+            }
 
 
 
@@ -104,7 +108,7 @@ public class SendData extends IntentService {
         }
 
 
-    private void onSymptomsSync(String url) throws ExecutionException, InterruptedException, JSONException {
+    private void onSymptomsSync(String url) throws ExecutionException, InterruptedException, JSONException,NullPointerException {
         if (isOnline()) {
             DataBaseManager dbm = new DataBaseManager(this);
             dbm.open();
@@ -148,7 +152,7 @@ public class SendData extends IntentService {
 
     }
 
-    private void onQOLSync(String url) throws ExecutionException, InterruptedException, JSONException {
+    private void onQOLSync(String url) throws ExecutionException, InterruptedException, JSONException,NullPointerException {
         if (isOnline()) {
             DataBaseManager dbm = new DataBaseManager(this);
             dbm.open();
@@ -221,8 +225,8 @@ public class SendData extends IntentService {
                 //c.setRequestProperty("Content-length", "0");
                 c.setUseCaches(false);
                 c.setAllowUserInteraction(false);
-                c.setConnectTimeout(10000);
-                c.setReadTimeout(10000);
+               // c.setConnectTimeout(10000);
+              //  c.setReadTimeout(10000);
                 //Send request
 
                 DataOutputStream wr = new DataOutputStream(
@@ -268,7 +272,8 @@ public class SendData extends IntentService {
 
         }
 
-    public void onFoodDiarySync(String url) throws ExecutionException, InterruptedException, JSONException {
+    public void onFoodDiarySync(String url) throws ExecutionException, InterruptedException, JSONException,NullPointerException {
+
 
         if (isOnline()) {
             DataBaseManager dbm = new DataBaseManager(this);
@@ -284,7 +289,9 @@ public class SendData extends IntentService {
                 dbmSync.open();
                 String Jsondata = dbmSync.composeJSONfromSQLite();
                 dbmSync.close();
-                JSONArray response = send(url, Jsondata);
+
+                    JSONArray response = send(url, Jsondata);
+
                 if (response.toString().equals(null)) {
                     //Toast.makeText(Surveys.this, "Unable to establish connection. Try again!", Toast.LENGTH_SHORT).show();
                     //check if there is a conflict with EXT database users
@@ -330,7 +337,7 @@ public class SendData extends IntentService {
 
         }
 
-    private void onUTSync(String url) throws ExecutionException, InterruptedException, JSONException {
+    private void onUTSync(String url) throws ExecutionException, InterruptedException, JSONException,NullPointerException {
         if (isOnline()) {
             DataBaseManager dbm = new DataBaseManager(this);
             dbm.open();
@@ -372,10 +379,6 @@ public class SendData extends IntentService {
         }
 
     }
-
-
-
-
 
 
 
