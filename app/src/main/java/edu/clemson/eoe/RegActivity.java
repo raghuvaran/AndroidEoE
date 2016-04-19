@@ -74,6 +74,7 @@ public class RegActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reg);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setTitle("Registration");
 
         //initializing DOB with today's values
         Calendar calendar = Calendar.getInstance();
