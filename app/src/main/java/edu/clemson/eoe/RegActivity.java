@@ -2,6 +2,7 @@ package edu.clemson.eoe;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -355,7 +356,7 @@ public class RegActivity extends AppCompatActivity {
         if(isOnline()) {
 
     //try to add user to EXT database
-    SyncUser syncUser = new SyncUser();
+    SyncUser syncUser = new SyncUser("Please wait",RegActivity.this);
     String result = new String();
     try {
         String encodedURL =  (getResources().getString(R.string.php_syncUser)+"?pn="+patientName.getText().toString()+"&grade="+
@@ -367,45 +368,15 @@ public class RegActivity extends AppCompatActivity {
 
         Log.i("Result_url",encodedURL);
         //if successful result contains patientId of new user
-        result = syncUser.execute(encodedURL).get();
+         syncUser.execute(encodedURL);
         Log.i("Result_of_sync",result);
 
-    } catch (InterruptedException e) {
+    } catch (Exception e) {
         e.printStackTrace();
-    } catch (ExecutionException e) {
-        e.printStackTrace();
+
     }//check if php communication was successful
 
-    if(result.isEmpty() || result.equalsIgnoreCase("Things didn't go expected")){
-        Toast.makeText(RegActivity.this, "Unable to establish connection. Try again!", Toast.LENGTH_SHORT).show();
-        //check if there is a conflict with EXT database users
-    }else if(result.equalsIgnoreCase("failed")){
-        Toast.makeText(getApplicationContext(),"Error at the server end, please contact administrator",Toast.LENGTH_SHORT);
 
-    }else { //insert into internal database
-
-        /**
-         * Changes the FIRST_RUN variable to false
-         */
-
-        if (sharedPref.getBoolean("my_first_time", true)) {
-            sharedPref.edit().putBoolean("my_first_time", false).commit();
-           sharedPref.edit().putInt("patientID", Integer.parseInt(result.toString())).commit();
-        }
-        DataBaseManager dbm =new DataBaseManager(getApplicationContext());
-        dbm.open();
-        boolean resultinternal= dbm.insertPatient(Integer.parseInt(result.toString()),patientName.getText().toString(), genderName, date,
-                gradeName,ethnicityans,raceName,lenName,famInc,fathEducation.getSelectedItem().toString(),mothEducation.getSelectedItem().toString());
-        dbm.close();
-
-
-
-        Toast.makeText(getApplicationContext(), "You are now registered", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(getApplicationContext(),Surveys.class);
-        startActivity(intent);
-        finish();
-        //db.close();
-    }
 
 
 
@@ -427,6 +398,28 @@ public class RegActivity extends AppCompatActivity {
      */
     public class SyncUser extends AsyncTask<String, Void, String> {
 
+        String message; // for dialog message
+        ProgressDialog progress;
+        Intent myIntent;
+        Context ctx;
+
+        public SyncUser(String message, Context ctx) {
+            this.message = message;
+            this.ctx = ctx;
+            progress = new ProgressDialog(ctx);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // Runs on the UI thread
+            progress.setMessage(message);
+            progress.setIndeterminate(true);
+            progress.setCancelable(false);
+            progress.show();
+        }
+
+
+
 
         @Override
         protected String doInBackground(String... params) {
@@ -445,7 +438,7 @@ public class RegActivity extends AppCompatActivity {
 
                 int data = reader.read();
 
-                while (data != -1){
+                while (data != -1) {
 
                     char current = (char) data;
                     result += current;
@@ -453,8 +446,8 @@ public class RegActivity extends AppCompatActivity {
                     data = reader.read();
 
                 }
-                Log.i("result",result);
-                return(result);
+                Log.i("result", result);
+                return (result);
 
                 //returns php output
 
@@ -468,7 +461,69 @@ public class RegActivity extends AppCompatActivity {
 
 
         }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            if(result.isEmpty() || result.equalsIgnoreCase("Things didn't go expected")){
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                    Toast.makeText(RegActivity.this, "Unable to establish connection. Try again!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                //check if there is a conflict with EXT database users
+            }else if(result.equalsIgnoreCase("failed")){
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                Toast.makeText(RegActivity.this,"Error at the server end, please contact administrator",Toast.LENGTH_SHORT);
+                    }
+                });
+
+            }else { //insert into internal database
+
+                /**
+                 * Changes the FIRST_RUN variable to false
+                 */
+
+                if (sharedPref.getBoolean("my_first_time", true)) {
+                    sharedPref.edit().putBoolean("my_first_time", false).commit();
+                    sharedPref.edit().putInt("patientID", Integer.parseInt(result.toString())).commit();
+                }
+                DataBaseManager dbm =new DataBaseManager(getApplicationContext());
+                dbm.open();
+                // get selected radio button from radioGroup
+                String gradeName= grade.getSelectedItem().toString();
+                String ethnicityans=ethnicity.getSelectedItem().toString();
+                if(race.getSelectedItemPosition()!=5)
+                    raceName = race.getSelectedItem().toString();
+                String lenName=lenDisease.getSelectedItem().toString();
+                String famInc=famIncome.getSelectedItem().toString();
+                // find the radiobutton by returned id
+                radioSexButton = (RadioButton) findViewById(gender.getCheckedRadioButtonId());
+                String genderName = radioSexButton.getText().toString();
+                String date =year_DOB+"-"+month_DOB+"-"+day_DOB;
+                boolean resultinternal= dbm.insertPatient(Integer.parseInt(result.toString()),patientName.getText().toString(), genderName, date,
+                        gradeName,ethnicityans,raceName,lenName,famInc,fathEducation.getSelectedItem().toString(),mothEducation.getSelectedItem().toString());
+                dbm.close();
+
+
+                runOnUiThread(new Runnable() {
+                                  public void run() {
+                                      Toast.makeText(RegActivity.this, "You are now registered", Toast.LENGTH_SHORT).show();
+                                      Intent intent = new Intent(getApplicationContext(), Surveys.class);
+                                      startActivity(intent);
+                                      finish();
+                                  }
+                              });
+                //db.close();
+            }
+
+            if(progress.isShowing())
+                progress.dismiss();
+        }
+
     }
+
     public boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);

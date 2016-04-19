@@ -85,7 +85,7 @@ public class UserTreatment extends AppCompatActivity {
                 setContentView(R.layout.symtons_survey_na);
                 TextView diff;
                 diff = (TextView) findViewById(R.id.symtoms_survey_avail);
-                diff.setText("Survey will be avialabel in " + elapsedDays + " Days ");
+                diff.setText("Survey will be available in " + elapsedDays + " Days ");
                 //Add a new layout xml here
             } else {
                 Log.i("Date", "before");
