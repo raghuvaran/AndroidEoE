@@ -1075,7 +1075,7 @@ public class Surveys extends AppCompatActivity {
 
     public void onFoodDiarySubmit(View view){
         int counter = 0;
-        for(int i=0;i<fd_response.length;i++)
+        for(int i=1;i<fd_response.length;i++)
         {
             if(fd_response[i]==null || mCurrentPhotoPath ==null)
             {
@@ -1089,7 +1089,7 @@ public class Surveys extends AppCompatActivity {
         else {
 
 
-            if (!isMyServiceRunning()) {
+            if (!SendData.isIntentServiceRunning) {
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String currentDateandTime = sdf.format(new Date());
@@ -1131,10 +1131,13 @@ public class Surveys extends AppCompatActivity {
     private boolean isMyServiceRunning() {
         ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            Log.i(" services","service.getClassName() = " +service.service.getClassName());
             if (SendData.class.getName().equals(service.service.getClassName())) {
+                Log.i("True","Running");
                 return true;
             }
         }
+        Log.i("not running","not running");
         return false;
     }
 

@@ -42,6 +42,7 @@ public class SendData extends IntentService {
     // TODO: Rename parameters
     private static final String EXTRA_PARAM1 = "edu.clemson.eoe.extra.PARAM1";
     private static final String EXTRA_PARAM2 = "edu.clemson.eoe.extra.PARAM2";
+    public static boolean isIntentServiceRunning = false;
 
     public SendData() {
         super("SendData");
@@ -79,6 +80,10 @@ public class SendData extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        if(!isIntentServiceRunning) {
+            isIntentServiceRunning = true;
+        }
+        Log.i("Intent",""+isIntentServiceRunning);
         if (intent != null) {
            // final String action = intent.getStringExtra("KEY");
 
@@ -406,5 +411,11 @@ public class SendData extends IntentService {
                 (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    public void onDestroy ()
+    {
+        isIntentServiceRunning=false;
+        Log.i("Intent",""+isIntentServiceRunning);
     }
 }

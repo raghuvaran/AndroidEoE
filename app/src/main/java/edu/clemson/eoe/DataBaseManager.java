@@ -360,7 +360,7 @@ public class DataBaseManager {
     public String uploadFile(final String source, int itemID) {
         String ret="0";
 
-        String fileName = source;
+        String fileName = decodeFile(source,200,200);
         HttpURLConnection conn = null;
         DataOutputStream dos = null;
         //Separators for the post data
@@ -1118,6 +1118,13 @@ public class DataBaseManager {
         return res;
         //database.close();
     }
+
+
+
+
+
+
+
 
 
 
