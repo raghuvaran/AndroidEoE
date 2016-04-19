@@ -196,7 +196,9 @@ public class Surveys extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setCurrentItem(1, true);
+        Intent intent = getIntent();
+        int focusTab = intent.getIntExtra("focusTab",1);
+        mViewPager.setCurrentItem(focusTab, true);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);

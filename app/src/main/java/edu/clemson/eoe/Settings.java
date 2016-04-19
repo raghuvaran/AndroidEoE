@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -34,11 +33,11 @@ public class Settings extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pref_test);
+        setContentView(R.layout.pref_settings);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction()
                 .replace(R.id.content2, new SettingsItemFragment())
@@ -99,7 +98,7 @@ public class Settings extends AppCompatActivity {
                     // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
                     //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-                    scheduleNotification(getNotification(preference.getTitle().toString()), time,BreakFastTimer_ID);
+                    scheduleNotification(getNotification(preference.getTitle().toString(),1), time,BreakFastTimer_ID);
                     return  true;
                 }
 
@@ -118,7 +117,7 @@ public class Settings extends AppCompatActivity {
                     // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
                     //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-                    scheduleNotification(getNotification(preference.getTitle().toString()), time,LunchTImer_ID);
+                    scheduleNotification(getNotification(preference.getTitle().toString(),1), time,LunchTImer_ID);
                     return  true;
                 }
 
@@ -136,7 +135,7 @@ public class Settings extends AppCompatActivity {
                     // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
                     //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-                    scheduleNotification(getNotification(preference.getTitle().toString()), time,DinnerTImer_ID);
+                    scheduleNotification(getNotification(preference.getTitle().toString(),1), time,DinnerTImer_ID);
                     return  true;
                 }
 
@@ -154,7 +153,7 @@ public class Settings extends AppCompatActivity {
                     // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
                     //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-                    scheduleNotification(getNotification(preference.getTitle().toString()), time,SymptomsTimer_ID,"week");
+                    scheduleNotification(getNotification(preference.getTitle().toString(),0), time,SymptomsTimer_ID,"week");
                     return  true;
                 }
 
@@ -172,7 +171,7 @@ public class Settings extends AppCompatActivity {
                     // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
                     //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-                    scheduleNotification(getNotification(preference.getTitle().toString()), time,QolTimer_ID,"month");
+                    scheduleNotification(getNotification(preference.getTitle().toString(),2), time,QolTimer_ID,"month");
                     return  true;
                 }
 
@@ -405,7 +404,7 @@ public class Settings extends AppCompatActivity {
             // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
             //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-            scheduleNotification(getNotification(Reminder1.getTitle().toString()), time, BreakFastTimer_ID);
+            scheduleNotification(getNotification(Reminder1.getTitle().toString(),1), time, BreakFastTimer_ID);
         }
         public void setLunchReminder()
         {
@@ -414,7 +413,7 @@ public class Settings extends AppCompatActivity {
             // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
             //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-            scheduleNotification(getNotification(Reminder2.getTitle().toString()), time,LunchTImer_ID);
+            scheduleNotification(getNotification(Reminder2.getTitle().toString(),1), time,LunchTImer_ID);
         }
         public void setDinnerReminder()
         {
@@ -423,7 +422,7 @@ public class Settings extends AppCompatActivity {
             // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
             //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-            scheduleNotification(getNotification(Reminder3.getTitle().toString()), time, DinnerTImer_ID);
+            scheduleNotification(getNotification(Reminder3.getTitle().toString(),1), time, DinnerTImer_ID);
         }
 
         public void setSymptomsReminder()
@@ -433,7 +432,7 @@ public class Settings extends AppCompatActivity {
             // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
             //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-            scheduleNotification(getNotification(ReminderSymptoms.getTitle().toString()), time, SymptomsTimer_ID,"week");
+            scheduleNotification(getNotification(ReminderSymptoms.getTitle().toString(),0), time, SymptomsTimer_ID,"week");
         }
 
         public void setQolReminder()
@@ -443,7 +442,7 @@ public class Settings extends AppCompatActivity {
             // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
             //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-            scheduleNotification(getNotification(ReminderQol.getTitle().toString()), time, QolTimer_ID,"month");
+            scheduleNotification(getNotification(ReminderQol.getTitle().toString(),2), time, QolTimer_ID,"month");
         }
 
 
@@ -585,12 +584,13 @@ public class Settings extends AppCompatActivity {
          * @param content
          * @return
          */
-        private Notification getNotification(String content) {
+        private Notification getNotification(String content,int focusTab) {
             Notification.Builder builder = new Notification.Builder(this.getActivity());
             builder.setContentTitle("Food Diary -EoE");
             builder.setContentText(content);
             builder.setSmallIcon(R.mipmap.ic_launcher);
             Intent resultIntent = new Intent(this.getActivity(), Surveys.class);
+            resultIntent.putExtra("focusTab",focusTab);
             // The stack builder object will contain an artificial back stack for the
             // started Activity.
             // This ensures that navigating backward from the Activity leads out of
