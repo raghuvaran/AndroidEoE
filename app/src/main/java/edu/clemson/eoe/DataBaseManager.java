@@ -360,7 +360,7 @@ public class DataBaseManager {
     public String uploadFile(final String source, int itemID) {
         String ret="0";
 
-        String fileName = decodeFile(source,200,200);
+        String fileName = decodeFile(source,500,500);
         HttpURLConnection conn = null;
         DataOutputStream dos = null;
         //Separators for the post data
