@@ -14,7 +14,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-
         <edu.clemson.eoe.TimePreference
             android:key="Reminder1_Key"
             android:dialogTitle="Food Diary"
