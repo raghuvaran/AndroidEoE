@@ -61,39 +61,47 @@ public class About extends AppCompatActivity {
             });
 
             Preference summary = (Preference) findPreference("Summary_key");
-            popUp = new PopupWindow(getActivity());
-            popUp.setBackgroundDrawable(null);
-            //popUp.
-            layout = new LinearLayout(getActivity());
-            mainLayout = new LinearLayout(getActivity());
-            tv = new TextView(getActivity());
-            scroll =new ScrollView(getActivity());
+
             summary.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
-                    if (click) {
-                        popUp.showAtLocation(mainLayout, Gravity.CENTER, 100, 100);
-                        popUp.update(50, 50, -1, -1);
 
-                        click = false;
-                    } else {
-                        popUp.dismiss();
-                        click = true;
-                    }
+
+                    final AlertDialog.Builder dlgAlert = new AlertDialog.Builder(getContext());
+                    dlgAlert.setMessage(getResources().getString(R.string.about_app));
+                    dlgAlert.setTitle("Who needs this app?");
+                    dlgAlert.setPositiveButton("GOT IT", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    dlgAlert.setCancelable(true);
+                    dlgAlert.create().show();
+                        /*popUp.showAtLocation(mainLayout, Gravity.CENTER, 100, 100);
+                        popUp.update(50, 50, -1, -1);*/
+
                     return true;
                 }
             });
-            params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            layout.setOrientation(LinearLayout.VERTICAL);
 
-            tv.setText("Hi this is a sample text for popup window");
-            layout.addView(tv, params);
-            popUp.setContentView(layout);
+            Preference acknowledgment = (Preference) findPreference("Acknowledgement_key");
+            acknowledgment.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    final AlertDialog.Builder dlgAlert = new AlertDialog.Builder(getContext());
+                    dlgAlert.setMessage(getResources().getString(R.string.ack_app));
+                    dlgAlert.setTitle("Acknowledgements");
+                    dlgAlert.setPositiveButton("THANKS", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-            // popUp.showAtLocation(layout, Gravity.BOTTOM, 10, 10);
-            //mainLayout.addView(but, params);
-            //setContentView(mainLayout);
-
+                        }
+                    });
+                    dlgAlert.setCancelable(true);
+                    dlgAlert.create().show();
+                    return true;
+                }
+            });
 
         }
     }

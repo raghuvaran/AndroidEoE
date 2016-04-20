@@ -196,6 +196,10 @@
     <string name="php_syncUser">https://people.cs.clemson.edu/~rchowda/Projects/EoE/test_app.php</string>
     <string name="title_activity_user_treatment">UserTreatment</string>
 
-    <string name="about_app"></string>
+    <string name="about_app">This app is designed and developed for patients undergoing treatment for Eosinophilic Esophagitis (EoE). Patient is hereby referred to app user. \n \n
+User needs to complete a one-time registration in order to utilize the services provided. The app offers services such as Interactive surveys, capturing diet information, survey reminder, cloud, etc. Services such as cloud help in synchronizing the data to external resources, which indeed facilitates doctors to access the data in real-time. Apart from these services, the app also facilitates user to submit a survey offline, yes! It’s offline. The app automatically recognizes when the device is connected to an active network and synchronizes the data with no pain. As said earlier, the app enhances user survey experience by organizing questions automatically in accordance with the previous answers.\n
+</string>
+    <string name="ack_app"><b>Mentor:</b> Dr. Roy Pargas\n\n<b>Co-mentors:</b> Dr. Williams and Greenville Hospital Systems\n\n<b>Teaching Assistants:</b> Greg Edison and Sean Southard\n\nAfter all, StackOverflow for answering every length of question we had :)\n\n
+</string>
 
 </resources>

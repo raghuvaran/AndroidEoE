@@ -37,6 +37,7 @@ public class Settings extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_close_clear_cancel);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction()

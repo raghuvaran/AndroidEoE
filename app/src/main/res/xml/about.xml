@@ -13,7 +13,7 @@
         android:selectable="true"
         android:enabled="true"
         android:key="Developer_key"
-        android:title="Developer"
+        android:title="Developers"
         android:summary="Santhosh Raj Ravirala and Raghuvaran Chowda" />
 
     <Preference
@@ -21,14 +21,20 @@
         android:enabled="true"
         android:key="Contact_key"
         android:title="Contact"
-        android:summary="Send us a message" />
+        android:summary="Shoot a mail" />
 
     <Preference
         android:selectable="true"
         android:enabled="true"
         android:key="Summary_key"
         android:title="Summary"
-        android:summary="App Description" />
+        android:summary="Who needs this app?" />
+
+    <Preference
+        android:selectable="true"
+        android:enabled="true"
+        android:key="Acknowledgement_key"
+        android:title="Acknowledgements" />
 
 
 
