@@ -30,6 +30,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -540,7 +541,7 @@ public class DataBaseManager {
 
     public boolean addSymptoms(int patientID,String DateTime,int []frequency,int []severity,double []score)
     {
-
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
         ContentValues values = new ContentValues();
         //values.put(DBHelper.COLUMN_NAME_LISTID, id);
         values.put("user_patientid", patientID);
@@ -565,13 +566,13 @@ public class DataBaseManager {
         values.put("q14", severity[7]);
         values.put("q16", severity[8]);
         values.put("q18", severity[9]);
-        values.put("frequency",score[1]);
-        values.put("severity",score[2]);
-        values.put("total",score[3]);
-        values.put("Dysphagia",score[4]);
-        values.put("Gerd",score[5]);
-        values.put("Nausea",score[6]);
-        values.put("Pain",score[7]);
+        values.put("frequency",Double.valueOf(twoDForm.format(score[1])));
+        values.put("severity",Double.valueOf(twoDForm.format(score[2])));
+        values.put("total",Double.valueOf(twoDForm.format(score[3])));
+        values.put("Dysphagia",Double.valueOf(twoDForm.format(score[4])));
+        values.put("Gerd",Double.valueOf(twoDForm.format(score[5])));
+        values.put("Nausea",Double.valueOf(twoDForm.format(score[6])));
+        values.put("Pain",Double.valueOf(twoDForm.format(score[7])));
         values.put("updateStatus",0);
 
 
@@ -594,7 +595,7 @@ public class DataBaseManager {
 
     public boolean addQol(int patientID,String DateTime,int []qol,double []score)
     {
-
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
         ContentValues values = new ContentValues();
         //values.put(DBHelper.COLUMN_NAME_LISTID, id);
         values.put("user_patientid", patientID);
@@ -636,15 +637,15 @@ public class DataBaseManager {
         values.put("s8   ", qol[35]);
         values.put("s8q1 ", qol[36]);
         values.put("s8q2 ", qol[37]);
-        values.put("symptoms1",score[1]);
-        values.put("symptoms2",score[2]);
-        values.put("Treatment",score[3]);
-        values.put("Worry",score[4]);
-        values.put("Communication",score[5]);
-        values.put("FE",score[6]);
-        values.put("FF",score[7]);
-        values.put("Total",score[8]);
-        values.put("symptoms",score[9]);
+        values.put("symptoms1",Double.valueOf(twoDForm.format(score[1])));
+        values.put("symptoms2",Double.valueOf(twoDForm.format(score[2])));
+        values.put("Treatment",Double.valueOf(twoDForm.format(score[3])));
+        values.put("Worry",Double.valueOf(twoDForm.format(score[4])));
+        values.put("Communication",Double.valueOf(twoDForm.format(score[5])));
+        values.put("FE",Double.valueOf(twoDForm.format(score[6])));
+        values.put("FF",Double.valueOf(twoDForm.format(score[7])));
+        values.put("Total",Double.valueOf(twoDForm.format(score[8])));
+        values.put("symptoms",Double.valueOf(twoDForm.format(score[9])));
         values.put("updateStatus",0);
 //        values.put(,qol[18]);
 

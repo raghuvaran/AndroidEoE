@@ -362,7 +362,7 @@ public class RegActivity extends AppCompatActivity {
         String encodedURL =  (getResources().getString(R.string.php_syncUser)+"?pn="+patientName.getText().toString()+"&grade="+
                 grade.getSelectedItem().toString()+"&gender="+genderName+"&ethnicity="+ethnicity.getSelectedItem().toString()+"&race="+
                 raceName+"&date="+date+"&lenD="+lenDisease.getSelectedItem().toString()+"&fInc="+famIncome.getSelectedItem().toString()+"&mEdu="+
-                mothEducation.getSelectedItem().toString()+"&fEdu="+fathEducation.getSelectedItem().toString()) ;
+                mothEducation.getSelectedItem().toString().replaceAll("[']","''")+"&fEdu="+fathEducation.getSelectedItem().toString().replaceAll("[']","''")) ;
         encodedURL = encodedURL.replaceAll("\\s","+");
 
 
@@ -503,18 +503,20 @@ public class RegActivity extends AppCompatActivity {
                 String genderName = radioSexButton.getText().toString();
                 String date =year_DOB+"-"+month_DOB+"-"+day_DOB;
                 boolean resultinternal= dbm.insertPatient(Integer.parseInt(result.toString()),patientName.getText().toString(), genderName, date,
-                        gradeName,ethnicityans,raceName,lenName,famInc,fathEducation.getSelectedItem().toString(),mothEducation.getSelectedItem().toString());
+                        gradeName,ethnicityans,raceName,lenName,famInc,fathEducation.getSelectedItem().toString().replaceAll("[']","''"),mothEducation.getSelectedItem().toString().replaceAll("[']","''"));
                 dbm.close();
 
 
                 runOnUiThread(new Runnable() {
                                   public void run() {
                                       Toast.makeText(RegActivity.this, "You are now registered", Toast.LENGTH_SHORT).show();
-                                      Intent intent = new Intent(getApplicationContext(), Surveys.class);
-                                      startActivity(intent);
-                                      finish();
+
                                   }
                               });
+
+                Intent intent = new Intent(getApplicationContext(), Surveys.class);
+                startActivity(intent);
+                finish();
                 //db.close();
             }
 
