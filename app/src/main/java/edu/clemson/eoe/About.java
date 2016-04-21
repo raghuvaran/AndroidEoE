@@ -2,6 +2,7 @@ package edu.clemson.eoe;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
@@ -49,13 +50,9 @@ public class About extends AppCompatActivity {
             myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
                     //open browser or intent here
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_EMAIL, "sravira@clemson.edu");
-                    intent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
-                    intent.putExtra(Intent.EXTRA_TEXT, "I'm email body.");
-
-                    startActivity(Intent.createChooser(intent, "Send Email"));
+                    Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                            "mailto", "rchowda@clemson.edu", null));
+                    startActivity(Intent.createChooser(intent, "Choose an Email client :"));
                     return true;
                 }
             });
