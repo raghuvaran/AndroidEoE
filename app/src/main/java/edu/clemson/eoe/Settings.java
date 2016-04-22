@@ -99,7 +99,7 @@ public class Settings extends AppCompatActivity {
                     // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
                     //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-                    scheduleNotification(getNotification(preference.getTitle().toString(),1), time,BreakFastTimer_ID);
+                    scheduleNotification(getNotification(preference.getTitle().toString(),1,"Time to submit your Food diary"), time,BreakFastTimer_ID);
                     return  true;
                 }
 
@@ -118,7 +118,7 @@ public class Settings extends AppCompatActivity {
                     // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
                     //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-                    scheduleNotification(getNotification(preference.getTitle().toString(),1), time,LunchTImer_ID);
+                    scheduleNotification(getNotification(preference.getTitle().toString(),1,"Time to submit your Food diary"), time,LunchTImer_ID);
                     return  true;
                 }
 
@@ -136,7 +136,7 @@ public class Settings extends AppCompatActivity {
                     // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
                     //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-                    scheduleNotification(getNotification(preference.getTitle().toString(),1), time,DinnerTImer_ID);
+                    scheduleNotification(getNotification(preference.getTitle().toString(),1,"Time to submit your Food diary"), time,DinnerTImer_ID);
                     return  true;
                 }
 
@@ -154,7 +154,7 @@ public class Settings extends AppCompatActivity {
                     // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
                     //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-                    scheduleNotification(getNotification(preference.getTitle().toString(),0), time,SymptomsTimer_ID,"week");
+                    scheduleNotification(getNotification(preference.getTitle().toString(),0,"Time for Symptoms survey"), time,SymptomsTimer_ID,"week");
                     return  true;
                 }
 
@@ -172,7 +172,7 @@ public class Settings extends AppCompatActivity {
                     // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
                     //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-                    scheduleNotification(getNotification(preference.getTitle().toString(),2), time,QolTimer_ID,"month");
+                    scheduleNotification(getNotification(preference.getTitle().toString(),2,"Time for QoL survey"), time,QolTimer_ID,"month");
                     return  true;
                 }
 
@@ -261,12 +261,12 @@ public class Settings extends AppCompatActivity {
                     if (newValue.toString().equals("true")) {
                         Reminder1.setEnabled(true);
                         setBreakFastReminder();
-                        Toast.makeText(getActivity(), "Reminder 1  is enabled",
+                        Toast.makeText(getActivity(), "Reminder for Breakfast  is enabled",
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         Reminder1.setEnabled(false);
                         cancelBreakfastReminder();
-                        Toast.makeText(getActivity(), "BreakFast Reminder is disabled",
+                        Toast.makeText(getActivity(), "Reminder for Breakfast is disabled",
                                 Toast.LENGTH_SHORT).show();
                     }
                     return true;
@@ -278,12 +278,12 @@ public class Settings extends AppCompatActivity {
                     if (newValue.toString().equals("true")) {
                         Reminder2.setEnabled(true);
                         setLunchReminder();
-                        Toast.makeText(getActivity(), "Lunch Reminder is enabled",
+                        Toast.makeText(getActivity(), "Reminder for Lunch is enabled",
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         Reminder2.setEnabled(false);
                         cancelLunchReminder();
-                        Toast.makeText(getActivity(), "Lunch Reminder is disabled",
+                        Toast.makeText(getActivity(), "Reminder for Lunch is disabled",
                                 Toast.LENGTH_SHORT).show();
                     }
                     return true;
@@ -296,12 +296,12 @@ public class Settings extends AppCompatActivity {
                     if (newValue.toString().equals("true")) {
                         Reminder3.setEnabled(true);
                         setDinnerReminder();
-                        Toast.makeText(getActivity(), "Dinner Reminder  is enabled",
+                        Toast.makeText(getActivity(), "Reminder for Dinner is enabled",
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         Reminder3.setEnabled(false);
                         cancelDinnerReminder();
-                        Toast.makeText(getActivity(), "Dinner Reminder is disabled",
+                        Toast.makeText(getActivity(), "Reminder for Dinner is disabled",
                                 Toast.LENGTH_SHORT).show();
                     }
                     return true;
@@ -314,12 +314,12 @@ public class Settings extends AppCompatActivity {
                     if (newValue.toString().equals("true")) {
                         ReminderSymptoms.setEnabled(true);
                         setSymptomsReminder();
-                        Toast.makeText(getActivity(), "Reminder Symptoms  is enabled",
+                        Toast.makeText(getActivity(), "Reminder for Symptoms  is enabled",
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         ReminderSymptoms.setEnabled(false);
                         cancelSymptomsReminder();
-                        Toast.makeText(getActivity(), "Reminder Symptoms is disabled",
+                        Toast.makeText(getActivity(), "Reminder for Symptoms is disabled",
                                 Toast.LENGTH_SHORT).show();
                     }
                     return true;
@@ -332,12 +332,12 @@ public class Settings extends AppCompatActivity {
                     if (newValue.toString().equals("true")) {
                         ReminderQol.setEnabled(true);
                         setQolReminder();
-                        Toast.makeText(getActivity(), "Reminder Qol  is enabled",
+                        Toast.makeText(getActivity(), "Reminder for QoL  is enabled",
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         ReminderQol.setEnabled(false);
                         cancelQolReminder();
-                        Toast.makeText(getActivity(), "Reminder Qol is disabled",
+                        Toast.makeText(getActivity(), "Reminder for QoL is disabled",
                                 Toast.LENGTH_SHORT).show();
                     }
                     return true;
@@ -405,7 +405,7 @@ public class Settings extends AppCompatActivity {
             // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
             //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-            scheduleNotification(getNotification(Reminder1.getTitle().toString(),1), time, BreakFastTimer_ID);
+            scheduleNotification(getNotification(Reminder1.getTitle().toString(),1,"Time to submit your Food diary"), time, BreakFastTimer_ID);
         }
         public void setLunchReminder()
         {
@@ -414,7 +414,7 @@ public class Settings extends AppCompatActivity {
             // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
             //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-            scheduleNotification(getNotification(Reminder2.getTitle().toString(),1), time,LunchTImer_ID);
+            scheduleNotification(getNotification(Reminder2.getTitle().toString(),1,"Time to submit your Food diary"), time,LunchTImer_ID);
         }
         public void setDinnerReminder()
         {
@@ -423,7 +423,7 @@ public class Settings extends AppCompatActivity {
             // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
             //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-            scheduleNotification(getNotification(Reminder3.getTitle().toString(),1), time, DinnerTImer_ID);
+            scheduleNotification(getNotification(Reminder3.getTitle().toString(),1,"Time to submit your Food diary"), time, DinnerTImer_ID);
         }
 
         public void setSymptomsReminder()
@@ -433,7 +433,7 @@ public class Settings extends AppCompatActivity {
             // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
             //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-            scheduleNotification(getNotification(ReminderSymptoms.getTitle().toString(),0), time, SymptomsTimer_ID,"week");
+            scheduleNotification(getNotification(ReminderSymptoms.getTitle().toString(),0,"Time for Symptoms survey"), time, SymptomsTimer_ID,"week");
         }
 
         public void setQolReminder()
@@ -443,7 +443,7 @@ public class Settings extends AppCompatActivity {
             // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.);
 
             //Long alarm1=prefs.getLong("Reminder1_Key", 0L);
-            scheduleNotification(getNotification(ReminderQol.getTitle().toString(),2), time, QolTimer_ID,"month");
+            scheduleNotification(getNotification(ReminderQol.getTitle().toString(),2,"Time for QoL survey"), time, QolTimer_ID,"month");
         }
 
 
@@ -585,7 +585,7 @@ public class Settings extends AppCompatActivity {
          * @param content
          * @return
          */
-        private Notification getNotification(String content,int focusTab) {
+        private Notification getNotification(String content,int focusTab,String contentTitle) {
             Notification.Builder builder = new Notification.Builder(this.getActivity());
             builder.setContentTitle("Food Diary -EoE");
             builder.setContentText(content);

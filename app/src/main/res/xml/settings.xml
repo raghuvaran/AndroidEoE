@@ -8,7 +8,7 @@
     <CheckBoxPreference
         android:key="Reminder 1"
         android:title="Breakfast"
-        android:summary="Enable Breakfast Timer"
+        android:summary="Enable Breakfast Reminder"
         android:defaultValue="false"
 
         android:layout_width="wrap_content"
@@ -17,17 +17,17 @@
         <edu.clemson.eoe.TimePreference
             android:key="Reminder1_Key"
             android:dialogTitle="Food Diary"
-            android:title="Breakfast Timer"/>
+            android:title="Breakfast Time"/>
     <CheckBoxPreference
         android:key="Reminder 2"
         android:title="Lunch"
-        android:summary="Enable Lunch Timer "
+        android:summary="Enable Lunch Reminder "
         android:defaultValue="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <edu.clemson.eoe.TimePreference
         android:key="Reminder2_Key"
-        android:title="Lunch Timer"/>
+        android:title="Lunch Time"/>
 
     <CheckBoxPreference
         android:key="Reminder 3"
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content" />
     <edu.clemson.eoe.TimePreference
         android:key="Reminder3_Key"
-        android:title="Dinner Timer"/>
+        android:title="Dinner Time"/>
 </PreferenceCategory>
 
     <PreferenceCategory
@@ -57,7 +57,7 @@
     <edu.clemson.eoe.TimePreference
         android:key="Symptoms_Key"
         android:dialogTitle="Symptoms"
-        android:title="Symptoms Timer"/>
+        android:title="Symptoms Reminder"/>
     </PreferenceCategory>
 
 
@@ -77,7 +77,7 @@
         <edu.clemson.eoe.TimePreference
             android:key="PedsQL_Key"
             android:dialogTitle="PedsQL"
-            android:title="PedsQL Timer"/>
+            android:title="PedsQL Reminder"/>
     </PreferenceCategory>
 
 
