@@ -585,7 +585,7 @@ public class Surveys extends AppCompatActivity {
 
 
                     rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
-                    setRatingBarListener(rootView, 1, R.id.s1_f_ratingBar, R.id.s1_f_res, freqResponse, R.id.s1_s, R.id.s1_s_ratingBar, R.id.s1_s_res);
+                    onRadioChange(rootView, 1, R.id.s1_f_rg, R.id.s1_f_res, freqResponse, R.id.s1_s, R.id.s1_s_ratingBar, R.id.s1_s_res);
                     setRatingBarListener(rootView, 2, R.id.s2_f_ratingBar, R.id.s2_f_res, freqResponse, R.id.s2_s, R.id.s2_s_ratingBar, R.id.s2_s_res);
                     setRatingBarListener(rootView, 3, R.id.s3_f_ratingBar, R.id.s3_f_res, freqResponse, R.id.s3_s, R.id.s3_s_ratingBar, R.id.s3_s_res);
                     setRatingBarListener(rootView, 4, R.id.s4_f_ratingBar, R.id.s4_f_res, freqResponse, R.id.s4_s, R.id.s4_s_ratingBar, R.id.s4_s_res);
@@ -614,7 +614,7 @@ public class Surveys extends AppCompatActivity {
             {
                 dbm.close();
                 rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
-                setRatingBarListener(rootView, 1, R.id.s1_f_ratingBar, R.id.s1_f_res, freqResponse, R.id.s1_s, R.id.s1_s_ratingBar, R.id.s1_s_res);
+                onRadioChange(rootView, 1, R.id.s1_f_rg, R.id.s1_f_res, freqResponse, R.id.s1_s, R.id.s1_s_ratingBar, R.id.s1_s_res);
                 setRatingBarListener(rootView, 2, R.id.s2_f_ratingBar, R.id.s2_f_res, freqResponse, R.id.s2_s, R.id.s2_s_ratingBar, R.id.s2_s_res);
                 setRatingBarListener(rootView, 3, R.id.s3_f_ratingBar, R.id.s3_f_res, freqResponse, R.id.s3_s, R.id.s3_s_ratingBar, R.id.s3_s_res);
                 setRatingBarListener(rootView, 4, R.id.s4_f_ratingBar, R.id.s4_f_res, freqResponse, R.id.s4_s, R.id.s4_s_ratingBar, R.id.s4_s_res);
@@ -877,6 +877,7 @@ public class Surveys extends AppCompatActivity {
             q1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    Log.i("Rating :", String.valueOf(rating));
                     //Toast.makeText(getContext(), "Changed ratings to " + rating, Toast.LENGTH_SHORT).show();
                     q1_res.setText(hashMap.get(rating).toString());
                     q1_res.setVisibility(View.VISIBLE);
@@ -992,6 +993,64 @@ public class Surveys extends AppCompatActivity {
 
                 }
             });
+        }
+
+
+        public void onRadioChange(View v,int id, int question, int q_result, final HashMap hashMap,int next_question, int next_question_r, int next_question_res){
+            final View view = v;
+            final int q_id = id;
+            final RadioGroup q1 = (RadioGroup) v.findViewById(question);
+            final TextView q1_res = (TextView) v.findViewById(q_result);
+            final int next_q = next_question;
+            final int next_q_r = next_question_r;
+            final int next_q_res = next_question_res;
+
+            q1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    Log.i("CheckedID, checkedId: ",String.valueOf(checkedId));
+                    float rating = (float) checkedId;
+                    Log.i("CheckedID, rating: ",String.valueOf(rating));
+                    q1_res.setText(hashMap.get(rating).toString());
+                    q1_res.setVisibility(View.VISIBLE);
+
+                    if (getArguments().getInt(ARG_SECTION_NUMBER) == 1) {  //If called from Symptoms view (1)
+                        if (hashMap.get(4f).toString().equalsIgnoreCase("Often")) { //all frequency questions
+                            symptoms_f_response[q_id] = (int) rating -1;
+                        } else {
+                            symptoms_s_response[q_id] = (int) rating -1;
+                        }
+                    }
+
+                    if (getArguments().getInt(ARG_SECTION_NUMBER) == 2) {  //If called from Food diary view (2)
+                        fd_response[q_id] = hashMap.get(rating).toString();
+                    }
+
+                    if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {  //If called from QoL view (3)
+                        qol_response[q_id] = (int) rating - 1;
+
+                    }
+                    //Disable severity question
+                    if (next_q != 0) {   //non-zero mode for frequency questions
+
+                        final RatingBar q2 = (RatingBar) view.findViewById(next_q_r);
+                        final TextView q2_q = (TextView) view.findViewById(next_q);
+                        final TextView q2_res = (TextView) view.findViewById(next_q_res);
+                        if (rating == 1f) {
+                            q2.setVisibility(View.GONE);
+                            q2_q.setVisibility(View.GONE);
+                            q2_res.setVisibility(View.GONE);
+                        } else {
+                            q2.setVisibility(View.VISIBLE);
+                            q2_q.setVisibility(View.VISIBLE);
+                            q2_res.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+
+
+            });
+
         }
 
         public void onEditTextListener(View view,int id, int editTextId){
