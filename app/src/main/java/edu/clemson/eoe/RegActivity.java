@@ -473,6 +473,7 @@ public class RegActivity extends AppCompatActivity {
                 });
                 //check if there is a conflict with EXT database users
             }else if(result.equalsIgnoreCase("failed")){
+
                 runOnUiThread(new Runnable() {
                     public void run() {
                 Toast.makeText(RegActivity.this,"Error at the server end, please contact administrator",Toast.LENGTH_SHORT);
