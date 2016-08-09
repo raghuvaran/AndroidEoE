@@ -22,18 +22,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/s1_f"
             android:id="@+id/s1_f"
-            android:layout_marginBottom="30dp" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/s1_f_ratingBar"
-                android:layout_marginBottom="30dp"
-                android:stepSize="1.0" />
+            android:layout_marginBottom="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,45 +31,121 @@
                 android:text=""
                 android:id="@+id/s1_f_res"
                 android:visibility="invisible"
+                android:textAlignment="center"
                 android:layout_marginBottom="15dp"
                 android:layout_gravity="center_vertical"
                 android:textColor="@color/colorAccent" />
-        </TableRow>
 
 
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/s1_f_rg">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/num_1"
+                    android:text=""
+                    android:button="@drawable/num_selector"
+                    android:layout_marginRight="5dp"/>
 
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/num_2"
+                    android:button="@drawable/num_selector"
+                    android:layout_marginRight="5dp"/>
 
-            <TextView
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/num_3"
+                    android:button="@drawable/num_selector"
+                    android:layout_marginRight="5dp"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/num_4"
+                    android:button="@drawable/num_selector"
+                    android:layout_marginRight="5dp"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/num_5"
+                    android:button="@drawable/num_selector"
+                    android:layout_marginRight="5dp"/>
+
+            </RadioGroup>
+
+         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/s1_s"
             android:id="@+id/s1_s"
-                android:layout_marginBottom="30dp" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/s1_s_ratingBar"
-                android:layout_marginBottom="30dp"
-                android:stepSize="1.0" />
+            android:layout_marginBottom="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text=""
+                android:textAlignment="center"
                 android:id="@+id/s1_s_res"
                 android:visibility="invisible"
-                android:layout_gravity="center_vertical" 
- android:textColor="@color/colorAccent"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/colorAccent"
                 android:layout_marginBottom="15dp" />
 
-        </TableRow>
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/s1_s_rg">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/one_not_bad_at_all"
+                    android:text=""
+                    android:button="@drawable/emoji_selector"
+                    android:layout_marginRight="5dp"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/one_not_bad_at_all"
+                    android:button="@drawable/emoji_selector"
+                    android:layout_marginRight="5dp"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/one_not_bad_at_all"
+                    android:button="@drawable/emoji_selector"
+                    android:layout_marginRight="5dp"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/one_not_bad_at_all"
+                    android:button="@drawable/emoji_selector"
+                    android:layout_marginRight="5dp"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/one_not_bad_at_all"
+                    android:button="@drawable/emoji_selector"
+                    android:layout_marginRight="5dp"/>
+
+            </RadioGroup>
+
+
+
+
 
 
         <TextView

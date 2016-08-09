@@ -195,7 +195,7 @@
     </string-array>
 
 
-    <string name="php_syncUser">https://people.cs.clemson.edu/~rchowda/Projects/EoE/test_app.php</string>
+    <string name="php_syncUser">http://rchowda.people.clemson.edu/eoe_php/test_app.php</string>
     <string name="title_activity_user_treatment">UserTreatment</string>
 
     <string name="about_app">This app is designed and developed for patients undergoing treatment for Eosinophilic Esophagitis (EoE). Patient is hereby referred to app user. \n \n
