@@ -44,6 +44,10 @@ public class UserTreatment extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View rootView;
+
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         DataBaseManager dbm =new DataBaseManager(getApplicationContext());
         dbm.open();
         Cursor time=dbm.getUTtime();
@@ -80,12 +84,16 @@ public class UserTreatment extends AppCompatActivity {
             long daysInMilli = hoursInMilli * 24;
             long elapsedDays = different / daysInMilli;
             different = different % daysInMilli;
+
             if (input.compareTo(currentdate) > 0) {
                 Log.i("Date", "after");
+
                 setContentView(R.layout.symtons_survey_na);
+
                 TextView diff;
                 diff = (TextView) findViewById(R.id.symtoms_survey_avail);
                 diff.setText("Survey will be available in " + elapsedDays + " Days ");
+
                 //Add a new layout xml here
             } else {
                 Log.i("Date", "before");

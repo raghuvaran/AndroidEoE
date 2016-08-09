@@ -2,13 +2,17 @@ package edu.clemson.eoe;
 
 import android.Manifest;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -17,6 +21,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -29,6 +34,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,8 +43,11 @@ import android.view.ViewGroup;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
@@ -75,6 +84,7 @@ public class Surveys extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 101;
     private static final int MY_ACTION_INTENT_IMAGE_CAPTURE = 201;
     public static String mCurrentPhotoPath;
+
    //final TextView diff=(TextView)findViewById(R.id.dateDiff);;
 
 
@@ -186,6 +196,7 @@ public class Surveys extends AppCompatActivity {
        patientID = sharedPref.getInt("patientID", 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_surveys);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -425,6 +436,13 @@ public class Surveys extends AppCompatActivity {
     public static class PlaceholderFragment extends Fragment {
         private static final int CAMERA_REQUEST = 1888;
         private ImageView imageView1;
+        PopupWindow popUp;
+        LinearLayout layout;
+        TextView tv;
+        ViewGroup.LayoutParams params;
+        LinearLayout mainLayout;
+        Button but;
+        boolean click = true;
         //Frequency question responses
         private static final HashMap<Float,String> freqResponse = new HashMap<Float, String>();
         static {
@@ -479,7 +497,13 @@ public class Surveys extends AppCompatActivity {
                 Bitmap photo = BitmapFactory.decodeFile(mCurrentPhotoPath);
                 // bytedata = getBitmapAsByteArray(photo);
                 imageView1.setImageBitmap(photo);
-            }}
+                new MyDialogFragment().show(getFragmentManager(), "MyDialog");
+            }
+
+
+
+        }
+
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -654,8 +678,11 @@ public class Surveys extends AppCompatActivity {
          * @return
          */
         public View onCreateFoodDiary(LayoutInflater inflater, ViewGroup container,
-                                      Bundle savedInstanceState){
-            View rootView = inflater.inflate(R.layout.food_diary, container, false);
+                                      final Bundle savedInstanceState){
+
+
+
+            final View rootView = inflater.inflate(R.layout.food_diary, container, false);
             imageView1 = (ImageView)rootView.findViewById(R.id.camera_iv);
 
             imageView1.setOnClickListener(new View.OnClickListener() {
@@ -668,6 +695,39 @@ public class Surveys extends AppCompatActivity {
                     //If it's granted go to method takePicture
                     if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                         takePicture();
+                       // popupinfo();
+                       /* popUp = new PopupWindow(getContext());
+                        layout = new LinearLayout(getContext());
+                        mainLayout = new LinearLayout(getContext());
+                        tv = new TextView(getContext());
+                        but = new Button(getContext());
+                        but.setText("Click Me");
+                        but.setOnClickListener(new View.OnClickListener() {
+
+                            public void onClick(View v) {
+                                if (click) {
+                                    popUp.showAtLocation(mainLayout, Gravity.BOTTOM, 10, 10);
+                                    popUp.update(50, 50, 300, 80);
+                                    click = false;
+                                } else {
+                                    popUp.dismiss();
+                                    click = true;
+                                }
+                            }
+
+                        });
+                        params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT);
+                        layout.setOrientation(LinearLayout.VERTICAL);
+                        tv.setText("Hi this is a sample text for popup window");
+                        layout.addView(tv, params);
+                        popUp.setContentView(layout);
+                        // popUp.showAtLocation(layout, Gravity.BOTTOM, 10, 10);
+                        mainLayout.addView(but, params);
+                        setpopup(rootView);*/
+                       // showPopup(v,savedInstanceState);
+                       // setContentView(mainLayout);
+
                         //Else ask the user for permission
                     } else
                         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
@@ -675,6 +735,8 @@ public class Surveys extends AppCompatActivity {
                     //Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                     //startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 }
+
+
             });
 
 
@@ -682,7 +744,9 @@ public class Surveys extends AppCompatActivity {
             populateSpinner(rootView, 2, R.id.fd_which_spinner, R.array.fd_which_a);
             populateSpinner(rootView, 3, R.id.fd_who_spinner, R.array.fd_who_a);
             onEditTextListener(rootView, 3, R.id.fd_who_others);
-            onRadioChange(rootView, 4, R.id.fd_fA);
+            //onRadioChange(rootView, 4, R.id.fd_fA,R.id.fd_sO,);
+            onRadioChange(rootView,8,R.id.fd_sO);
+            onRadioChange(rootView,9,R.id.fd_O);
             onRadioChange(rootView,5,R.id.fd_fB);
             onRadioChange(rootView,6,R.id.fd_worry);
             onRadioChange(rootView, 7, R.id.fd_whosInput);
@@ -690,6 +754,71 @@ public class Surveys extends AppCompatActivity {
 
             return rootView;
         }
+
+
+        public void showPopup(View anchorView, Bundle instance) {
+            View popupView = getLayoutInflater(instance).inflate(R.layout.popup_layout, null);
+            PopupWindow popupWindow = new PopupWindow(popupView,
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            // Example: If you have a TextView inside `popup_layout.xml`
+            TextView tv = (TextView) popupView.findViewById(R.id.text);
+
+            // popUp.showAtLocation(layout, Gravity.BOTTOM, 10, 10);
+         //   mainLayout.addView(params);
+            //tv.setText(....);
+
+
+            // If the PopupWindow should be focusable
+            popupWindow.setFocusable(true);
+
+            // If you need the PopupWindow to dismiss when when touched outside
+            popupWindow.setBackgroundDrawable(new ColorDrawable());
+
+            int location[] = new int[2];
+
+            // Get the View's(the one that was clicked in the Fragment) location
+            anchorView.getLocationOnScreen(location);
+
+            // Using location, the PopupWindow will be displayed right under anchorView
+            popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY,
+                    location[0], location[1] + anchorView.getHeight());
+
+            /*popUp = new PopupWindow(getContext());
+
+            tv = new TextView(getContext());
+            but = new Button(getContext());
+            but.setText("Click Me");
+            but.setOnClickListener(new View.OnClickListener() {
+
+                public void onClick(View v) {
+                    if (click) {
+                        popUp.showAtLocation(mainLayout, Gravity.BOTTOM, 10, 10);
+                        popUp.update(50, 50, 300, 80);
+                        click = false;
+                    } else {
+                        popUp.dismiss();
+                        click = true;
+                    }
+                }
+
+            });
+            params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            tv.setText("Hi this is a sample text for popup window");
+            layout.addView(tv, params);
+            popUp.setContentView(layout);
+            // popUp.showAtLocation(layout, Gravity.BOTTOM, 10, 10);
+            mainLayout.addView(but, params);*/
+
+
+
+        }
+
+
+
+
 
 
         public void takePicture() {
@@ -1020,6 +1149,31 @@ public class Surveys extends AppCompatActivity {
 
 
 //---------------Methods-Terminate-------------------//
+    }
+
+    public static class MyDialogFragment extends DialogFragment{
+        Context mContext;
+        public MyDialogFragment() {
+            mContext = getActivity();
+        }
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+            alertDialogBuilder.setTitle("IMPORTANT");
+            alertDialogBuilder.setMessage("Please complete the Survey after having Food");
+            //null should be your on click listener
+            alertDialogBuilder.setPositiveButton("OK", null);
+          /*  alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });*/
+
+
+            return alertDialogBuilder.create();
+        }
     }
 
     public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
