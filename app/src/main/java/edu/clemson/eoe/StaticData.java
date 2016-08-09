@@ -54,7 +54,7 @@ public class StaticData {
     public String[] lastLocalLocation;
     public String[] pinLocation;*/
 
-    private static final String viewPHP = "https://people.cs.clemson.edu/~sravira/Viewing/";
+    private static final String viewPHP = "http://rchowda.people.clemson.edu/eoe_php/";
     public static final String getLists = viewPHP + "db_getalllists.php";
     public static final String getItems =    viewPHP + "db_getallitems.php";
     public static final String getUnits =    viewPHP + "db_getallunits.php";
@@ -62,7 +62,7 @@ public class StaticData {
     public static final String getdeletelist="http://people.cs.clemson.edu/~sravira/Delete/db_getdeletelist.php";
     public static final String getdeleteunit="http://people.cs.clemson.edu/~sravira/Delete/db_getdeleteunit.php";
     public static final String getdeletecategory="http://people.cs.clemson.edu/~sravira/Delete/db_getdeletecategory.php";
-    public static final String insertPatient="https://people.cs.clemson.edu/~sravira/Viewing/insertpatient.php";
+    public static final String insertPatient="http://rchowda.people.clemson.edu/eoe_php/insertpatient.php";
     public static final String fb="https://www.facebook.com";
 
 //    public static  final String aid=android.provider.Settings.Secure.getString(context.getContentResolver(),

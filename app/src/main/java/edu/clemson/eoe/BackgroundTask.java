@@ -33,7 +33,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
 
     @Override
     protected String doInBackground(String... params) {
-        String reg_url = "https://people.cs.clemson.edu/~sravira/EoE/insertpatient.php";
+        String reg_url = "http://rchowda.people.clemson.edu/eoe_php/insertpatient_2.php";
         //String login_url = "http://10.0.2.2/webapp/login.php";
         String method = params[0];
         if (method.equals("register")) {

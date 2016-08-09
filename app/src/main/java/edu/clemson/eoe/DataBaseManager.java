@@ -379,7 +379,7 @@ public class DataBaseManager {
 
 
             //The php script
-            URL url = new URL("https://people.cs.clemson.edu/~sravira/Viewing/saveImage.php");
+            URL url = new URL("http://rchowda.people.clemson.edu/eoe_php/saveImage.php");
             conn = (HttpURLConnection) url.openConnection();
             conn.setDoInput(true);
             conn.setDoOutput(true);

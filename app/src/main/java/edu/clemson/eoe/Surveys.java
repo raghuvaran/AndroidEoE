@@ -300,7 +300,7 @@ public class Surveys extends AppCompatActivity {
             SyncUT syncut = new SyncUT();
 
             if (status.equals("DB Sync neededn")) {
-                String url = "https://people.cs.clemson.edu/~sravira/Viewing/insertUT.php";
+                String url = "http://rchowda.people.clemson.edu/eoe_php/insertUT.php";
                 DataBaseManager dbmSync = new DataBaseManager(this);
                 dbmSync.open();
                 String Jsondata = dbmSync.composeJSONUTfromSQLite();
@@ -344,7 +344,7 @@ public class Surveys extends AppCompatActivity {
             SyncQol syncQol = new SyncQol();
 
             if (status.equals("DB Sync neededn")) {
-                String url = "https://people.cs.clemson.edu/~sravira/Viewing/insertQol.php";
+                String url = "http://rchowda.people.clemson.edu/eoe_php/insertQol.php";
                 DataBaseManager dbmSync = new DataBaseManager(this);
                 dbmSync.open();
                 String Jsondata = dbmSync.composeJSONQolfromSQLite();
@@ -387,7 +387,7 @@ public class Surveys extends AppCompatActivity {
             SyncSymptoms syncSymptoms = new SyncSymptoms();
 
             if (status.equals("DB Sync neededn")) {
-                String url = "https://people.cs.clemson.edu/~sravira/Viewing/insertSymptoms.php";
+                String url = "http://rchowda.people.clemson.edu/eoe_php/insertSymptoms.php";
                 DataBaseManager dbmSync = new DataBaseManager(this);
                 dbmSync.open();
                 String Jsondata = dbmSync.composeJSONSymptomsfromSQLite();
@@ -585,7 +585,7 @@ public class Surveys extends AppCompatActivity {
 
 
                     rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
-                    onRadioChange(rootView, 1, R.id.s1_f_rg, R.id.s1_f_res, freqResponse, R.id.s1_s, R.id.s1_s_ratingBar, R.id.s1_s_res);
+                    onRadioChange(rootView, 1, R.id.s1_f_rg, R.id.s1_f_res, freqResponse, R.id.s1_s, R.id.s1_s_rg, R.id.s1_s_res);
                     setRatingBarListener(rootView, 2, R.id.s2_f_ratingBar, R.id.s2_f_res, freqResponse, R.id.s2_s, R.id.s2_s_ratingBar, R.id.s2_s_res);
                     setRatingBarListener(rootView, 3, R.id.s3_f_ratingBar, R.id.s3_f_res, freqResponse, R.id.s3_s, R.id.s3_s_ratingBar, R.id.s3_s_res);
                     setRatingBarListener(rootView, 4, R.id.s4_f_ratingBar, R.id.s4_f_res, freqResponse, R.id.s4_s, R.id.s4_s_ratingBar, R.id.s4_s_res);
@@ -597,7 +597,7 @@ public class Surveys extends AppCompatActivity {
                     setRatingBarListener(rootView, 10, R.id.s10_f_ratingBar, R.id.s10_f_res, freqResponse, 0, 0, 0);
                     setRatingBarListener(rootView, 11, R.id.s11_f_ratingBar, R.id.s11_f_res, freqResponse, 0, 0, 0);
 
-                    setRatingBarListener(rootView, 1, R.id.s1_s_ratingBar, R.id.s1_s_res, severeResponse, 0, 0, 0);
+                    onRadioChange(rootView, 1, R.id.s1_s_rg, R.id.s1_s_res, severeResponse, 0, 0, 0);
                     setRatingBarListener(rootView, 2, R.id.s2_s_ratingBar, R.id.s2_s_res, severeResponse, 0, 0, 0);
                     setRatingBarListener(rootView, 3, R.id.s3_s_ratingBar, R.id.s3_s_res, severeResponse, 0, 0, 0);
                     setRatingBarListener(rootView, 4, R.id.s4_s_ratingBar, R.id.s4_s_res, severeResponse, 0, 0, 0);
@@ -614,7 +614,7 @@ public class Surveys extends AppCompatActivity {
             {
                 dbm.close();
                 rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
-                onRadioChange(rootView, 1, R.id.s1_f_rg, R.id.s1_f_res, freqResponse, R.id.s1_s, R.id.s1_s_ratingBar, R.id.s1_s_res);
+                onRadioChange(rootView, 1, R.id.s1_f_rg, R.id.s1_f_res, freqResponse, R.id.s1_s, R.id.s1_s_rg, R.id.s1_s_res);
                 setRatingBarListener(rootView, 2, R.id.s2_f_ratingBar, R.id.s2_f_res, freqResponse, R.id.s2_s, R.id.s2_s_ratingBar, R.id.s2_s_res);
                 setRatingBarListener(rootView, 3, R.id.s3_f_ratingBar, R.id.s3_f_res, freqResponse, R.id.s3_s, R.id.s3_s_ratingBar, R.id.s3_s_res);
                 setRatingBarListener(rootView, 4, R.id.s4_f_ratingBar, R.id.s4_f_res, freqResponse, R.id.s4_s, R.id.s4_s_ratingBar, R.id.s4_s_res);
@@ -626,7 +626,7 @@ public class Surveys extends AppCompatActivity {
                 setRatingBarListener(rootView, 10, R.id.s10_f_ratingBar, R.id.s10_f_res, freqResponse, 0, 0, 0);
                 setRatingBarListener(rootView, 11, R.id.s11_f_ratingBar, R.id.s11_f_res, freqResponse, 0, 0, 0);
 
-                setRatingBarListener(rootView, 1, R.id.s1_s_ratingBar, R.id.s1_s_res, severeResponse, 0, 0, 0);
+                onRadioChange(rootView, 1, R.id.s1_s_rg, R.id.s1_s_res, severeResponse, 0, 0, 0);
                 setRatingBarListener(rootView, 2, R.id.s2_s_ratingBar, R.id.s2_s_res, severeResponse, 0, 0, 0);
                 setRatingBarListener(rootView, 3, R.id.s3_s_ratingBar, R.id.s3_s_res, severeResponse, 0, 0, 0);
                 setRatingBarListener(rootView, 4, R.id.s4_s_ratingBar, R.id.s4_s_res, severeResponse, 0, 0, 0);
@@ -1008,9 +1008,11 @@ public class Surveys extends AppCompatActivity {
             q1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    Log.i("CheckedID, checkedId: ",String.valueOf(checkedId));
-                    float rating = (float) checkedId;
-                    Log.i("CheckedID, rating: ",String.valueOf(rating));
+
+                    Log.i("CheckedID, checkedId",String.valueOf(checkedId));
+                    float rating = q1.indexOfChild(view.findViewById(checkedId)) + 1;
+
+                    Log.i("CheckedID, rating",String.valueOf(rating));
                     q1_res.setText(hashMap.get(rating).toString());
                     q1_res.setVisibility(View.VISIBLE);
 
@@ -1033,7 +1035,7 @@ public class Surveys extends AppCompatActivity {
                     //Disable severity question
                     if (next_q != 0) {   //non-zero mode for frequency questions
 
-                        final RatingBar q2 = (RatingBar) view.findViewById(next_q_r);
+                        final RadioGroup q2 = (RadioGroup) view.findViewById(next_q_r);
                         final TextView q2_q = (TextView) view.findViewById(next_q);
                         final TextView q2_res = (TextView) view.findViewById(next_q_res);
                         if (rating == 1f) {
@@ -1885,7 +1887,7 @@ int count=0;
             SyncFoodDiary syncFoodDiary = new SyncFoodDiary();
 
             if (status.equals("DB Sync neededn")) {
-                String url = "https://people.cs.clemson.edu/~sravira/Viewing/insertfoodDiary.php";
+                String url = "http://rchowda.people.clemson.edu/eoe_php/insertfoodDiary.php";
                 DataBaseManager dbmSync = new DataBaseManager(this);
                 dbmSync.open();
                 String Jsondata = dbmSync.composeJSONfromSQLite();
