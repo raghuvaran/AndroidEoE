@@ -45,37 +45,37 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/one"
+                    android:background="@drawable/num_1"
                     android:text=""
-                    android:button="@drawable/radiobutton_selector"
+                    android:button="@drawable/num_selector"
                     android:layout_marginRight="5dp"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/two"
-                    android:button="@drawable/radiobutton_selector"
+                    android:background="@drawable/num_2"
+                    android:button="@drawable/num_selector"
                     android:layout_marginRight="5dp"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/three"
-                    android:button="@drawable/radiobutton_selector"
+                    android:background="@drawable/num_3"
+                    android:button="@drawable/num_selector"
                     android:layout_marginRight="5dp"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/four"
-                    android:button="@drawable/radiobutton_selector"
+                    android:background="@drawable/num_4"
+                    android:button="@drawable/num_selector"
                     android:layout_marginRight="5dp"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/five"
-                    android:button="@drawable/radiobutton_selector"
+                    android:background="@drawable/num_5"
+                    android:button="@drawable/num_selector"
                     android:layout_marginRight="5dp"/>
 
             </RadioGroup>
@@ -110,35 +110,35 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/one_not_bad_at_all"
                     android:text=""
-                    android:button="@drawable/radiobutton_selector"
+                    android:button="@drawable/emoji_selector"
                     android:layout_marginRight="5dp"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/one_not_bad_at_all"
-                    android:button="@drawable/radiobutton_selector"
+                    android:button="@drawable/emoji_selector"
                     android:layout_marginRight="5dp"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/one_not_bad_at_all"
-                    android:button="@drawable/radiobutton_selector"
+                    android:button="@drawable/emoji_selector"
                     android:layout_marginRight="5dp"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/one_not_bad_at_all"
-                    android:button="@drawable/radiobutton_selector"
+                    android:button="@drawable/emoji_selector"
                     android:layout_marginRight="5dp"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/one_not_bad_at_all"
-                    android:button="@drawable/radiobutton_selector"
+                    android:button="@drawable/emoji_selector"
                     android:layout_marginRight="5dp"/>
 
             </RadioGroup>
