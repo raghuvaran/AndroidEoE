@@ -1186,7 +1186,7 @@ public class Surveys extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
             alertDialogBuilder.setTitle("IMPORTANT");
-            alertDialogBuilder.setMessage("Please complete the Survey after having Food");
+            alertDialogBuilder.setMessage("Please answer the questions below after eating");
             //null should be your on click listener
             alertDialogBuilder.setPositiveButton("OK", null);
           /*  alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

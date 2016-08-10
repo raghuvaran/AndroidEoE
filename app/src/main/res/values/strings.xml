@@ -82,8 +82,8 @@
     <string name="fd_who">Who did you eat with?</string>
     <string name="fd_feelBefore">How did you feel before?</string>
     <string name="fd_feelAfter">How did you feel after?</string>
-    <string name="fd_Someone">Did Someone ate the same food with you</string>
-    <string name="fd_others">Do they also have the same symptoms like you</string>
+    <string name="fd_Someone">Did anyone with you eat the same food?</string>
+    <string name="fd_others">Did they have the same symptoms?</string>
     <string name="fd_worry">Are you worried there was something in your meal that make you feel bad?</string>
     <string name="fd_whosInput">Are you a parent?</string>
 
