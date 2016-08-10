@@ -1265,10 +1265,28 @@ public class Surveys extends AppCompatActivity {
         int counter = 0;
         for(int i=1;i<fd_response.length;i++)
         {
-            if(fd_response[i]==null || mCurrentPhotoPath ==null)
+            if(fd_response[i]==null && i<5  )
             {
                 counter++;
             }
+
+            if( mCurrentPhotoPath ==null)
+            {
+                counter++;
+            }
+            if(fd_response[6]==null || fd_response[7]==null)
+            {
+                counter++;
+            }
+            if(fd_response[5]==null || (fd_response[5].equalsIgnoreCase("Symptoms") && fd_response[8]==null))
+            {
+                counter++;
+            }
+            if(fd_response[8].equalsIgnoreCase("yes") && fd_response[9]==null)
+            {
+                counter++;
+            }
+
         }
         if(counter!=0) {
             Toast.makeText(getApplicationContext(), "Please answer all Survey questions ",
