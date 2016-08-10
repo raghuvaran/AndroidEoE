@@ -614,26 +614,26 @@ public class Surveys extends AppCompatActivity {
 
                     rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
                     onRadioChange(rootView, 1, R.id.s1_f_rg, R.id.s1_f_res, freqResponse, R.id.s1_s, R.id.s1_s_rg, R.id.s1_s_res);
-                    setRatingBarListener(rootView, 2, R.id.s2_f_ratingBar, R.id.s2_f_res, freqResponse, R.id.s2_s, R.id.s2_s_ratingBar, R.id.s2_s_res);
-                    setRatingBarListener(rootView, 3, R.id.s3_f_ratingBar, R.id.s3_f_res, freqResponse, R.id.s3_s, R.id.s3_s_ratingBar, R.id.s3_s_res);
-                    setRatingBarListener(rootView, 4, R.id.s4_f_ratingBar, R.id.s4_f_res, freqResponse, R.id.s4_s, R.id.s4_s_ratingBar, R.id.s4_s_res);
-                    setRatingBarListener(rootView, 5, R.id.s5_f_ratingBar, R.id.s5_f_res, freqResponse, R.id.s5_s, R.id.s5_s_ratingBar, R.id.s5_s_res);
-                    setRatingBarListener(rootView, 6, R.id.s6_f_ratingBar, R.id.s6_f_res, freqResponse, R.id.s6_s, R.id.s6_s_ratingBar, R.id.s6_s_res);
-                    setRatingBarListener(rootView, 7, R.id.s7_f_ratingBar, R.id.s7_f_res, freqResponse, R.id.s7_s, R.id.s7_s_ratingBar, R.id.s7_s_res);
-                    setRatingBarListener(rootView, 8, R.id.s8_f_ratingBar, R.id.s8_f_res, freqResponse, R.id.s8_s, R.id.s8_s_ratingBar, R.id.s8_s_res);
-                    setRatingBarListener(rootView, 9, R.id.s9_f_ratingBar, R.id.s9_f_res, freqResponse, R.id.s9_s, R.id.s9_s_ratingBar, R.id.s9_s_res);
-                    setRatingBarListener(rootView, 10, R.id.s10_f_ratingBar, R.id.s10_f_res, freqResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 11, R.id.s11_f_ratingBar, R.id.s11_f_res, freqResponse, 0, 0, 0);
+                    onRadioChange(rootView, 2, R.id.s2_f_rg, R.id.s2_f_res, freqResponse, R.id.s2_s, R.id.s2_s_rg, R.id.s2_s_res);
+                    onRadioChange(rootView, 3, R.id.s3_f_rg, R.id.s3_f_res, freqResponse, R.id.s3_s, R.id.s3_s_rg, R.id.s3_s_res);
+                    onRadioChange(rootView, 4, R.id.s4_f_rg, R.id.s4_f_res, freqResponse, R.id.s4_s, R.id.s4_s_rg, R.id.s4_s_res);
+                    onRadioChange(rootView, 5, R.id.s5_f_rg, R.id.s5_f_res, freqResponse, R.id.s5_s, R.id.s5_s_rg, R.id.s5_s_res);
+                    onRadioChange(rootView, 6, R.id.s6_f_rg, R.id.s6_f_res, freqResponse, R.id.s6_s, R.id.s6_s_rg, R.id.s6_s_res);
+                    onRadioChange(rootView, 7, R.id.s7_f_rg, R.id.s7_f_res, freqResponse, R.id.s7_s, R.id.s7_s_rg, R.id.s7_s_res);
+                    onRadioChange(rootView, 8, R.id.s8_f_rg, R.id.s8_f_res, freqResponse, R.id.s8_s, R.id.s8_s_rg, R.id.s8_s_res);
+                    onRadioChange(rootView, 9, R.id.s9_f_rg, R.id.s9_f_res, freqResponse, R.id.s9_s, R.id.s9_s_rg, R.id.s9_s_res);
+                    onRadioChange(rootView, 10, R.id.s10_f_rg, R.id.s10_f_res, freqResponse, 0, 0, 0);
+                    onRadioChange(rootView, 11, R.id.s11_f_rg, R.id.s11_f_res, freqResponse, 0, 0, 0);
 
                     onRadioChange(rootView, 1, R.id.s1_s_rg, R.id.s1_s_res, severeResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 2, R.id.s2_s_ratingBar, R.id.s2_s_res, severeResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 3, R.id.s3_s_ratingBar, R.id.s3_s_res, severeResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 4, R.id.s4_s_ratingBar, R.id.s4_s_res, severeResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 5, R.id.s5_s_ratingBar, R.id.s5_s_res, severeResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 6, R.id.s6_s_ratingBar, R.id.s6_s_res, severeResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 7, R.id.s7_s_ratingBar, R.id.s7_s_res, severeResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 8, R.id.s8_s_ratingBar, R.id.s8_s_res, severeResponse, 0, 0, 0);
-                    setRatingBarListener(rootView, 9, R.id.s9_s_ratingBar, R.id.s9_s_res, severeResponse, 0, 0, 0);
+                    onRadioChange(rootView, 2, R.id.s2_s_rg, R.id.s2_s_res, severeResponse, 0, 0, 0);
+                    onRadioChange(rootView, 3, R.id.s3_s_rg, R.id.s3_s_res, severeResponse, 0, 0, 0);
+                    onRadioChange(rootView, 4, R.id.s4_s_rg, R.id.s4_s_res, severeResponse, 0, 0, 0);
+                    onRadioChange(rootView, 5, R.id.s5_s_rg, R.id.s5_s_res, severeResponse, 0, 0, 0);
+                    onRadioChange(rootView, 6, R.id.s6_s_rg, R.id.s6_s_res, severeResponse, 0, 0, 0);
+                    onRadioChange(rootView, 7, R.id.s7_s_rg, R.id.s7_s_res, severeResponse, 0, 0, 0);
+                    onRadioChange(rootView, 8, R.id.s8_s_rg, R.id.s8_s_res, severeResponse, 0, 0, 0);
+                    onRadioChange(rootView, 9, R.id.s9_s_rg, R.id.s9_s_res, severeResponse, 0, 0, 0);
 
 
                 }
@@ -643,26 +643,26 @@ public class Surveys extends AppCompatActivity {
                 dbm.close();
                 rootView = inflater.inflate(R.layout.symptoms_survey, container, false);
                 onRadioChange(rootView, 1, R.id.s1_f_rg, R.id.s1_f_res, freqResponse, R.id.s1_s, R.id.s1_s_rg, R.id.s1_s_res);
-                setRatingBarListener(rootView, 2, R.id.s2_f_ratingBar, R.id.s2_f_res, freqResponse, R.id.s2_s, R.id.s2_s_ratingBar, R.id.s2_s_res);
-                setRatingBarListener(rootView, 3, R.id.s3_f_ratingBar, R.id.s3_f_res, freqResponse, R.id.s3_s, R.id.s3_s_ratingBar, R.id.s3_s_res);
-                setRatingBarListener(rootView, 4, R.id.s4_f_ratingBar, R.id.s4_f_res, freqResponse, R.id.s4_s, R.id.s4_s_ratingBar, R.id.s4_s_res);
-                setRatingBarListener(rootView, 5, R.id.s5_f_ratingBar, R.id.s5_f_res, freqResponse, R.id.s5_s, R.id.s5_s_ratingBar, R.id.s5_s_res);
-                setRatingBarListener(rootView, 6, R.id.s6_f_ratingBar, R.id.s6_f_res, freqResponse, R.id.s6_s, R.id.s6_s_ratingBar, R.id.s6_s_res);
-                setRatingBarListener(rootView, 7, R.id.s7_f_ratingBar, R.id.s7_f_res, freqResponse, R.id.s7_s, R.id.s7_s_ratingBar, R.id.s7_s_res);
-                setRatingBarListener(rootView, 8, R.id.s8_f_ratingBar, R.id.s8_f_res, freqResponse, R.id.s8_s, R.id.s8_s_ratingBar, R.id.s8_s_res);
-                setRatingBarListener(rootView, 9, R.id.s9_f_ratingBar, R.id.s9_f_res, freqResponse, R.id.s9_s, R.id.s9_s_ratingBar, R.id.s9_s_res);
-                setRatingBarListener(rootView, 10, R.id.s10_f_ratingBar, R.id.s10_f_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 11, R.id.s11_f_ratingBar, R.id.s11_f_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 2, R.id.s2_f_rg, R.id.s2_f_res, freqResponse, R.id.s2_s, R.id.s2_s_rg, R.id.s2_s_res);
+                onRadioChange(rootView, 3, R.id.s3_f_rg, R.id.s3_f_res, freqResponse, R.id.s3_s, R.id.s3_s_rg, R.id.s3_s_res);
+                onRadioChange(rootView, 4, R.id.s4_f_rg, R.id.s4_f_res, freqResponse, R.id.s4_s, R.id.s4_s_rg, R.id.s4_s_res);
+                onRadioChange(rootView, 5, R.id.s5_f_rg, R.id.s5_f_res, freqResponse, R.id.s5_s, R.id.s5_s_rg, R.id.s5_s_res);
+                onRadioChange(rootView, 6, R.id.s6_f_rg, R.id.s6_f_res, freqResponse, R.id.s6_s, R.id.s6_s_rg, R.id.s6_s_res);
+                onRadioChange(rootView, 7, R.id.s7_f_rg, R.id.s7_f_res, freqResponse, R.id.s7_s, R.id.s7_s_rg, R.id.s7_s_res);
+                onRadioChange(rootView, 8, R.id.s8_f_rg, R.id.s8_f_res, freqResponse, R.id.s8_s, R.id.s8_s_rg, R.id.s8_s_res);
+                onRadioChange(rootView, 9, R.id.s9_f_rg, R.id.s9_f_res, freqResponse, R.id.s9_s, R.id.s9_s_rg, R.id.s9_s_res);
+                onRadioChange(rootView, 10, R.id.s10_f_rg, R.id.s10_f_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 11, R.id.s11_f_rg, R.id.s11_f_res, freqResponse, 0, 0, 0);
 
                 onRadioChange(rootView, 1, R.id.s1_s_rg, R.id.s1_s_res, severeResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 2, R.id.s2_s_ratingBar, R.id.s2_s_res, severeResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 3, R.id.s3_s_ratingBar, R.id.s3_s_res, severeResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 4, R.id.s4_s_ratingBar, R.id.s4_s_res, severeResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 5, R.id.s5_s_ratingBar, R.id.s5_s_res, severeResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 6, R.id.s6_s_ratingBar, R.id.s6_s_res, severeResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 7, R.id.s7_s_ratingBar, R.id.s7_s_res, severeResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 8, R.id.s8_s_ratingBar, R.id.s8_s_res, severeResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 9, R.id.s9_s_ratingBar, R.id.s9_s_res, severeResponse, 0, 0, 0);
+                onRadioChange(rootView, 2, R.id.s2_s_rg, R.id.s2_s_res, severeResponse, 0, 0, 0);
+                onRadioChange(rootView, 3, R.id.s3_s_rg, R.id.s3_s_res, severeResponse, 0, 0, 0);
+                onRadioChange(rootView, 4, R.id.s4_s_rg, R.id.s4_s_res, severeResponse, 0, 0, 0);
+                onRadioChange(rootView, 5, R.id.s5_s_rg, R.id.s5_s_res, severeResponse, 0, 0, 0);
+                onRadioChange(rootView, 6, R.id.s6_s_rg, R.id.s6_s_res, severeResponse, 0, 0, 0);
+                onRadioChange(rootView, 7, R.id.s7_s_rg, R.id.s7_s_res, severeResponse, 0, 0, 0);
+                onRadioChange(rootView, 8, R.id.s8_s_rg, R.id.s8_s_res, severeResponse, 0, 0, 0);
+                onRadioChange(rootView, 9, R.id.s9_s_rg, R.id.s9_s_res, severeResponse, 0, 0, 0);
             }
 
       /*      TableLayout tableLayout = (TableLayout) rootView.findViewById(R.id.symptoms_survey_tableLayout);
@@ -760,65 +760,7 @@ public class Surveys extends AppCompatActivity {
         }
 
 
-        public void showPopup(View anchorView, Bundle instance) {
-            View popupView = getLayoutInflater(instance).inflate(R.layout.popup_layout, null);
-            PopupWindow popupWindow = new PopupWindow(popupView,
-                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            // Example: If you have a TextView inside `popup_layout.xml`
-            TextView tv = (TextView) popupView.findViewById(R.id.text);
-
-            // popUp.showAtLocation(layout, Gravity.BOTTOM, 10, 10);
-         //   mainLayout.addView(params);
-            //tv.setText(....);
-
-
-            // If the PopupWindow should be focusable
-            popupWindow.setFocusable(true);
-
-            // If you need the PopupWindow to dismiss when when touched outside
-            popupWindow.setBackgroundDrawable(new ColorDrawable());
-
-            int location[] = new int[2];
-
-            // Get the View's(the one that was clicked in the Fragment) location
-            anchorView.getLocationOnScreen(location);
-
-            // Using location, the PopupWindow will be displayed right under anchorView
-            popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY,
-                    location[0], location[1] + anchorView.getHeight());
-
-            /*popUp = new PopupWindow(getContext());
-
-            tv = new TextView(getContext());
-            but = new Button(getContext());
-            but.setText("Click Me");
-            but.setOnClickListener(new View.OnClickListener() {
-
-                public void onClick(View v) {
-                    if (click) {
-                        popUp.showAtLocation(mainLayout, Gravity.BOTTOM, 10, 10);
-                        popUp.update(50, 50, 300, 80);
-                        click = false;
-                    } else {
-                        popUp.dismiss();
-                        click = true;
-                    }
-                }
-
-            });
-            params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-            layout.setOrientation(LinearLayout.VERTICAL);
-            tv.setText("Hi this is a sample text for popup window");
-            layout.addView(tv, params);
-            popUp.setContentView(layout);
-            // popUp.showAtLocation(layout, Gravity.BOTTOM, 10, 10);
-            mainLayout.addView(but, params);*/
-
-
-
-        }
 
 
 
@@ -929,61 +871,61 @@ public class Surveys extends AppCompatActivity {
 
                 dbm.close();
                 rootView = inflater.inflate(R.layout.qol_survey, container, false);
-                setRatingBarListener(rootView, 1, R.id.s1_q1_ratingBar, R.id.s1_q1_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 2, R.id.s1_q2_ratingBar, R.id.s1_q2_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 3, R.id.s1_q3_ratingBar, R.id.s1_q3_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 4, R.id.s1_q4_ratingBar, R.id.s1_q4_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 5, R.id.s1_q5_ratingBar, R.id.s1_q5_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 6, R.id.s1_q6_ratingBar, R.id.s1_q6_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 7, R.id.s2_q1_ratingBar, R.id.s2_q1_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 8, R.id.s2_q2_ratingBar, R.id.s2_q2_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 9, R.id.s2_q3_ratingBar, R.id.s2_q3_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 10, R.id.s2_q4_ratingBar, R.id.s2_q4_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 1, R.id.s1_q1_rg, R.id.s1_q1_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 2, R.id.s1_q2_rg, R.id.s1_q2_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 3, R.id.s1_q3_rg, R.id.s1_q3_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 4, R.id.s1_q4_rg, R.id.s1_q4_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 5, R.id.s1_q5_rg, R.id.s1_q5_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 6, R.id.s1_q6_rg, R.id.s1_q6_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 7, R.id.s2_q1_rg, R.id.s2_q1_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 8, R.id.s2_q2_rg, R.id.s2_q2_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 9, R.id.s2_q3_rg, R.id.s2_q3_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 10, R.id.s2_q4_rg, R.id.s2_q4_res, freqResponse, 0, 0, 0);
 
-                setRatingBarListener(rootView, 11, R.id.s3_q1_ratingBar, R.id.s3_q1_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 12, R.id.s3_q2_ratingBar, R.id.s3_q2_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 13, R.id.s3_q3_ratingBar, R.id.s3_q3_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 14, R.id.s3_q4_ratingBar, R.id.s3_q4_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 15, R.id.s3_q5_ratingBar, R.id.s3_q5_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 11, R.id.s3_q1_rg, R.id.s3_q1_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 12, R.id.s3_q2_rg, R.id.s3_q2_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 13, R.id.s3_q3_rg, R.id.s3_q3_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 14, R.id.s3_q4_rg, R.id.s3_q4_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 15, R.id.s3_q5_rg, R.id.s3_q5_res, freqResponse, 0, 0, 0);
 
-                setRatingBarListener(rootView, 16, R.id.s4_q1_ratingBar, R.id.s4_q1_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 17, R.id.s4_q2_ratingBar, R.id.s4_q2_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 18, R.id.s4_q3_ratingBar, R.id.s4_q3_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 19, R.id.s4_q4_ratingBar, R.id.s4_q4_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 20, R.id.s4_q5_ratingBar, R.id.s4_q5_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 21, R.id.s4_q6_ratingBar, R.id.s4_q6_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 16, R.id.s4_q1_rg, R.id.s4_q1_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 17, R.id.s4_q2_rg, R.id.s4_q2_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 18, R.id.s4_q3_rg, R.id.s4_q3_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 19, R.id.s4_q4_rg, R.id.s4_q4_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 20, R.id.s4_q5_rg, R.id.s4_q5_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 21, R.id.s4_q6_rg, R.id.s4_q6_res, freqResponse, 0, 0, 0);
 
-                setRatingBarListener(rootView, 22, R.id.s5_q1_ratingBar, R.id.s5_q1_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 23, R.id.s5_q2_ratingBar, R.id.s5_q2_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 24, R.id.s5_q3_ratingBar, R.id.s5_q3_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 25, R.id.s5_q4_ratingBar, R.id.s5_q4_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 26, R.id.s5_q5_ratingBar, R.id.s5_q5_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 22, R.id.s5_q1_rg, R.id.s5_q1_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 23, R.id.s5_q2_rg, R.id.s5_q2_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 24, R.id.s5_q3_rg, R.id.s5_q3_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 25, R.id.s5_q4_rg, R.id.s5_q4_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 26, R.id.s5_q5_rg, R.id.s5_q5_res, freqResponse, 0, 0, 0);
 
                 onRadioChange(rootView, 27, R.id.s6_s7
-                ,R.id.s6_q1_ratingBar,R.id.s6_q2_ratingBar,R.id.s6_q3_ratingBar,R.id.s6_q4_ratingBar,R.id.s7_q1_ratingBar,R.id.s7_q2_ratingBar,R.id.s7_q3_ratingBar
+                ,R.id.s6_q1_rg,R.id.s6_q2_rg,R.id.s6_q3_rg,R.id.s6_q4_rg,R.id.s7_q1_rg,R.id.s7_q2_rg,R.id.s7_q3_rg
                 ,R.id.s6_title,R.id.s7_title
                 ,R.id.s6_q1,R.id.s6_q2,R.id.s6_q3,R.id.s6_q4,R.id.s7_q1,R.id.s7_q2,R.id.s7_q3
                 ,R.id.s6_q1_res,R.id.s6_q2_res,R.id.s6_q3_res,R.id.s6_q4_res,R.id.s7_q1_res,R.id.s7_q2_res,R.id.s7_q3_res);
 
-                setRatingBarListener(rootView, 28, R.id.s6_q1_ratingBar, R.id.s6_q1_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 29, R.id.s6_q2_ratingBar, R.id.s6_q2_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 30, R.id.s6_q3_ratingBar, R.id.s6_q3_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 31, R.id.s6_q4_ratingBar, R.id.s6_q4_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 28, R.id.s6_q1_rg, R.id.s6_q1_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 29, R.id.s6_q2_rg, R.id.s6_q2_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 30, R.id.s6_q3_rg, R.id.s6_q3_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 31, R.id.s6_q4_rg, R.id.s6_q4_res, freqResponse, 0, 0, 0);
 
-                setRatingBarListener(rootView, 32, R.id.s7_q1_ratingBar, R.id.s7_q1_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 33, R.id.s7_q2_ratingBar, R.id.s7_q2_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 34, R.id.s7_q3_ratingBar, R.id.s7_q3_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 32, R.id.s7_q1_rg, R.id.s7_q1_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 33, R.id.s7_q2_rg, R.id.s7_q2_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 34, R.id.s7_q3_rg, R.id.s7_q3_res, freqResponse, 0, 0, 0);
 
                 onRadioChange(rootView, 35, R.id.s8
                 ,R.id.s8_title
                 ,R.id.s8_q1,R.id.s8_q2
                 ,R.id.s8_q1_res,R.id.s8_q2_res
-                ,R.id.s8_q1_ratingBar,R.id.s8_q2_ratingBar);
+                ,R.id.s8_q1_rg,R.id.s8_q2_rg);
 
-                setRatingBarListener(rootView, 36, R.id.s8_q1_ratingBar, R.id.s8_q1_res, freqResponse, 0, 0, 0);
-                setRatingBarListener(rootView, 37, R.id.s8_q2_ratingBar, R.id.s8_q2_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 36, R.id.s8_q1_rg, R.id.s8_q1_res, freqResponse, 0, 0, 0);
+                onRadioChange(rootView, 37, R.id.s8_q2_rg, R.id.s8_q2_res, freqResponse, 0, 0, 0);
 
-            //setRatingBarListener(rootView, R.id.s1_s_ratingBar, R.id.s1_s_res, severeResponse);
+            //setrgListener(rootView, R.id.s1_s_rg, R.id.s1_s_res, severeResponse);
             return rootView;
         }
 //--------------onCreate-Methods-Terminate-------------------//
@@ -1231,8 +1173,6 @@ public class Surveys extends AppCompatActivity {
                 }
             });
         }
-
-
 
 //---------------Methods-Terminate-------------------//
     }
