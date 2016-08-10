@@ -40,7 +40,7 @@ import java.util.HashMap;
  * DataBaseManager class file to edit delete update and query the database
  */
 public class DataBaseManager {
-    public static final int DATABASE_VERSION = 9;
+    public static final int DATABASE_VERSION = 10;
     public static final String DATABASE_NAME = "EoE.db";
     public static final String TABLE_NAME_USERINFO = "userInfo";
     public static final String TABLE_NAME_FOODDIARY = "foodDiary";
@@ -102,6 +102,8 @@ public class DataBaseManager {
                     "who " +TEXT_TYPE + COMMA_SEP +
                     "feelBefore " +TEXT_TYPE + COMMA_SEP +
                     "feelAfter " +TEXT_TYPE + COMMA_SEP +
+                    "someone" +TEXT_TYPE + COMMA_SEP +
+                    "others" +TEXT_TYPE + COMMA_SEP +
                     "allergic " +TEXT_TYPE + COMMA_SEP +
                     "Image " +TEXT_TYPE +  COMMA_SEP +
                      "whoIsInput " + TEXT_TYPE + COMMA_SEP +
@@ -268,8 +270,9 @@ public class DataBaseManager {
 
             db.execSQL(SQL_DELETE_ENTRIES_QOL);
             db.execSQL(SQL_DELETE_ENTRIES_FOODDIARY);
-            db.execSQL(SQL_DELETE_ENTRIES_USERINFO);
+
             db.execSQL(SQL_DELETE_ENTRIES_USERSURVEY);
+            db.execSQL(SQL_DELETE_ENTRIES_USERINFO);
             onCreate(db);
         }
 
@@ -379,7 +382,7 @@ public class DataBaseManager {
 
 
             //The php script
-            URL url = new URL("http://rchowda.people.clemson.edu/eoe_php/saveImage.php");
+            URL url = new URL("https://people.cs.clemson.edu/~sravira/Viewing/saveImage.php");
             conn = (HttpURLConnection) url.openConnection();
             conn.setDoInput(true);
             conn.setDoOutput(true);
@@ -502,7 +505,7 @@ public class DataBaseManager {
 
     public boolean addFoodDiary(int patientID,String DateTime,String meal,
                              String where,String who ,String feelBefore,
-                             String feelAfter,String allergic,String inputPerson,String image){
+                             String feelAfter,String someone, String others,String allergic,String inputPerson,String image){
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -514,6 +517,8 @@ public class DataBaseManager {
         values.put("who",who);
         values.put("feelBefore", feelBefore);
         values.put("feelAfter", feelAfter);
+        values.put("someone",someone);
+        values.put("others",others);
         values.put("allergic", allergic);
         values.put("Image", image);
         values.put("updateStatus",0);

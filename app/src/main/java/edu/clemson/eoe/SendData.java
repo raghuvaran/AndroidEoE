@@ -34,10 +34,10 @@ import java.util.concurrent.ExecutionException;
 public class SendData extends IntentService {
     // TODO: Rename actions, choose action names that describe tasks that this
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
-    private static final String ACTION_SYMPTOMS = "http://rchowda.people.clemson.edu/eoe_php/insertSymptoms.php";
-    private static final String ACTION_FOODDIARY = "http://rchowda.people.clemson.edu/eoe_php/insertfoodDiary.php";
-    private static final String ACTION_QOL = "http://rchowda.people.clemson.edu/eoe_php/insertQol.php";
-    private static final String ACTION_UT="http://rchowda.people.clemson.edu/eoe_php/insertUT.php";
+    private static final String ACTION_SYMPTOMS = "https://people.cs.clemson.edu/~sravira/Viewing/insertSymptoms.php";
+    private static final String ACTION_FOODDIARY = "https://people.cs.clemson.edu/~sravira/Viewing/insertfoodDiary.php";
+    private static final String ACTION_QOL = "https://people.cs.clemson.edu/~sravira/Viewing/insertQol.php";
+    private static final String ACTION_UT="https://people.cs.clemson.edu/~sravira/Viewing/insertUT.php";
 
     // TODO: Rename parameters
     private static final String EXTRA_PARAM1 = "edu.clemson.eoe.extra.PARAM1";

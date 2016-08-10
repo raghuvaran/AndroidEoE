@@ -133,7 +133,7 @@ public class Surveys extends AppCompatActivity {
         symptoms_s_response[10]=-1;
         symptoms_s_response[11]=-1;
     }
-    private static final String[] fd_response = new String[8];
+    private static final String[] fd_response = new String[10];
     static {
         fd_response[0]="0";
         fd_response[1]=null;   //where
@@ -143,6 +143,9 @@ public class Surveys extends AppCompatActivity {
         fd_response[5]=null;   //feel after
         fd_response[6]=null;   //worry
         fd_response[7]=null;   //inputPerson
+        fd_response[8]=null;   //someone
+        fd_response[9]=null;   //others
+
     }
 
     private static final int[] qol_response = new int[38];
@@ -497,8 +500,9 @@ public class Surveys extends AppCompatActivity {
                 Bitmap photo = BitmapFactory.decodeFile(mCurrentPhotoPath);
                 // bytedata = getBitmapAsByteArray(photo);
                 imageView1.setImageBitmap(photo);
-                new MyDialogFragment().show(getFragmentManager(), "MyDialog");
+
             }
+          new MyDialogFragment().show(getFragmentManager(), "MyDialog");
 
 
 
@@ -744,10 +748,10 @@ public class Surveys extends AppCompatActivity {
             populateSpinner(rootView, 2, R.id.fd_which_spinner, R.array.fd_which_a);
             populateSpinner(rootView, 3, R.id.fd_who_spinner, R.array.fd_who_a);
             onEditTextListener(rootView, 3, R.id.fd_who_others);
-            //onRadioChange(rootView, 4, R.id.fd_fA,R.id.fd_sO,);
-            onRadioChange(rootView,8,R.id.fd_sO);
+            onRadioChange(rootView, 5, R.id.fd_fA,R.id.fd_someone,R.id.fd_sO,R.id.fd_others,R.id.fd_O);
+            onRadioChange(rootView,8,R.id.fd_sO,R.id.fd_others,R.id.fd_O);
             onRadioChange(rootView,9,R.id.fd_O);
-            onRadioChange(rootView,5,R.id.fd_fB);
+            onRadioChange(rootView,4,R.id.fd_fB);
             onRadioChange(rootView,6,R.id.fd_worry);
             onRadioChange(rootView, 7, R.id.fd_whosInput);
 
@@ -1096,7 +1100,28 @@ public class Surveys extends AppCompatActivity {
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
                     if (getArguments().getInt(ARG_SECTION_NUMBER) == 2) {  //If called from Food diary view (2)
-                        fd_response[q_id] = ((RadioButton) v.findViewById(checkedId)).getText().toString();
+                        if (q_id == 5 || q_id == 8) {
+                            fd_response[q_id] = ((RadioButton) v.findViewById(checkedId)).getText().toString();
+                            if (params.length > 0 && ( fd_response[q_id].equalsIgnoreCase("Symptoms") || fd_response[q_id].equalsIgnoreCase("Yes"))) { //set all the views in params to visible
+                                for (int viewId : params) {
+                                    View view1 = v.findViewById(viewId);
+                                    view1.setVisibility(View.VISIBLE);
+                                }
+                            }
+                         else {
+
+                            if (params.length > 0) { //set all the views in params to visible
+                                for (int viewId : params) {
+                                    View view1 = v.findViewById(viewId);
+                                    view1.setVisibility(View.GONE);
+                                }
+                            }
+                        }
+                    }
+                      else {
+
+                            fd_response[q_id] = ((RadioButton) v.findViewById(checkedId)).getText().toString();
+                        }
                     }
                     if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {  //If called from Food diary view (3)
                         if(((RadioButton) v.findViewById(checkedId)).getText().toString().equalsIgnoreCase("yes")){
@@ -1318,7 +1343,7 @@ public class Surveys extends AppCompatActivity {
                 String currentDateandTime = sdf.format(new Date());
                 DataBaseManager dbm = new DataBaseManager(this);
                 dbm.open();
-                boolean result = dbm.addFoodDiary(patientID, currentDateandTime, fd_response[2], fd_response[1], fd_response[3], fd_response[4], fd_response[5], fd_response[6], fd_response[7], mCurrentPhotoPath);
+                boolean result = dbm.addFoodDiary(patientID, currentDateandTime, fd_response[2], fd_response[1], fd_response[3], fd_response[4], fd_response[5], fd_response[8], fd_response[9],fd_response[6], fd_response[7], mCurrentPhotoPath);
                 dbm.close();
                 if (result) {
 

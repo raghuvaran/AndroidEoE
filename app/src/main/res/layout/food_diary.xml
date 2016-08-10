@@ -213,14 +213,14 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No Symptoms"
+                    android:text="No"
                     android:id="@+id/fd_O_ns"
                     android:checked="false" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Symptoms"
+                    android:text="Yes"
                     android:id="@+id/fd_O_s"
                     android:checked="false" />
             </RadioGroup>
