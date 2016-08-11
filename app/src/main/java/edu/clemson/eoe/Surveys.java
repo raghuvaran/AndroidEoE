@@ -1066,6 +1066,7 @@ public class Surveys extends AppCompatActivity {
                         }
                     }
                     if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {  //If called from Food diary view (3)
+                        Log.i("q_id "+q_id,((RadioButton) v.findViewById(checkedId)).getText().toString());
                         if(((RadioButton) v.findViewById(checkedId)).getText().toString().equalsIgnoreCase("yes")){
                             qol_response[q_id] = 1;
                             if(params.length>0){ //set all the views in params to visible
@@ -1263,13 +1264,11 @@ public class Surveys extends AppCompatActivity {
 
     public void onFoodDiarySubmit(View view){
         int counter = 0;
-        for(int i=1;i<fd_response.length;i++)
-        {
-            if(fd_response[i]==null && i<5  )
-            {
+        for(int i=1;i<fd_response.length;i++) {
+            if (fd_response[i] == null && i < 6) {
                 counter++;
             }
-
+        }
             if( mCurrentPhotoPath ==null)
             {
                 counter++;
@@ -1278,16 +1277,13 @@ public class Surveys extends AppCompatActivity {
             {
                 counter++;
             }
-            if(fd_response[5]==null || (fd_response[5].equalsIgnoreCase("Symptoms") && fd_response[8]==null))
+            if(fd_response[5] != null && fd_response[5].equalsIgnoreCase("Symptoms") && ( (fd_response[8]==null) || (fd_response[8].equalsIgnoreCase("yes") && fd_response[9] == null)  ) )
             {
                 counter++;
             }
-            if(fd_response[8].equalsIgnoreCase("yes") && fd_response[9]==null)
-            {
-                counter++;
-            }
+           Log.i("FD validation counter",String.valueOf(counter));
 
-        }
+
         if(counter!=0) {
             Toast.makeText(getApplicationContext(), "Please answer all Survey questions ",
                     Toast.LENGTH_SHORT).show();
@@ -1301,8 +1297,10 @@ public class Surveys extends AppCompatActivity {
                 String currentDateandTime = sdf.format(new Date());
                 DataBaseManager dbm = new DataBaseManager(this);
                 dbm.open();
+                Log.i("patientid",""+patientID);
                 boolean result = dbm.addFoodDiary(patientID, currentDateandTime, fd_response[2], fd_response[1], fd_response[3], fd_response[4], fd_response[5], fd_response[8], fd_response[9],fd_response[6], fd_response[7], mCurrentPhotoPath);
                 dbm.close();
+                mCurrentPhotoPath = null;
                 if (result) {
 
                     Toast.makeText(getApplicationContext(), "Thank you for submitting your Food diary",

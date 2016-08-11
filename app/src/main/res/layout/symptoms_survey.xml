@@ -159,7 +159,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/s2_f"
             android:id="@+id/s2_f"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="15dp" />
 
 
 
@@ -229,7 +229,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/s2_s"
             android:id="@+id/s2_s"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -294,7 +294,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/s3_f"
             android:id="@+id/s3_f"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -363,7 +363,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/s3_s"
             android:id="@+id/s3_s"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -427,7 +427,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/s4_f"
             android:id="@+id/s4_f"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -495,7 +495,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/s4_s"
             android:id="@+id/s4_s"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -559,7 +559,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/s5_f"
             android:id="@+id/s5_f"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -627,7 +627,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/s5_s"
             android:id="@+id/s5_s"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -692,7 +692,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/s6_f"
             android:id="@+id/s6_f"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="15dp" />
 
 
             <TextView
@@ -761,7 +761,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/s6_s"
             android:id="@+id/s6_s"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -826,7 +826,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/s7_f"
             android:id="@+id/s7_f"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -894,7 +894,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/s7_s"
             android:id="@+id/s7_s"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -959,7 +959,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/s8_f"
             android:id="@+id/s8_f"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -1027,7 +1027,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/s8_s"
             android:id="@+id/s8_s"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -1092,7 +1092,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/s9_f"
             android:id="@+id/s9_f"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -1160,7 +1160,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/s9_s"
             android:id="@+id/s9_s"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -1224,7 +1224,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/s10_f"
                 android:id="@+id/s10_f"
-                android:layout_marginBottom="30dp" />
+                android:layout_marginBottom="15dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -1292,7 +1292,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/s11_f"
                 android:id="@+id/s11_f"
-                android:layout_marginBottom="30dp" />
+                android:layout_marginBottom="15dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
