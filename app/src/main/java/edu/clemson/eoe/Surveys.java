@@ -1084,22 +1084,9 @@ public class Surveys extends AppCompatActivity {
             if(symptoms_f_response[i]==-1 ){counter++;}
             if(symptoms_f_response[i] >0  && i <10 && symptoms_s_response[i]==-1){counter++;}
         }
-/*        Log.i("Counter",String.valueOf(counter));
-        //counter = 2;
-       counter = 0;
-        for(int i:symptoms_s_response)
-        {
-            Log.i("Symtoms response_s"+(counter++), String.valueOf(i));
-        }*/
-        /**
-         * Database query goes below this block--
-         * Eg. array structure
-         * symptoms_f_response[1] -> question_1_frequency
-         * symptoms_f_response[11] -> question_11_frequency
-         * symptoms_s_response[9] -> question_9_severity
-         */
+
         if(counter!=0) {
-            Toast.makeText(getApplicationContext(), "Please answer all frequency questions ",
+            Toast.makeText(getApplicationContext(), "Please answer all questions",
                     Toast.LENGTH_SHORT).show();
         }
         else {
@@ -1112,7 +1099,7 @@ public class Surveys extends AppCompatActivity {
             dbm.close();
             if (result) {
 
-                Toast.makeText(getApplicationContext(), "Peess responses saved ",
+                Toast.makeText(getApplicationContext(), "Symptoms answers submitted ",
                         Toast.LENGTH_SHORT).show();
                 Intent callactivity =new Intent(getApplicationContext(),Surveys.class);
                 startActivity(callactivity);
@@ -1144,13 +1131,10 @@ public class Surveys extends AppCompatActivity {
             if(fd_response[5] != null && fd_response[5].equalsIgnoreCase("Symptoms") && ( (fd_response[8]==null) || (fd_response[8].equalsIgnoreCase("yes") && fd_response[9] == null)  ) )
             {
                 counter++;
-                Log.i("In 8,9","validation loop");
             }
-           Log.i("FD validation counter",String.valueOf(counter));
-
 
         if(counter!=0) {
-            Toast.makeText(getApplicationContext(), "Please answer all Survey questions ",
+            Toast.makeText(getApplicationContext(), "Please answer all questions ",
                     Toast.LENGTH_SHORT).show();
         }
         else {
@@ -1191,9 +1175,9 @@ public class Surveys extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         }
-        for (String i:fd_response){
+        /*for (String i:fd_response){       //Unit testing
             Log.i("FoodDiary response","fd_response"+counter+" is "+i);
-        }
+        }*/
         // TODO: 07-04-2016 add database queries here!
     }
 
@@ -1616,7 +1600,7 @@ int count=0;
             if(qol_response[i]==-1 && i>35 && qol_response[35]==1 ) {counter++;}
         }
         if(counter!=0) {
-            Toast.makeText(getApplicationContext(), "Please answer all Survey questions ",
+            Toast.makeText(getApplicationContext(), "Please answer all questions",
                     Toast.LENGTH_SHORT).show();
 
 
@@ -1632,7 +1616,7 @@ int count=0;
             dbm.close();
             if (result) {
 
-                Toast.makeText(getApplicationContext(), "PedsQl response saved ",
+                Toast.makeText(getApplicationContext(), "QOL answeres are submitted",
                         Toast.LENGTH_SHORT).show();
 
                 Intent callActivity =new Intent(getApplicationContext(),Surveys.class);
