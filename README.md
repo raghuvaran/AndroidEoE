@@ -9,3 +9,4 @@ The EoE Manager Android App collects information from patients in order to help 
 APK file
 -----------
  - [edu.clemson.eoe.apk](http://bit.ly/EoE_apk)
+ - [Beta version](http://bit.ly/EoE_beta_apk)
