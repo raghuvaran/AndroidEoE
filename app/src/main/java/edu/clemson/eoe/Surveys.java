@@ -302,137 +302,6 @@ public class Surveys extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    private void onUTSync() throws ExecutionException, InterruptedException, JSONException {
-        if (isOnline()) {
-            DataBaseManager dbm = new DataBaseManager(this);
-            dbm.open();
-            String status = dbm.getSyncUTStatus();
-            Toast.makeText(getApplicationContext(), dbm.getSyncUTStatus(),
-                    Toast.LENGTH_SHORT).show();
-            dbm.close();
-            SyncUT syncut = new SyncUT();
-
-            if (status.equals("DB Sync neededn")) {
-                String url = "http://rchowda.people.clemson.edu/eoe_php/insertUT.php";
-                DataBaseManager dbmSync = new DataBaseManager(this);
-                dbmSync.open();
-                String Jsondata = dbmSync.composeJSONUTfromSQLite();
-                dbmSync.close();
-                JSONArray response = syncut.execute(url, Jsondata).get();
-                if (response.toString().equals(null)) {
-                    Toast.makeText(Surveys.this, "Unable to establish connection. Try again!", Toast.LENGTH_SHORT).show();
-                    //check if there is a conflict with EXT database users
-                } else {
-                    for (int i = 0; i < response.length(); i++) {
-                        JSONObject oneObject = response.getJSONObject(i);
-                        int id, updatestatus,ExtId;
-                        id = oneObject.getInt("UTID");
-                        updatestatus = oneObject.getInt("status");
-
-                        DataBaseManager dbmupdate = new DataBaseManager(this);
-                        dbmupdate.open();
-                        dbmupdate.updateSyncUT(id, updatestatus);
-                        dbmupdate.close();
-
-
-                    }
-                }
-            }
-        }
-        else
-        {
-            Toast.makeText(Surveys.this, "Please enable internet", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    private void onQOLSync() throws ExecutionException, InterruptedException, JSONException {
-        if (isOnline()) {
-            DataBaseManager dbm = new DataBaseManager(this);
-            dbm.open();
-            String status = dbm.getSyncQolStatus();
-            Toast.makeText(getApplicationContext(), dbm.getSyncQolStatus(),
-                    Toast.LENGTH_SHORT).show();
-            dbm.close();
-            SyncQol syncQol = new SyncQol();
-
-            if (status.equals("DB Sync neededn")) {
-                String url = "http://rchowda.people.clemson.edu/eoe_php/insertQol.php";
-                DataBaseManager dbmSync = new DataBaseManager(this);
-                dbmSync.open();
-                String Jsondata = dbmSync.composeJSONQolfromSQLite();
-                dbmSync.close();
-                JSONArray response = syncQol.execute(url, Jsondata).get();
-                if (response.toString().equals(null)) {
-                    Toast.makeText(Surveys.this, "Unable to establish connection. Try again!", Toast.LENGTH_SHORT).show();
-                    //check if there is a conflict with EXT database users
-                } else {
-                    for (int i = 0; i < response.length(); i++) {
-                        JSONObject oneObject = response.getJSONObject(i);
-                        int id, updatestatus,ExtId;
-                        id = oneObject.getInt("QolID");
-                        updatestatus = oneObject.getInt("status");
-
-                        DataBaseManager dbmupdate = new DataBaseManager(this);
-                        dbmupdate.open();
-                        dbmupdate.updateSyncQol(id, updatestatus);
-                        dbmupdate.close();
-
-
-                    }
-                }
-            }
-        }
-        else
-        {
-            Toast.makeText(Surveys.this, "Please enable internet", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-    private void onSymptomsSync() throws ExecutionException, InterruptedException, JSONException {
-        if (isOnline()) {
-            DataBaseManager dbm = new DataBaseManager(this);
-            dbm.open();
-            String status = dbm.getSyncSymptomsStatus();
-            Toast.makeText(getApplicationContext(), dbm.getSyncSymptomsStatus(),
-                    Toast.LENGTH_SHORT).show();
-            dbm.close();
-            SyncSymptoms syncSymptoms = new SyncSymptoms();
-
-            if (status.equals("DB Sync neededn")) {
-                String url = "http://rchowda.people.clemson.edu/eoe_php/insertSymptoms.php";
-                DataBaseManager dbmSync = new DataBaseManager(this);
-                dbmSync.open();
-                String Jsondata = dbmSync.composeJSONSymptomsfromSQLite();
-                dbmSync.close();
-                JSONArray response = syncSymptoms.execute(url, Jsondata).get();
-                if (response.toString().equals(null)) {
-                    Toast.makeText(Surveys.this, "Unable to establish connection. Try again!", Toast.LENGTH_SHORT).show();
-                    //check if there is a conflict with EXT database users
-                } else {
-                    for (int i = 0; i < response.length(); i++) {
-                        JSONObject oneObject = response.getJSONObject(i);
-                        int id, updatestatus,ExtId;
-                        id = oneObject.getInt("symptomID");
-                        updatestatus = oneObject.getInt("status");
-
-                        DataBaseManager dbmupdate = new DataBaseManager(this);
-                        dbmupdate.open();
-                        dbmupdate.updateSyncSymptomStatus(id, updatestatus);
-                        dbmupdate.close();
-
-
-                    }
-                }
-            }
-        }
-        else
-        {
-            Toast.makeText(Surveys.this, "Please enable internet", Toast.LENGTH_SHORT).show();
-        }
-
-    }
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -820,7 +689,7 @@ public class Surveys extends AppCompatActivity {
             View rootView;
             DataBaseManager dbm =new DataBaseManager(getContext());
             dbm.open();
-            Cursor time=dbm.getQOLtime();;
+            Cursor time=dbm.getQOLtime();
             String recenttime;
             if(time.moveToFirst()) {
                 recenttime = time.getString(time
@@ -1186,7 +1055,7 @@ public class Surveys extends AppCompatActivity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-            alertDialogBuilder.setTitle("IMPORTANT");
+            alertDialogBuilder.setTitle("Important");
             alertDialogBuilder.setMessage("Please answer the questions below after eating");
             //null should be your on click listener
             alertDialogBuilder.setPositiveButton("OK", null);
@@ -1201,12 +1070,6 @@ public class Surveys extends AppCompatActivity {
 
             return alertDialogBuilder.create();
         }
-    }
-
-    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
-        return outputStream.toByteArray();
     }
 
     public void onSymptomsSubmit(View view){
@@ -1256,6 +1119,7 @@ public class Surveys extends AppCompatActivity {
                 Intent   mServiceIntent = new Intent(this, SendData.class);
                 ///mServiceIntent.putExtra("KEY","https://people.cs.clemson.edu/~sravira/Viewing/insertSymptoms.php");
                 startService(mServiceIntent);
+                finish();
             }
 
 
@@ -1280,6 +1144,7 @@ public class Surveys extends AppCompatActivity {
             if(fd_response[5] != null && fd_response[5].equalsIgnoreCase("Symptoms") && ( (fd_response[8]==null) || (fd_response[8].equalsIgnoreCase("yes") && fd_response[9] == null)  ) )
             {
                 counter++;
+                Log.i("In 8,9","validation loop");
             }
            Log.i("FD validation counter",String.valueOf(counter));
 
@@ -1315,6 +1180,7 @@ public class Surveys extends AppCompatActivity {
                     Intent mServiceIntent = new Intent(this, SendData.class);
                     ///mServiceIntent.putExtra("KEY","https://people.cs.clemson.edu/~sravira/Viewing/insertSymptoms.php");
                     startService(mServiceIntent);
+                    finish();
 
 
                 }
@@ -1329,20 +1195,6 @@ public class Surveys extends AppCompatActivity {
             Log.i("FoodDiary response","fd_response"+counter+" is "+i);
         }
         // TODO: 07-04-2016 add database queries here!
-    }
-
-
-    private boolean isMyServiceRunning() {
-        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            Log.i(" services","service.getClassName() = " +service.service.getClassName());
-            if (SendData.class.getName().equals(service.service.getClassName())) {
-                Log.i("True","Running");
-                return true;
-            }
-        }
-        Log.i("not running","not running");
-        return false;
     }
 
     private double[]  computesymptomsscore() {
@@ -1788,6 +1640,7 @@ int count=0;
                 Intent   mServiceIntent = new Intent(this, SendData.class);
                 ///mServiceIntent.putExtra("KEY","https://people.cs.clemson.edu/~sravira/Viewing/insertSymptoms.php");
                 startService(mServiceIntent);
+                finish();
             }
 
         }
@@ -2009,452 +1862,6 @@ int count=0;
 
 
     }
-
-    public void onFoodDiarySync() throws ExecutionException, InterruptedException, JSONException {
-
-        if (isOnline()) {
-            DataBaseManager dbm = new DataBaseManager(this);
-            dbm.open();
-            String status = dbm.getSyncStatus();
-            Toast.makeText(getApplicationContext(), dbm.getSyncStatus(),
-                    Toast.LENGTH_SHORT).show();
-            dbm.close();
-            SyncFoodDiary syncFoodDiary = new SyncFoodDiary();
-
-            if (status.equals("DB Sync neededn")) {
-                String url = "http://rchowda.people.clemson.edu/eoe_php/insertfoodDiary.php";
-                DataBaseManager dbmSync = new DataBaseManager(this);
-                dbmSync.open();
-                String Jsondata = dbmSync.composeJSONfromSQLite();
-                dbmSync.close();
-                JSONArray response = syncFoodDiary.execute(url, Jsondata).get();
-                if (response.toString().equals(null)) {
-                    Toast.makeText(Surveys.this, "Unable to establish connection. Try again!", Toast.LENGTH_SHORT).show();
-                    //check if there is a conflict with EXT database users
-                } else {
-                    for (int i = 0; i < response.length(); i++) {
-                        JSONObject oneObject = response.getJSONObject(i);
-                        int id, updatestatus,ExtId;
-                        id = oneObject.getInt("foodDairyID");
-                        updatestatus = oneObject.getInt("status");
-                        ExtId=oneObject.getInt("DiaryID");
-                        DataBaseManager dbmupdate = new DataBaseManager(this);
-                        dbmupdate.open();
-                        dbmupdate.updateSyncStatus(id, updatestatus);
-                        dbmupdate.close();
-                        DataBaseManager dbmgetphoto = new DataBaseManager(this);
-                        dbmgetphoto.open();
-                        Cursor res =dbmgetphoto.getPhotoPath(id);
-                        res.moveToFirst();
-                        String internalphotopath=res.getString(res
-                                .getColumnIndex("Image"));
-                        dbmgetphoto.close();
-
-                        new ImageUploader(ExtId).execute(internalphotopath);
-
-                    }
-                }
-            }
-        }
-        else
-        {
-            Toast.makeText(Surveys.this, "Please enable internet", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
-
-    public class SyncFoodDiary extends AsyncTask<String, Void, JSONArray> {
-
-
-        @Override
-        protected JSONArray doInBackground(String... params) {
-
-            String ret = null;
-            JSONArray  foodDiary;
-
-            try {
-
-                // Create the SSL connection
-
-                Log.d("database", "Doing: " + params[0]);
-                HttpURLConnection c = null;
-                URL u = new URL(params[0]);
-                String result = new String("");
-                c = (HttpURLConnection) u.openConnection();
-
-               // String data = "Jsondata" + "=" + URLEncoder.encode(params[1], "UTF-8");
-
-                c.setRequestMethod("POST");
-
-                c.setRequestProperty("Content-Type",
-                        "application/json; charset=UTF-8");
-                c.setDoOutput(true);
-                c.setDoInput(true);
-
-                c.setRequestProperty("Content-Length", "" +
-                        Integer.toString(params[1].getBytes().length));
-                c.setRequestProperty("Content-Language", "en-US");
-                //c.setRequestProperty("Content-length", "0");
-                c.setUseCaches(false);
-                c.setAllowUserInteraction(false);
-                c.setConnectTimeout(10000);
-                c.setReadTimeout(10000);
-                //Send request
-
-                DataOutputStream wr = new DataOutputStream(
-                        c.getOutputStream());
-                wr.writeBytes(params[1]);
-                wr.flush();
-                wr.close();
-                c.connect();
-
-                int status = c.getResponseCode();
-
-                if (status == 200 || status == 201) {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = br.readLine()) != null) sb.append(line + "\n");
-                    br.close();
-                    ret = sb.toString();
-
-                    Log.i("result",ret);
-
-
-                }
-                String actual = ret.toString().replace("{\"success\":true,\"results\":", "");
-                actual = actual.replace("]}", "]");
-                foodDiary=new JSONArray(actual);
-                return foodDiary;
-                //Log.i("result",result);
-               // return(result);
-            } catch (MalformedURLException e1) {
-                e1.printStackTrace();
-            } catch (ProtocolException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-            //returns php output
-
-
-        }
-
-
-    }
-
-
-    public class SyncSymptoms extends AsyncTask<String, Void, JSONArray> {
-
-
-        @Override
-        protected JSONArray doInBackground(String... params) {
-
-            String ret = null;
-            JSONArray  foodDiary;
-
-            try {
-
-                // Create the SSL connection
-
-                Log.d("database", "Doing: " + params[0]);
-                HttpURLConnection c = null;
-                URL u = new URL(params[0]);
-                String result = new String("");
-                c = (HttpURLConnection) u.openConnection();
-
-                // String data = "Jsondata" + "=" + URLEncoder.encode(params[1], "UTF-8");
-
-                c.setRequestMethod("POST");
-
-                c.setRequestProperty("Content-Type",
-                        "application/json; charset=UTF-8");
-                c.setDoOutput(true);
-                c.setDoInput(true);
-
-                c.setRequestProperty("Content-Length", "" +
-                        Integer.toString(params[1].getBytes().length));
-                c.setRequestProperty("Content-Language", "en-US");
-                //c.setRequestProperty("Content-length", "0");
-                c.setUseCaches(false);
-                c.setAllowUserInteraction(false);
-                c.setConnectTimeout(10000);
-                c.setReadTimeout(10000);
-                //Send request
-
-                DataOutputStream wr = new DataOutputStream(
-                        c.getOutputStream());
-                wr.writeBytes(params[1]);
-                wr.flush();
-                wr.close();
-                c.connect();
-
-                int status = c.getResponseCode();
-
-                if (status == 200 || status == 201) {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = br.readLine()) != null) sb.append(line + "\n");
-                    br.close();
-                    ret = sb.toString();
-
-                    Log.i("result",ret);
-
-
-                }
-                String actual = ret.toString().replace("{\"success\":true,\"results\":", "");
-                actual = actual.replace("]}", "]");
-                foodDiary=new JSONArray(actual);
-                return foodDiary;
-                //Log.i("result",result);
-                // return(result);
-            } catch (MalformedURLException e1) {
-                e1.printStackTrace();
-            } catch (ProtocolException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-            //returns php output
-
-
-        }
-
-
-    }
-
-
-    public class SyncQol extends AsyncTask<String, Void, JSONArray> {
-
-
-        @Override
-        protected JSONArray doInBackground(String... params) {
-
-            String ret = null;
-            JSONArray  foodDiary;
-
-            try {
-
-                // Create the SSL connection
-
-                Log.d("database", "Doing: " + params[0]);
-                HttpURLConnection c = null;
-                URL u = new URL(params[0]);
-                String result = new String("");
-                c = (HttpURLConnection) u.openConnection();
-
-                // String data = "Jsondata" + "=" + URLEncoder.encode(params[1], "UTF-8");
-
-                c.setRequestMethod("POST");
-
-                c.setRequestProperty("Content-Type",
-                        "application/json; charset=UTF-8");
-                c.setDoOutput(true);
-                c.setDoInput(true);
-
-                c.setRequestProperty("Content-Length", "" +
-                        Integer.toString(params[1].getBytes().length));
-                c.setRequestProperty("Content-Language", "en-US");
-                //c.setRequestProperty("Content-length", "0");
-                c.setUseCaches(false);
-                c.setAllowUserInteraction(false);
-                c.setConnectTimeout(10000);
-                c.setReadTimeout(10000);
-                //Send request
-
-                DataOutputStream wr = new DataOutputStream(
-                        c.getOutputStream());
-                wr.writeBytes(params[1]);
-                wr.flush();
-                wr.close();
-                c.connect();
-
-                int status = c.getResponseCode();
-
-                if (status == 200 || status == 201) {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = br.readLine()) != null) sb.append(line + "\n");
-                    br.close();
-                    ret = sb.toString();
-
-                    Log.i("result",ret);
-
-
-                }
-                String actual = ret.toString().replace("{\"success\":true,\"results\":", "");
-                actual = actual.replace("]}", "]");
-                foodDiary=new JSONArray(actual);
-                return foodDiary;
-                //Log.i("result",result);
-                // return(result);
-            } catch (MalformedURLException e1) {
-                e1.printStackTrace();
-            } catch (ProtocolException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-            //returns php output
-
-
-        }
-
-
-    }
-
-
-    public class SyncUT extends AsyncTask<String, Void, JSONArray> {
-
-
-        @Override
-        protected JSONArray doInBackground(String... params) {
-
-            String ret = null;
-            JSONArray  foodDiary;
-
-            try {
-
-                // Create the SSL connection
-
-                Log.d("database", "Doing: " + params[0]);
-                HttpURLConnection c = null;
-                URL u = new URL(params[0]);
-                String result = new String("");
-                c = (HttpURLConnection) u.openConnection();
-
-                // String data = "Jsondata" + "=" + URLEncoder.encode(params[1], "UTF-8");
-
-                c.setRequestMethod("POST");
-
-                c.setRequestProperty("Content-Type",
-                        "application/json; charset=UTF-8");
-                c.setDoOutput(true);
-                c.setDoInput(true);
-
-                c.setRequestProperty("Content-Length", "" +
-                        Integer.toString(params[1].getBytes().length));
-                c.setRequestProperty("Content-Language", "en-US");
-                //c.setRequestProperty("Content-length", "0");
-                c.setUseCaches(false);
-                c.setAllowUserInteraction(false);
-                c.setConnectTimeout(10000);
-                c.setReadTimeout(10000);
-                //Send request
-
-                DataOutputStream wr = new DataOutputStream(
-                        c.getOutputStream());
-                wr.writeBytes(params[1]);
-                wr.flush();
-                wr.close();
-                c.connect();
-
-                int status = c.getResponseCode();
-
-                if (status == 200 || status == 201) {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = br.readLine()) != null) sb.append(line + "\n");
-                    br.close();
-                    ret = sb.toString();
-
-                    Log.i("result",ret);
-
-
-                }
-                String actual = ret.toString().replace("{\"success\":true,\"results\":", "");
-                actual = actual.replace("]}", "]");
-                foodDiary=new JSONArray(actual);
-                return foodDiary;
-                //Log.i("result",result);
-                // return(result);
-            } catch (MalformedURLException e1) {
-                e1.printStackTrace();
-            } catch (ProtocolException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-            //returns php output
-
-
-        }
-
-
-    }
-
-    //An async task to upload an image
-    private class ImageUploader extends AsyncTask<String, Void, String> {
-
-        private int itemID;
-
-        public ImageUploader(int itemID){
-            this.itemID = itemID;
-        }
-
-        protected String doInBackground(String... params) {
-            DataBaseManager db = new DataBaseManager(getApplicationContext());
-            db.open();
-            //All of my server code is located in DBAdapter, go to the method uploadFile to see how
-            //to finish uploading an image
-            String result=db.uploadFile(params[0], itemID);
-            db.close();
-            return result;
-
-        }
-
-        protected void onPostExecute(String url) {
-            super.onPostExecute(url);
-            //If the image loads successfully the php script will return the filename
-            if(!url.equals("0")){
-                DataBaseManager db = new DataBaseManager(getApplicationContext());
-                //Add it to your local db
-
-                //And then tell the user that the file was successfully uploaded
-                //In a real application you would want to check for Internet access before doing this
-                //and save the image for later upload if there was no access
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "File Upload Complete.", Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-            }else{
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "File Upload Failed.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        }
-    }
-
-
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.

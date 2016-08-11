@@ -66,7 +66,7 @@ public class UserTreatment extends AppCompatActivity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            UTcalendar.add(Calendar.DATE, 120);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+            UTcalendar.add(Calendar.DATE, 90);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String output = sdf1.format(UTcalendar.getTime());
             Date input = new Date(), currentdate = new Date();
